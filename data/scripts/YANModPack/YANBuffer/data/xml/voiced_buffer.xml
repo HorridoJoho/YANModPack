@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ATTRIBUTES
+	enabled - true|false
+	required_item - id of the item required in the players inventory to use the voiced buffer
+	can_heal - true|false - enable/disable heal for voiced buffer
+	can_cancel - true|false - enable/disable cancel for voiced buffer
+ -->
+<voiced_buffer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/voiced_buffer.xsd" enabled="true" can_heal="true" can_cancel="true">
+	<buff_cat ident="BC_FIGHTER" is_preset="true"/>
+	<buff_cat ident="BC_MAGE" is_preset="true"/>
+
+	<buff_cat ident="BC_BUFFS" is_preset="false"/>
+	<buff_cat ident="BC_SONGS" is_preset="false"/>
+	<buff_cat ident="BC_DANCES" is_preset="false"/>
+	<buff_cat ident="BC_CHANTS" is_preset="false"/>
+	<buff_cat ident="BC_DWARVEN" is_preset="false"/>
+	<buff_cat ident="BC_RESIST" is_preset="false"/>
+	<buff_cat ident="BC_SPECIAL" is_preset="false"/>
+	<buff_cat ident="BC_OVERLORD" is_preset="false"/>
+</voiced_buffer>

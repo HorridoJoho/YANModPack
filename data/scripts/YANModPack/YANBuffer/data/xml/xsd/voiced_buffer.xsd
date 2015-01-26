@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="voiced_buffer">
+    	<complexType>
+    		<sequence maxOccurs="1" minOccurs="1">
+    			<element name="buff_cat" maxOccurs="unbounded" minOccurs="0">
+    				<complexType>
+    					<attribute name="ident" type="NCName" use="required"/>
+    					<attribute name="is_preset" type="boolean" use="required"/>
+    				</complexType>
+    			</element>
+    		</sequence>
+    		<attribute name="enabled" type="boolean" use="required"/>
+    		<attribute name="required_item" type="positiveInteger" use="optional"/>
+    		<attribute name="can_heal" type="boolean" use="required"/>
+    		<attribute name="can_cancel" type="boolean" use="required"/>
+    	</complexType>
+    </element>
+</schema>

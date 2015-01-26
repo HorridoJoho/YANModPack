@@ -1,0 +1,10 @@
+[EXISTS(active_unique,
+<td><center>
+	<table width=200 cellspacing=0 cellpadding=0>
+		<tr><td width=168><center><font line="UNDERLINE" name="hs12" color=LEVEL>%active_unique.name% (%active_unique.num_buffs%/%buffer.unique_max_buffs%, %active_unique.num_songs_dances%/%buffer.unique_max_songs_dances%)</font></center></td><td height=32><button width=32 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Des." action="%buffer.bypass_prefix% unique deselect"></td></tr>
+	[FOREACH(buff IN active_unique.buffs DO
+		<tr><td><center><button width=163 height=32 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="%buff.skill_name%" action="%buffer.bypass_prefix% unique remove %active_unique.name% %buff.ident%"></center></td><td height=35><img src="%buff.skill_icon%" width=32 height=32></td></tr>
+	)ENDEACH]
+	</table>
+</center></td>
+)ENDEXISTS]

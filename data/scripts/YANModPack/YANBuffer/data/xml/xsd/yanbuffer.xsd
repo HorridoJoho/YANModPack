@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="yanbuffer">
+    	<complexType>
+    		<attribute name="dialog_type" use="required">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="NPC"/>
+    					<enumeration value="TUTORIAL"/>
+    					<enumeration value="COMMUNITY"/>
+    				</restriction>
+    			</simpleType>
+    		</attribute>
+    		<attribute name="heal_cooldown" type="positiveInteger" use="required"/>
+    		<attribute name="max_unique_lists" type="positiveInteger" use="required"/>
+    		<attribute name="unique_max_buffs" type="positiveInteger" use="required"/>
+    		<attribute name="unique_max_songs_dances" type="positiveInteger" use="required"/>
+    	</complexType>
+    </element>
+</schema>

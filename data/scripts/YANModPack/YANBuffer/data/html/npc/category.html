@@ -1,0 +1,42 @@
+<html><title>%buffer.name%</title><body>
+
+<a action="%buffer.bypass_prefix%">Home</a>&nbsp;> Category > <font color=LEVEL>%category.name%</font><br><center>
+
+[EXISTS(!active_unique,
+	<table width=270 cellspacing=0 cellpadding=0>
+		<tr>
+			<td><center><combobox width=130 var="unique_selection" list="[FOREACH(unique IN uniques DO %unique.name%;)ENDEACH]"></center></td>
+			<td><center><button width=130 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Select" action="%buffer.bypass_prefix% unique select $unique_selection"></center></td>
+		</tr>
+	</table><br>
+)ENDEXISTS]
+[EXISTS(active_unique,
+	<table width=270 cellspacing=0 cellpadding=0>
+		<tr>
+			<td width=135><center><font color=LEVEL>%active_unique.name%</font> (%active_unique.num_buffs%/%buffer.unique_max_buffs%, %active_unique.num_songs_dances%/%buffer.unique_max_songs_dances%)</font></center></td>
+			<td><center><button width=130 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Deselect" action="%buffer.bypass_prefix% unique deselect"></center></center></td>
+		</tr>
+	</table><br>	
+)ENDEXISTS]
+
+<table width=270 cellspacing=0 cellpadding=0>
+	[FOREACH(buff IN category.buffs DO
+		[EXISTS(active_unique,
+			[IFCHILDS(active_unique.buffs, skill_id != buff.skill_id THEN
+			<tr>
+				<td width=32 height=32><img width=32 height=32 src="%buff.skill_icon%"></td>
+				<td><button width=238 height=32 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="%buff.skill_name%" action="%buffer.bypass_prefix% unique add %active_unique.name% %category.ident% %buff.ident%"></td>
+			</tr>
+			<tr><td height=10></td><td></td></tr>
+			)ENDIFCHILDS]
+		)ENDEXISTS]
+		[EXISTS(!active_unique,
+		<tr>
+			<td width=32 height=32><img width=32 height=32 src="%buff.skill_icon%"></td>
+			<td><button width=238 height=32 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="%buff.skill_name%" action="%buffer.bypass_prefix% target player buff %category.ident% %buff.ident%"></td>
+		</tr>
+		<tr><td height=10></td><td></td></tr>
+		)ENDEXISTS]
+	)ENDEACH]
+</table>
+</center></body></html>

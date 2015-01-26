@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="buff_cats">
+    	<complexType>
+    		<sequence maxOccurs="1" minOccurs="1">
+    			<element name="buff_cat" maxOccurs="unbounded" minOccurs="0">
+    				<complexType>
+    					<sequence maxOccurs="1" minOccurs="1">
+    						<element name="buff" maxOccurs="unbounded" minOccurs="0">
+    							<complexType>
+    								<attribute name="ident" type="NCName" use="required"/>
+    							</complexType>
+    						</element>
+    					</sequence>
+    					<attribute name="ident" type="ID" use="required"/>
+    					<attribute name="name" type="string" use="required"/>
+    				</complexType>
+    			</element>
+    		</sequence>
+    	</complexType>
+    </element>
+</schema>

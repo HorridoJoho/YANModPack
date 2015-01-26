@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="item_requirements">
+    	<complexType>
+    		<sequence maxOccurs="1" minOccurs="1">
+                <element name="item" maxOccurs="unbounded" minOccurs="0">
+    				<complexType>
+    					<attribute name="ident" type="ID" use="required"/>
+    					<attribute name="id" type="positiveInteger" use="required"/>
+    					<attribute name="amount" type="positiveInteger" use="required"/>
+    				</complexType>
+                </element>
+            </sequence>
+    	</complexType>
+    </element>
+</schema>

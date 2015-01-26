@@ -1,0 +1,36 @@
+<table width=650 cellpadding=0 cellspacing=0>
+	<tr>
+		<td><combobox width=160 var="header_unique_selection" list="[FOREACH(unique IN uniques DO %unique.name%;)ENDEACH]" [EXISTS(active_unique, sel="%active_unique.name%")ENDEXISTS]></td>
+		<td><center><button width=100 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Buff Me"  action="%buffer.bypass_prefix% target player unique $header_unique_selection"></center></td>
+		<td><center><button width=100 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Buff Summon"  action="%buffer.bypass_prefix% target summon unique $header_unique_selection"></center></td>
+		<td width=30></td>
+		<td><center><button width=115 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Heal Me" action="%buffer.bypass_prefix% target player heal"></center></td>
+		<td><center><button width=115 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Heal Summon" action="%buffer.bypass_prefix% target summon heal"></center></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><center><button width=100 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Select" action="%buffer.bypass_prefix% unique select $header_unique_selection"></center></td>
+		<td><center><button width=100 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Delete" action="%buffer.bypass_prefix% unique delete $header_unique_selection"></center></td>
+		<td></td>
+		<td><center><button width=115 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Cancel Me" action="%buffer.bypass_prefix% target player cancel"></center></td>
+		<td><center><button width=115 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Cancel Summon" action="%buffer.bypass_prefix% target summon cancel"></center></td>
+	</tr>
+	<tr>
+		<td height=15></td><td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+		<td><edit width=160 var="unique_new"></td>
+		<td><center><button width=100 height=23 fore="L2UI_CT1.Button_DF" back="L2UI_CT1.Button_DF_Down" value="Create Empty" action="%buffer.bypass_prefix% unique create $unique_new"></center></td>
+		<td><center><button width=100 height=23 fore="L2UI_CT1.Button_DF" back="L2UI_CT1.Button_DF_Down" value="From Buffs" action="%buffer.bypass_prefix% unique create_from_effects $unique_new"></center></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table><br><br>
+<font line="UNDERLINE" name="hs12" color=LEVEL>Presets</font><br1>
+<table width=400 cellspacing=0 cellpadding=0>
+	<tr>
+		<td><center><button width=195 height=23 fore="L2UI_CT1.Button_DF" back="L2UI_CT1.Button_DF_Down" value="Fighter" action="%buffer.bypass_prefix% target player preset BC_FIGHTER"></center></td>
+		<td><center><button width=195 height=23 fore="L2UI_CT1.Button_DF" back="L2UI_CT1.Button_DF_Down" value="Mage" action="%buffer.bypass_prefix% target player preset BC_MAGE"></center></td>
+	</tr>
+</table><br>

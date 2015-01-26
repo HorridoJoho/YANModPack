@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- dialog_type: NPC, COMMUNITY -->
+<!-- heal_cooldown: minimum seconds between heal usage -->
+<!-- max_unique_list: number of maximum unique bufflists per player -->
+<!-- unique_max_buffs: maximum number of BUFFS on a players unique bufflist -->
+<!-- unique_max_songs_dances: maximum number of SONGS_DANCES on a players unique bufflist -->
+<yanbuffer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/yanbuffer.xsd" dialog_type="NPC" heal_cooldown="60" max_unique_lists="5" unique_max_buffs="24" unique_max_songs_dances="12"/>

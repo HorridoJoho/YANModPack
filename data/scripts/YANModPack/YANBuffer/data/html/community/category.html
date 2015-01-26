@@ -1,0 +1,27 @@
+<html><title>%buffer.name% - YANBuffer</title><body><center>
+
+[INC(data/scripts/YANModPack/YANBuffer/data/html/community/inc/header.html)ENDINC]
+
+<table width=570>
+	<tr>
+		<td><center>
+			<table width=200 cellspacing=0 cellpadding=0>
+				<tr><td width=32 height=32><button width=32 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="<<" action="%buffer.bypass_prefix% html main"></td><td width=200><center><font line="UNDERLINE" name="hs12" color=LEVEL>%category.name%</font></center></td></tr>
+			[FOREACH(buff IN category.buffs DO
+				[EXISTS(active_unique,
+					[IFCHILDS(active_unique.buffs, skill_id != buff.skill_id THEN
+						<tr><td height=35><img src="%buff.skill_icon%" width=32 height=32></td><td><center><button width=162 height=32 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="%buff.skill_name%" action="%buffer.bypass_prefix% unique add %active_unique.name% %category.ident% %buff.ident%"></center></td></tr>
+					)ENDIFCHILDS]
+				)ENDEXISTS]
+				[EXISTS(!active_unique,
+					<tr><td height=35><img src="%buff.skill_icon%" width=32 height=32></td><td><center><button width=162 height=32 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="%buff.skill_name%" action="%buffer.bypass_prefix% target player buff %category.ident% %buff.ident%"></center></td></tr>
+				)ENDEXISTS]
+			)ENDEACH]
+				<tr><td height=32></td><td></td></tr>
+			</table>
+		</center></td>
+		[INC(data/scripts/YANModPack/YANBuffer/data/html/community/inc/active_unique_table.html)ENDINC]
+	</tr>
+</table>
+
+</center></body></html>
