@@ -19,7 +19,7 @@ package YANModPack.util;
 
 import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
 
-import com.l2jserver.gameserver.model.items.L2Item;
+import com.l2jserver.gameserver.templates.item.L2Item;
 
 /**
  * @author HorridoJoho
@@ -38,6 +38,6 @@ public final class ItemRequirement
 		this.item = item;
 		this.amount = amount;
 		this.placeholder = new HTMLTemplatePlaceholder("item_requirement", null);
-		this.placeholder.addChild("id", String.valueOf(item.getId())).addChild("icon", item.getIcon()).addChild("name", item.getName()).addChild("amount", String.valueOf(amount));
+		this.placeholder.addChild("id", String.valueOf(item.getItemId())).addChild("icon", item.getIcon()).addChild("name", item.getName()).addChild("amount", String.valueOf(amount));
 	}
 }

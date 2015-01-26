@@ -44,12 +44,12 @@ import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
 import com.l2jserver.Config;
 import com.l2jserver.L2DatabaseFactory;
 import com.l2jserver.gameserver.datatables.ItemTable;
-import com.l2jserver.gameserver.datatables.NpcData;
-import com.l2jserver.gameserver.datatables.SkillData;
+import com.l2jserver.gameserver.datatables.NpcTable;
+import com.l2jserver.gameserver.datatables.SkillTable;
+import com.l2jserver.gameserver.model.L2Skill;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
-import com.l2jserver.gameserver.model.items.L2Item;
-import com.l2jserver.gameserver.model.skills.Skill;
+import com.l2jserver.gameserver.templates.chars.L2NpcTemplate;
+import com.l2jserver.gameserver.templates.item.L2Item;
 
 /**
  * @author HorridoJoho
@@ -71,13 +71,13 @@ final class YANBufferData
 	public final class Buff
 	{
 		protected final String ident;
-		protected final Skill skill;
+		protected final L2Skill skill;
 		protected final BuffType type;
 		protected final Map<String, ItemRequirement> items;
 		/** HTMLTemplatePlaceholder */
 		protected final HTMLTemplatePlaceholder placeholder;
 		
-		protected Buff(String ident, Skill skill, BuffType type, Element elem)
+		protected Buff(String ident, L2Skill skill, BuffType type, Element elem)
 		{
 			this.ident = ident;
 			this.skill = skill;
@@ -450,7 +450,7 @@ final class YANBufferData
 					String ident = curElem.getAttribute("ident");
 					int skillId = Integer.parseInt(curElem.getAttribute("skill_id"));
 					int skillLevel = Integer.parseInt(curElem.getAttribute("skill_level"));
-					Skill skill = SkillData.getInstance().getSkill(skillId, skillLevel);
+					L2Skill skill = SkillTable.getInstance().getInfo(skillId, skillLevel);
 					BuffType buffType = BuffType.valueOf(curElem.getAttribute("type"));
 					if (skill == null)
 					{
@@ -495,14 +495,14 @@ final class YANBufferData
 				case Node.ELEMENT_NODE:
 					Element curElem = (Element) curNode;
 					int npcId = Integer.parseInt(curElem.getAttribute("id"));
-					L2NpcTemplate npc = NpcData.getInstance().getTemplate(npcId);
+					L2NpcTemplate npc = NpcTable.getInstance().getTemplate(npcId);
 					if (npc == null)
 					{
 						_LOGGER.warning("YANBuffer - buffer_npcs.xml: Npc with id " + npcId + " does not exists!");
 					}
 					else
 					{
-						_bufferNpcs.put(npc.getId(), new BufferNpc(npc, curElem));
+						_bufferNpcs.put(npc.npcId, new BufferNpc(npc, curElem));
 					}
 					break;
 			}

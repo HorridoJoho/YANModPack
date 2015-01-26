@@ -57,4 +57,5 @@ public final class YANBufferVoicedCommandHandler implements IVoicedCommandHandle
 	{
 		return _VOICED_COMMAND_LIST;
 	}
+	
 }

@@ -24,7 +24,7 @@ import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
 import YANModPack.util.htmltmpls.funcs.ForeachFunc;
 
 /**
- * @author: HorridoJoho
+ * @author HorridoJoho
  */
 public final class Test1
 {

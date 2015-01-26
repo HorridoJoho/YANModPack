@@ -44,25 +44,24 @@ import YANModPack.util.htmltmpls.funcs.ForeachFunc;
 import YANModPack.util.htmltmpls.funcs.IfChildsFunc;
 import YANModPack.util.htmltmpls.funcs.IfFunc;
 import YANModPack.util.htmltmpls.funcs.IncludeFunc;
-import ai.npc.AbstractNpcAI;
+import ai.group_template.L2AttackableAIScript;
 
 import com.l2jserver.gameserver.handler.BypassHandler;
 import com.l2jserver.gameserver.handler.ItemHandler;
 import com.l2jserver.gameserver.handler.VoicedCommandHandler;
+import com.l2jserver.gameserver.model.L2Effect;
 import com.l2jserver.gameserver.model.actor.L2Character;
 import com.l2jserver.gameserver.model.actor.L2Npc;
 import com.l2jserver.gameserver.model.actor.L2Playable;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jserver.gameserver.model.skills.BuffInfo;
-import com.l2jserver.gameserver.model.zone.ZoneId;
 import com.l2jserver.gameserver.network.serverpackets.NpcHtmlMessage;
+import com.l2jserver.gameserver.network.serverpackets.ShowBoard;
 import com.l2jserver.gameserver.taskmanager.AttackStanceTaskManager;
-import com.l2jserver.gameserver.util.Util;
 
 /**
  * @author HorridoJoho
  */
-public final class YANBuffer extends AbstractNpcAI
+public final class YANBuffer extends L2AttackableAIScript
 {
 	private static final class SingletonHolder
 	{
@@ -107,14 +106,14 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	YANBuffer()
 	{
-		super(SCRIPT_TOP_FOLDER.toString(), SCRIPTS_SUBFOLDER.toString());
+		super(-1, SCRIPT_TOP_FOLDER.toString(), SCRIPTS_SUBFOLDER.toString());
 		
-		BypassHandler.getInstance().registerHandler(YANBufferNpcBypassHandler.getInstance());
+		BypassHandler.getInstance().registerBypassHandler(YANBufferNpcBypassHandler.getInstance());
 		
 		if (YANBufferData.getInstance().getVoicedBuffer().enabled)
 		{
-			VoicedCommandHandler.getInstance().registerHandler(YANBufferVoicedCommandHandler.getInstance());
-			ItemHandler.getInstance().registerHandler(YANBufferItemHandler.getInstance());
+			VoicedCommandHandler.getInstance().registerVoicedCommandHandler(YANBufferVoicedCommandHandler.getInstance());
+			ItemHandler.getInstance().registerItemHandler(YANBufferItemHandler.getInstance());
 		}
 	}
 	
@@ -142,7 +141,7 @@ public final class YANBuffer extends AbstractNpcAI
 			}
 			return buffer;
 		}
-		return YANBufferData.getInstance().getBufferNpc(npc.getId());
+		return YANBufferData.getInstance().getBufferNpc(npc.getNpcId());
 	}
 	
 	private String _generateAdvancedHtml(L2PcInstance player, String path, Map<String, HTMLTemplatePlaceholder> placeholders, HtmlType dialogType)
@@ -150,22 +149,102 @@ public final class YANBuffer extends AbstractNpcAI
 		return HTMLTemplateParser.fromCache("/data/scripts/" + SCRIPT_SUBFOLDER + "/data/html/" + dialogType.toString().toLowerCase(Locale.ENGLISH) + "/" + path, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
 	}
 	
+	/**
+	 * Copy from {@link NpcHtmlMessage}
+	 * @param activeChar the player
+	 * @param html the html to check
+	 */
+	private void _buildBypassCache(L2PcInstance activeChar, String html)
+	{
+		if (activeChar == null)
+		{
+			return;
+		}
+		
+		activeChar.clearBypass();
+		int len = html.length();
+		for (int i = 0; i < len; i++)
+		{
+			int start = html.indexOf("\"bypass ", i);
+			int finish = html.indexOf("\"", start + 1);
+			if ((start < 0) || (finish < 0))
+			{
+				break;
+			}
+			
+			if (html.substring(start + 8, start + 10).equals("-h"))
+			{
+				start += 11;
+			}
+			else
+			{
+				start += 8;
+			}
+			
+			i = finish;
+			int finish2 = html.indexOf("$", start);
+			if ((finish2 < finish) && (finish2 > 0))
+			{
+				activeChar.addBypass2(html.substring(start, finish2).trim());
+			}
+			else
+			{
+				activeChar.addBypass(html.substring(start, finish).trim());
+			}
+		}
+	}
+	
+	/**
+	 * Copy from {@link com.l2jserver.gameserver.communitybbs.Manager.BaseBBSManager}. Modified to allow larger community board htmls.
+	 * @param player the player to send to
+	 * @param html the html text
+	 */
+	private void _sendBBSHtml(L2PcInstance player, String html)
+	{
+		_buildBypassCache(player, html);
+		
+		if (html.length() < 16250)
+		{
+			player.sendPacket(new ShowBoard(html, "101"));
+			player.sendPacket(new ShowBoard(null, "102"));
+			player.sendPacket(new ShowBoard(null, "103"));
+		}
+		else if (html.length() < (16250 * 2))
+		{
+			player.sendPacket(new ShowBoard(html.substring(0, 16250), "101"));
+			player.sendPacket(new ShowBoard(html.substring(16250), "102"));
+			player.sendPacket(new ShowBoard(null, "103"));
+		}
+		else if (html.length() < (16250 * 3))
+		{
+			player.sendPacket(new ShowBoard(html.substring(0, 16250), "101"));
+			player.sendPacket(new ShowBoard(html.substring(16250, 16250 * 2), "102"));
+			player.sendPacket(new ShowBoard(html.substring(16250 * 2), "103"));
+		}
+		else
+		{
+			player.sendPacket(new ShowBoard("<html><body><br><center>Error: HTML was too long!</center></body></html>", "101"));
+			player.sendPacket(new ShowBoard(null, "102"));
+			player.sendPacket(new ShowBoard(null, "103"));
+		}
+	}
+	
 	private void _fillItemAmountMap(Map<Integer, Long> items, Buff buff)
 	{
 		for (Entry<String, ItemRequirement> item : buff.items.entrySet())
 		{
-			Long amount = items.get(item.getValue().item.getId());
+			Long amount = items.get(item.getValue().item.getItemId());
 			if (amount == null)
 			{
 				amount = 0L;
 			}
-			items.put(item.getValue().item.getId(), amount + item.getValue().amount);
+			items.put(item.getValue().item.getItemId(), amount + item.getValue().amount);
 		}
 	}
 	
 	private void _castBuff(L2Playable playable, Buff buff)
 	{
-		buff.skill.applyEffects(playable, playable);
+		buff.skill.getEffects(playable, playable);
 	}
 	
 	// //////////////////////////////////
@@ -200,7 +279,7 @@ public final class YANBuffer extends AbstractNpcAI
 				player.sendPacket(new NpcHtmlMessage(npc == null ? 0 : npc.getObjectId(), html));
 				break;
 			case COMMUNITY:
-				Util.sendCBHtml(player, html);
+				_sendBBSHtml(player, html);
 				break;
 		}
 	}
@@ -508,7 +587,7 @@ public final class YANBuffer extends AbstractNpcAI
 		}
 		else if (command.startsWith("summon "))
 		{
-			target = player.getSummon();
+			target = player.getPet();
 			if (target == null)
 			{
 				return;
@@ -637,8 +716,8 @@ public final class YANBuffer extends AbstractNpcAI
 				return;
 			}
 			
-			final List<BuffInfo> effects = player.getEffectList().getEffects();
-			for (final BuffInfo effect : effects)
+			final L2Effect[] effects = player.getAllEffects();
+			for (final L2Effect effect : effects)
 			{
 				for (Entry<String, BuffCategory> buffCatEntry : buffer.buffCats.entrySet())
 				{
@@ -698,7 +777,7 @@ public final class YANBuffer extends AbstractNpcAI
 	//
 	// ////////////////////////////////
 	
-	private static boolean _isInsideAnyZoneOf(L2Character character, ZoneId first, ZoneId... more)
+	private static boolean _isInsideAnyZoneOf(L2Character character, byte first, byte... more)
 	{
 		if (character.isInsideZone(first))
 		{
@@ -707,7 +786,7 @@ public final class YANBuffer extends AbstractNpcAI
 		
 		if (more != null)
 		{
-			for (ZoneId zone : more)
+			for (byte zone : more)
 			{
 				if (character.isInsideZone(zone))
 				{
@@ -721,12 +800,12 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	void executeCommand(L2PcInstance player, L2Npc npc, String command)
 	{
-		if (_isInsideAnyZoneOf(player, ZoneId.PVP, ZoneId.SIEGE, ZoneId.WATER, ZoneId.JAIL, ZoneId.DANGER_AREA))
+		if (_isInsideAnyZoneOf(player, L2Character.ZONE_PVP, L2Character.ZONE_SIEGE, L2Character.ZONE_WATER, L2Character.ZONE_JAIL, L2Character.ZONE_DANGERAREA))
 		{
 			player.sendMessage("The buffer cannot be used here.");
 			return;
 		}
-		else if ((player.getEventStatus() != null) || (player.getBlockCheckerArena() != -1) || player.isOnEvent() || player.isInOlympiadMode())
+		else if (player.atEvent || (player.getBlockCheckerArena() != -1) || player.isInOlympiadMode())
 		{
 			player.sendMessage("The buffer cannot be used in events.");
 			return;
@@ -738,7 +817,7 @@ public final class YANBuffer extends AbstractNpcAI
 			return;
 		}
 		
-		else if (AttackStanceTaskManager.getInstance().hasAttackStanceTask(player))
+		else if (AttackStanceTaskManager.getInstance().getAttackStanceTask(player))
 		{
 			player.sendMessage("The buffer cannot be used while in combat.");
 			return;

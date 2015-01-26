@@ -18,9 +18,10 @@
 package YANModPack.YANBuffer;
 
 import com.l2jserver.gameserver.handler.IItemHandler;
+import com.l2jserver.gameserver.model.L2ItemInstance;
+import com.l2jserver.gameserver.model.L2Object.InstanceType;
 import com.l2jserver.gameserver.model.actor.L2Playable;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
-import com.l2jserver.gameserver.model.items.instance.L2ItemInstance;
 
 /**
  * @author HorridoJoho
@@ -42,14 +43,13 @@ public final class YANBufferItemHandler implements IItemHandler
 	}
 	
 	@Override
-	public boolean useItem(L2Playable playable, L2ItemInstance item, boolean forceUse)
+	public void useItem(L2Playable playable, L2ItemInstance item, boolean forceUse)
 	{
-		if (!playable.isPlayer())
+		if (!playable.isInstanceType(InstanceType.L2PcInstance))
 		{
-			return false;
+			return;
 		}
 		
 		YANBuffer.getInstance().executeCommand((L2PcInstance) playable, null, null);
-		return true;
 	}
 }

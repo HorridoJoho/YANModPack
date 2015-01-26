@@ -5,7 +5,7 @@
 	can_heal - true|false - enable/disable heal for voiced buffer
 	can_cancel - true|false - enable/disable cancel for voiced buffer
  -->
-<voiced_buffer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/voiced_buffer.xsd" enabled="true" can_heal="true" can_cancel="true">
+<voiced_buffer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/voiced_buffer.xsd" enabled="true" required_item="0" can_heal="true" can_cancel="true">
 	<buff_cat ident="BC_FIGHTER" is_preset="true"/>
 	<buff_cat ident="BC_MAGE" is_preset="true"/>
 

@@ -18,6 +18,8 @@
 package YANModPack.YANBuffer;
 
 import com.l2jserver.gameserver.handler.IBypassHandler;
+import com.l2jserver.gameserver.model.L2Object;
+import com.l2jserver.gameserver.model.L2Object.InstanceType;
 import com.l2jserver.gameserver.model.actor.L2Character;
 import com.l2jserver.gameserver.model.actor.L2Npc;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
@@ -50,12 +52,18 @@ public class YANBufferNpcBypassHandler implements IBypassHandler
 	@Override
 	public boolean useBypass(String command, L2PcInstance activeChar, L2Character target)
 	{
-		if ((target == null) || !target.isNpc())
+		if (!activeChar.validateBypass(command))
 		{
 			return false;
 		}
 		
-		YANBuffer.getInstance().executeCommand(activeChar, (L2Npc) target, command.substring(BYPASS.length()).trim());
+		L2Object playerTarget = activeChar.getTarget();
+		if ((playerTarget == null) || !playerTarget.isInstanceType(InstanceType.L2Npc))
+		{
+			return false;
+		}
+		
+		YANBuffer.getInstance().executeCommand(activeChar, (L2Npc) playerTarget, command.substring(BYPASS.length()).trim());
 		return true;
 	}
 	
