@@ -28,16 +28,16 @@ import java.util.logging.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.l2jserver.Config;
-import com.l2jserver.gameserver.datatables.ItemTable;
-import com.l2jserver.gameserver.datatables.NpcTable;
-import com.l2jserver.gameserver.model.L2CharPosition;
-import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
-import com.l2jserver.gameserver.model.items.L2Item;
-
 import YANModPack.util.ItemRequirement;
 import YANModPack.util.XMLUtils;
 import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
+
+import com.l2jserver.Config;
+import com.l2jserver.gameserver.data.xml.impl.NpcData;
+import com.l2jserver.gameserver.datatables.ItemTable;
+import com.l2jserver.gameserver.model.Location;
+import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
+import com.l2jserver.gameserver.model.items.L2Item;
 
 /**
  * @author HorridoJoho
@@ -45,17 +45,17 @@ import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
 final class YANTeleporterData
 {
 	public final class TeleportLocation
-	{		
-		protected final String ident; 
+	{
+		protected final String ident;
 		protected final String name;
 		protected final int minMembers;
 		protected final int maxMemberDistance;
-		protected final L2CharPosition pos;
+		protected final Location pos;
 		protected final Map<String, ItemRequirement> items;
 		/** HTMLTemplatePlaceholder */
 		protected final HTMLTemplatePlaceholder placeholder;
-
-		protected TeleportLocation(String ident, String name, int minMembers, int maxMemberDistance, L2CharPosition pos, Element elem)
+		
+		protected TeleportLocation(String ident, String name, int minMembers, int maxMemberDistance, Location pos, Element elem)
 		{
 			this.ident = ident;
 			this.name = name;
@@ -63,7 +63,7 @@ final class YANTeleporterData
 			this.maxMemberDistance = maxMemberDistance;
 			this.pos = pos;
 			this.items = _parseItems(elem);
-
+			
 			this.placeholder = new HTMLTemplatePlaceholder("tele_loc", null);
 			this.placeholder.addChild("ident", ident).addChild("name", name).addChild("min_members", String.valueOf(minMembers));
 			if (!this.items.isEmpty())
@@ -85,7 +85,7 @@ final class YANTeleporterData
 				switch (curNode.getNodeType())
 				{
 					case Node.ELEMENT_NODE:
-						Element curElem = (Element)curNode;
+						Element curElem = (Element) curNode;
 						String ident = curElem.getAttribute("ident");
 						ItemRequirement req = _itemRequirements.get(ident);
 						if (req == null)
@@ -98,7 +98,7 @@ final class YANTeleporterData
 						}
 						break;
 				}
-
+				
 				curNode = curNode.getNextSibling();
 			}
 			return Collections.unmodifiableMap(items);
@@ -116,7 +116,7 @@ final class YANTeleporterData
 		{
 			this.npc = npc;
 			this.locations = _parseLocations(elem);
-
+			
 			this.placeholder = new HTMLTemplatePlaceholder("teleporter", null);
 			this.placeholder.addChild("name", npc.getName());
 			if (!this.locations.isEmpty())
@@ -138,7 +138,7 @@ final class YANTeleporterData
 				switch (curNode.getNodeType())
 				{
 					case Node.ELEMENT_NODE:
-						Element curElem = (Element)curNode;
+						Element curElem = (Element) curNode;
 						String ident = curElem.getAttribute("ident");
 						TeleportLocation location = _teleLocs.get(ident);
 						if (location == null)
@@ -151,13 +151,13 @@ final class YANTeleporterData
 						}
 						break;
 				}
-
+				
 				curNode = curNode.getNextSibling();
 			}
 			return Collections.unmodifiableMap(locations);
 		}
 	}
-
+	
 	protected static final Logger _LOGGER = Logger.getLogger(YANTeleporterData.class.getName());
 	private static YANTeleporterData _INSTANCE = null;
 	
@@ -174,12 +174,12 @@ final class YANTeleporterData
 	protected final Map<String, ItemRequirement> _itemRequirements = new HashMap<>();
 	protected final Map<String, TeleportLocation> _teleLocs = new HashMap<>();
 	protected final Map<Integer, TeleportNpc> _teleNpcs = new HashMap<>();
-
+	
 	private YANTeleporterData() throws Exception
 	{
 		Path dataPath = Paths.get(Config.DATAPACK_ROOT.getAbsolutePath(), "data", "scripts", YANTeleporter.SCRIPT_SUBFOLDER.toString(), "data");
 		Path xsdPath = Paths.get(dataPath.toString(), "xsd");
-
+		
 		Element elem = XMLUtils.CreateDocument(dataPath.resolve("item_requirements.xml"), xsdPath.resolve("item_requirements.xsd")).getDocumentElement();
 		_parseItemRequirements(elem);
 		
@@ -198,7 +198,7 @@ final class YANTeleporterData
 			switch (curNode.getNodeType())
 			{
 				case Node.ELEMENT_NODE:
-					Element curElem = (Element)curNode;
+					Element curElem = (Element) curNode;
 					String ident = curElem.getAttribute("ident");
 					int itemId = Integer.parseInt(curElem.getAttribute("id"));
 					long itemAmount = Long.parseLong(curElem.getAttribute("amount"));
@@ -213,7 +213,7 @@ final class YANTeleporterData
 					}
 					break;
 			}
-
+			
 			curNode = curNode.getNextSibling();
 		}
 	}
@@ -226,7 +226,7 @@ final class YANTeleporterData
 			switch (curNode.getNodeType())
 			{
 				case Node.ELEMENT_NODE:
-					Element curElem = (Element)curNode;
+					Element curElem = (Element) curNode;
 					String ident = curElem.getAttribute("ident");
 					String name = curElem.getAttribute("name");
 					int minMembers = Integer.parseInt(curElem.getAttribute("min_members"));
@@ -234,10 +234,11 @@ final class YANTeleporterData
 					int x = Integer.parseInt(curElem.getAttribute("x"));
 					int y = Integer.parseInt(curElem.getAttribute("y"));
 					int z = Integer.parseInt(curElem.getAttribute("z"));
-					_teleLocs.put(ident, new TeleportLocation(ident, name, minMembers, maxMemberDistance, new L2CharPosition(x, y, z, 0), curElem));
+					int heading = Integer.parseInt(curElem.getAttribute("heading"));
+					_teleLocs.put(ident, new TeleportLocation(ident, name, minMembers, maxMemberDistance, new Location(x, y, z, heading), curElem));
 					break;
 			}
-
+			
 			curNode = curNode.getNextSibling();
 		}
 	}
@@ -250,9 +251,9 @@ final class YANTeleporterData
 			switch (curNode.getNodeType())
 			{
 				case Node.ELEMENT_NODE:
-					Element curElem = (Element)curNode;
+					Element curElem = (Element) curNode;
 					int id = Integer.parseInt(curElem.getAttribute("id"));
-					L2NpcTemplate npc = NpcTable.getInstance().getTemplate(id);
+					L2NpcTemplate npc = NpcData.getInstance().getTemplate(id);
 					if (npc == null)
 					{
 						_LOGGER.warning("YANTeleporter - teleport_npcs.xml: Npc with id " + id + " does not exists!");
@@ -263,7 +264,7 @@ final class YANTeleporterData
 					}
 					break;
 			}
-
+			
 			curNode = curNode.getNextSibling();
 		}
 	}

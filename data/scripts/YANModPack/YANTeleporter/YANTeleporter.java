@@ -25,6 +25,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import YANModPack.YANTeleporter.YANTeleporterData.TeleportLocation;
+import YANModPack.YANTeleporter.YANTeleporterData.TeleportNpc;
 import YANModPack.util.ItemRequirement;
 import YANModPack.util.htmltmpls.HTMLTemplateParser;
 import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
@@ -32,14 +34,11 @@ import YANModPack.util.htmltmpls.funcs.ExistsFunc;
 import YANModPack.util.htmltmpls.funcs.ForeachFunc;
 import YANModPack.util.htmltmpls.funcs.IfFunc;
 import YANModPack.util.htmltmpls.funcs.IncludeFunc;
+import ai.npc.AbstractNpcAI;
 
 import com.l2jserver.gameserver.model.L2Party;
 import com.l2jserver.gameserver.model.actor.L2Npc;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
-
-import ai.npc.AbstractNpcAI;
-import YANModPack.YANTeleporter.YANTeleporterData.TeleportLocation;
-import YANModPack.YANTeleporter.YANTeleporterData.TeleportNpc;
 
 /**
  * @author HorridoJoho
@@ -50,7 +49,7 @@ public final class YANTeleporter extends AbstractNpcAI
 	public static final Path SCRIPTS_SUBFOLDER = Paths.get("YANModPack");
 	public static final Path SCRIPT_TOP_FOLDER = Paths.get("YANTeleporter");
 	public static final Path SCRIPT_SUBFOLDER = Paths.get(SCRIPTS_SUBFOLDER.toString(), SCRIPT_TOP_FOLDER.toString());
-
+	
 	public static void main(String[] args)
 	{
 		try
@@ -66,98 +65,108 @@ public final class YANTeleporter extends AbstractNpcAI
 	
 	private static TeleportNpc _getTeleNpc(L2Npc npc)
 	{
-		return YANTeleporterData.GET_INSTANCE().getTeleportNpc(npc.getNpcId());
+		return YANTeleporterData.GET_INSTANCE().getTeleportNpc(npc.getId());
 	}
 	
 	private static TeleportLocation _getTeleLoc(TeleportNpc teleNpc, String locIdent)
 	{
 		return teleNpc.locations.get(locIdent);
 	}
-
+	
 	private static String _generateHtml(String path, L2PcInstance player, HashMap<String, HTMLTemplatePlaceholder> placeholders)
 	{
 		return HTMLTemplateParser.fromCache(Paths.get("data", "scripts", SCRIPT_SUBFOLDER.toString(), path).toString(), player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE);
 	}
-
+	
 	private static String _getMainHtml(L2Npc npc, L2PcInstance player)
 	{
 		TeleportNpc teleNpc = _getTeleNpc(npc);
 		if (teleNpc == null)
+		{
 			return null;
-
+		}
+		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
 		placeholders.put(teleNpc.placeholder.getName(), teleNpc.placeholder);
 		return _generateHtml("main.html", player, placeholders);
 	}
-
+	
 	private static String _getLocationHtml(L2Npc npc, L2PcInstance player, String locIdent)
 	{
 		TeleportNpc teleNpc = _getTeleNpc(npc);
 		if (teleNpc == null)
+		{
 			return null;
-
+		}
+		
 		TeleportLocation teleLoc = _getTeleLoc(teleNpc, locIdent);
 		if (teleLoc == null)
+		{
 			return null;
-
+		}
+		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
 		placeholders.put(teleNpc.placeholder.getName(), teleNpc.placeholder);
 		placeholders.put(teleLoc.placeholder.getName(), teleLoc.placeholder);
-		return _generateHtml("location.html", player, placeholders); 
+		return _generateHtml("location.html", player, placeholders);
 	}
 	
 	private static String _makeTeleport(L2Npc npc, L2PcInstance player, String locIdent)
 	{
 		TeleportNpc teleNpc = _getTeleNpc(npc);
 		if (teleNpc == null)
+		{
 			return null;
-
+		}
+		
 		TeleportLocation teleLoc = _getTeleLoc(teleNpc, locIdent);
 		if (teleLoc == null)
+		{
 			return null;
-
+		}
+		
 		L2Party party = player.getParty();
-		if (party == null || party.getLeader() != player)
+		if ((party == null) || (party.getLeader() != player))
 		{
 			player.sendMessage("You have to be the leader of a party!");
 			return null;
 		}
-
+		
 		if (party.getMemberCount() < teleLoc.minMembers)
 		{
 			player.sendMessage("For this teleport you need at least " + teleLoc.minMembers + " players in your party!");
 			return null;
 		}
-
+		
 		List<L2PcInstance> members = party.getMembers();
 		for (L2PcInstance member : members)
 		{
-			if (!member.isInsideRadius(npc.getX(), npc.getY(), teleLoc.maxMemberDistance, true))
+			if (!member.isInsideRadius(npc, teleLoc.maxMemberDistance, true, true))
 			{
 				player.sendMessage("Not all party members in range!");
 				return null;
 			}
 		}
-
+		
 		for (Entry<String, ItemRequirement> item : teleLoc.items.entrySet())
 		{
-			if (player.getInventory().getInventoryItemCount(item.getValue().item.getItemId(), 0) < item.getValue().amount)
+			if (player.getInventory().getInventoryItemCount(item.getValue().item.getId(), 0) < item.getValue().amount)
 			{
 				player.sendMessage("Not enough items!");
 				return null;
 			}
 		}
-
+		
 		for (Entry<String, ItemRequirement> item : teleLoc.items.entrySet())
 		{
-			player.destroyItemByItemId("YANTeleporter-teleport", item.getValue().item.getItemId(), item.getValue().amount, player, true);
+			player.destroyItemByItemId("YANTeleporter-teleport", item.getValue().item.getId(), item.getValue().amount, player, true);
 		}
 		
 		for (L2PcInstance member : members)
 		{
-			member.teleToLocation(teleLoc.pos.x, teleLoc.pos.y, teleLoc.pos.z);
+			member.teleToLocation(teleLoc.pos);
 		}
-
+		
 		return "Your party has been teleported.";
 	}
 	
@@ -172,19 +181,19 @@ public final class YANTeleporter extends AbstractNpcAI
 			addTalkId(npc.getKey());
 		}
 	}
-
+	
 	@Override
 	public String onFirstTalk(L2Npc npc, L2PcInstance player)
 	{
 		return "first_talk.html";
 	}
-
+	
 	@Override
 	public String onTalk(L2Npc npc, L2PcInstance talker)
 	{
 		return _getMainHtml(npc, talker);
 	}
-
+	
 	@Override
 	public String onAdvEvent(String event, L2Npc npc, L2PcInstance player)
 	{
@@ -200,7 +209,7 @@ public final class YANTeleporter extends AbstractNpcAI
 		{
 			return _makeTeleport(npc, player, event.substring(4));
 		}
-
+		
 		return null;
 	}
 }
