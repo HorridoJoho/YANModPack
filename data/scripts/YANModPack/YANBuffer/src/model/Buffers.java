@@ -40,7 +40,7 @@ import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 @XmlRootElement(name = "buffers")
 public final class Buffers
 {
-	@XmlElement(name = "voiced_command_buffer")
+	@XmlElement(name = "voiced_buffer")
 	public final VoicedBuffer voicedBuffer;
 	@XmlElementWrapper(name = "npc_buffers")
 	@XmlElement(name = "npc_buffer")

@@ -6,7 +6,7 @@
 		can_heal		(required)	- true|false; enable/disable heal for voiced buffer
 		can_cancel		(required)	- true|false; enable/disable cancel for voiced buffer
  	-->
-	<voiced_command_buffer enabled="false" can_heal="true" can_cancel="true">
+	<voiced_buffer enabled="false" can_heal="true" can_cancel="true">
 		<preset_buff_cats>
 			<buff_cat>BC_FIGHTER</buff_cat>
 			<buff_cat>BC_MAGE</buff_cat>
@@ -21,7 +21,7 @@
 			<buff_cat>BC_SPECIAL</buff_cat>
 			<buff_cat>BC_OVERLORD</buff_cat>
 		</buff_cats>
-	</voiced_command_buffer>
+	</voiced_buffer>
 
 	<npc_buffers>
 		<!-- ATTRIBUTES

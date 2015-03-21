@@ -16,7 +16,7 @@
 	<xsd:element name="buffers">
 		<xsd:complexType>
 			<xsd:all maxOccurs="1" minOccurs="1">
-				<xsd:element name="voiced_command_buffer" maxOccurs="1" minOccurs="1">
+				<xsd:element name="voiced_buffer" maxOccurs="1" minOccurs="1">
 					<xsd:complexType>
 						<xsd:complexContent>
 							<xsd:extension base="buffer">
