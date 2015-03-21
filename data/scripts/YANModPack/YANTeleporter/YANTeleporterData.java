@@ -199,9 +199,9 @@ final class YANTeleporterData
 			{
 				case Node.ELEMENT_NODE:
 					Element curElem = (Element) curNode;
-					String ident = curElem.getAttribute("ident");
-					int itemId = Integer.parseInt(curElem.getAttribute("id"));
-					long itemAmount = Long.parseLong(curElem.getAttribute("amount"));
+					String ident = curElem.getAttribute("id");
+					int itemId = Integer.parseInt(curElem.getAttribute("item_id"));
+					long itemAmount = Long.parseLong(curElem.getAttribute("item_amount"));
 					L2Item item = ItemTable.getInstance().getTemplate(itemId);
 					if (item == null)
 					{

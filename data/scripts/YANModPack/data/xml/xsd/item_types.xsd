@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:complexType name="item">
-		<xsd:attribute name="id" type="xsd:positiveInteger" use="required" />
-		<xsd:attribute name="amount" type="xsd:positiveInteger" use="required" />
+		<xsd:attribute name="item_id" type="xsd:positiveInteger" use="required" />
+		<xsd:attribute name="item_amount" type="xsd:positiveInteger" use="required" />
 	</xsd:complexType>
 	<xsd:complexType name="item_definition">
 		<xsd:complexContent>
 			<xsd:extension base="item">
-				<xsd:attribute name="ident" type="xsd:ID" use="required" />
+				<xsd:attribute name="id" type="xsd:ID" use="required" />
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
