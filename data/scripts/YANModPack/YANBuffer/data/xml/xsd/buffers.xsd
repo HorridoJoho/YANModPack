@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:complexType name="buffer">
+		<xsd:all maxOccurs="1" minOccurs="1">
+			<xsd:element name="preset_buff_cats" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
+			<xsd:element name="buff_cats" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
+		</xsd:all>
+		<xsd:attribute name="can_heal" type="xsd:boolean" use="required" />
+		<xsd:attribute name="can_cancel" type="xsd:boolean" use="required" />
+	</xsd:complexType>
+	<xsd:complexType name="buff_category_reference_list">
+		<xsd:sequence maxOccurs="1" minOccurs="1">
+			<xsd:element name="buff_cat" type="xsd:NCName" maxOccurs="unbounded" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="buffers">
+		<xsd:complexType>
+			<xsd:all maxOccurs="1" minOccurs="1">
+				<xsd:element name="voiced_command_buffer" maxOccurs="1" minOccurs="1">
+					<xsd:complexType>
+						<xsd:complexContent>
+							<xsd:extension base="buffer">
+								<xsd:attribute name="enabled" type="xsd:boolean" use="required"/>
+								<xsd:attribute name="required_item_id" type="xsd:boolean" use="optional"/>
+							</xsd:extension>
+						</xsd:complexContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="npc_buffers" maxOccurs="1" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence maxOccurs="1" minOccurs="1">
+							<xsd:element name="npc_buffer" maxOccurs="unbounded" minOccurs="0">
+								<xsd:complexType>
+									<xsd:complexContent>
+										<xsd:extension base="buffer">
+											<xsd:attribute name="npc_id" type="xsd:positiveInteger" use="required" />
+										</xsd:extension>
+									</xsd:complexContent>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

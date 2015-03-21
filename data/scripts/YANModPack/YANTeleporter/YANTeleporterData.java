@@ -28,9 +28,9 @@ import java.util.logging.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import YANModPack.util.ItemRequirement;
-import YANModPack.util.XMLUtils;
-import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
+import YANModPack.src.model.entity.ItemReqDef;
+import YANModPack.src.util.XMLUtils;
+import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 import com.l2jserver.Config;
 import com.l2jserver.gameserver.data.xml.impl.NpcData;
@@ -51,7 +51,7 @@ final class YANTeleporterData
 		protected final int minMembers;
 		protected final int maxMemberDistance;
 		protected final Location pos;
-		protected final Map<String, ItemRequirement> items;
+		protected final Map<String, ItemReqDef> items;
 		/** HTMLTemplatePlaceholder */
 		protected final HTMLTemplatePlaceholder placeholder;
 		
@@ -69,16 +69,16 @@ final class YANTeleporterData
 			if (!this.items.isEmpty())
 			{
 				HTMLTemplatePlaceholder itemsPlaceholder = this.placeholder.addChild("items", null).getChild("items");
-				for (Entry<String, ItemRequirement> item : this.items.entrySet())
+				for (Entry<String, ItemReqDef> item : this.items.entrySet())
 				{
 					itemsPlaceholder.addAliasChild(String.valueOf(itemsPlaceholder.getChildsSize()), item.getValue().placeholder);
 				}
 			}
 		}
 		
-		private Map<String, ItemRequirement> _parseItems(Element elem)
+		private Map<String, ItemReqDef> _parseItems(Element elem)
 		{
-			Map<String, ItemRequirement> items = new HashMap<>();
+			Map<String, ItemReqDef> items = new HashMap<>();
 			Node curNode = elem.getFirstChild();
 			while (curNode != null)
 			{
@@ -87,7 +87,7 @@ final class YANTeleporterData
 					case Node.ELEMENT_NODE:
 						Element curElem = (Element) curNode;
 						String ident = curElem.getAttribute("ident");
-						ItemRequirement req = _itemRequirements.get(ident);
+						ItemReqDef req = _itemRequirements.get(ident);
 						if (req == null)
 						{
 							_LOGGER.warning("YANTeleporter - teleport_locations.xml: Item requirement with ident " + ident + " does not exists!");
@@ -171,7 +171,7 @@ final class YANTeleporterData
 		return _INSTANCE;
 	}
 	
-	protected final Map<String, ItemRequirement> _itemRequirements = new HashMap<>();
+	protected final Map<String, ItemReqDef> _itemRequirements = new HashMap<>();
 	protected final Map<String, TeleportLocation> _teleLocs = new HashMap<>();
 	protected final Map<Integer, TeleportNpc> _teleNpcs = new HashMap<>();
 	
@@ -209,7 +209,7 @@ final class YANTeleporterData
 					}
 					else
 					{
-						_itemRequirements.put(ident, new ItemRequirement(item, itemAmount));
+						_itemRequirements.put(ident, new ItemReqDef(item.getId(), itemAmount, ident));
 					}
 					break;
 			}

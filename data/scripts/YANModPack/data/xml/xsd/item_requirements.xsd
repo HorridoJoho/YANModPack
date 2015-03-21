@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:redefine schemaLocation="item_types.xsd" />
+	<xsd:element name="item_requirements">
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="1" minOccurs="1">
+				<xsd:element name="item" maxOccurs="unbounded" minOccurs="0" type="item_definition" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
