@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:redefine schemaLocation="../../../../data/xml/xsd/item_types.xsd" />
-	<xsd:element name="buffs">
+	<xsd:element name="list">
 		<xsd:complexType>
-			<xsd:sequence maxOccurs="1" minOccurs="1">
-				<xsd:element name="buff" maxOccurs="unbounded" minOccurs="0">
+			<xsd:all maxOccurs="1" minOccurs="1">
+				<xsd:element name="buffs" maxOccurs="1" minOccurs="0">
 					<xsd:complexType>
-						<xsd:all maxOccurs="1" minOccurs="1">
-							<xsd:element name="item_requirements" maxOccurs="1" minOccurs="0">
+						<xsd:sequence maxOccurs="1" minOccurs="1">
+							<xsd:element name="buff" maxOccurs="unbounded" minOccurs="0">
 								<xsd:complexType>
-									<xsd:sequence maxOccurs="1" minOccurs="1">
-										<xsd:element name="item" type="item_reference" maxOccurs="unbounded" minOccurs="0" />
-									</xsd:sequence>
+									<xsd:all maxOccurs="1" minOccurs="1">
+										<xsd:element name="item_requirements" maxOccurs="1" minOccurs="0">
+											<xsd:complexType>
+												<xsd:sequence maxOccurs="1" minOccurs="1">
+													<xsd:element name="reference" type="item_requirement_reference" maxOccurs="unbounded" minOccurs="0" />
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:all>
+									<xsd:attribute name="id" type="xsd:ID" use="required" />
+									<xsd:attribute name="skill_id" type="xsd:positiveInteger" use="required" />
+									<xsd:attribute name="skill_level" type="xsd:positiveInteger" use="required" />
+									<xsd:attribute name="type" use="required">
+										<xsd:simpleType>
+											<xsd:restriction base="xsd:string">
+												<xsd:enumeration value="BUFF" />
+												<xsd:enumeration value="SONG_DANCE" />
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:attribute>
 								</xsd:complexType>
 							</xsd:element>
-						</xsd:all>
-						<xsd:attribute name="id" type="xsd:ID" use="required" />
-						<xsd:attribute name="skill_id" type="xsd:positiveInteger" use="required" />
-						<xsd:attribute name="skill_level" type="xsd:positiveInteger" use="required" />
-						<xsd:attribute name="type" use="required">
-							<xsd:simpleType>
-								<xsd:restriction base="xsd:string">
-									<xsd:enumeration value="BUFF" />
-									<xsd:enumeration value="SONG_DANCE" />
-								</xsd:restriction>
-							</xsd:simpleType>
-						</xsd:attribute>
+						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
-			</xsd:sequence>
+			</xsd:all>
 		</xsd:complexType>
 	</xsd:element>
 </xsd:schema>

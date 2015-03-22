@@ -15,26 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANBuffer.src.model.adapter.reference;
+package YANModPack.YANBuffer.src.model.wrapper;
 
-import java.util.Map;
+import javax.xml.bind.annotation.XmlElement;
 
-import YANModPack.YANBuffer.src.model.entity.BuffSkill;
-import YANModPack.src.model.adapter.reference.AbstractRefMapAdapter;
+import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
+import YANModPack.src.model.wrapper.IListWrapper;
 
 /**
  * @author HorridoJoho
  */
-public class BuffSkillRefMapAdapter extends AbstractRefMapAdapter<BuffSkill>
+public final class NpcBufferListWrapper implements IListWrapper<NpcBuffer>
 {
-	public BuffSkillRefMapAdapter(Map<String, BuffSkill> map)
+	@XmlElement(name = "npc_buffer")
+	private final NpcBuffer[] defs;
+	
+	public NpcBufferListWrapper()
 	{
-		super(map);
+		defs = null;
+	}
+	
+	public NpcBufferListWrapper(NpcBuffer[] defs)
+	{
+		this.defs = defs;
 	}
 	
 	@Override
-	protected String getKey(BuffSkill ref)
+	public NpcBuffer[] getList()
 	{
-		return ref.id;
+		return defs;
 	}
 }

@@ -22,12 +22,11 @@ import java.util.Map;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import YANModPack.YANBuffer.src.YANBufferData.BuffType;
-import YANModPack.src.model.adapter.reference.ItemReqDefRefMapAdapter;
+import YANModPack.src.model.adapter.ItemReqRefListToMapAdapter;
 import YANModPack.src.model.entity.ItemReqDef;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
@@ -37,10 +36,8 @@ import com.l2jserver.gameserver.model.skills.Skill;
 /**
  * @author HorridoJoho
  */
-public final class BuffSkill
+public class BuffSkill
 {
-	@XmlAttribute(name = "ident")
-	public final String id;
 	@XmlAttribute(name = "skill_id")
 	public final int skillId;
 	@XmlAttribute(name = "skill_level")
@@ -48,17 +45,15 @@ public final class BuffSkill
 	@XmlAttribute(name = "type")
 	public final BuffType type;
 	
-	@XmlElementWrapper(name = "item_requirements")
-	@XmlElement(name = "item")
-	@XmlJavaTypeAdapter(ItemReqDefRefMapAdapter.class)
+	@XmlElement(name = "item_requirements")
+	@XmlJavaTypeAdapter(ItemReqRefListToMapAdapter.class)
 	public final Map<String, ItemReqDef> items;
 	
 	@XmlTransient
 	public final HTMLTemplatePlaceholder placeholder;
 	
-	protected BuffSkill()
+	public BuffSkill()
 	{
-		id = null;
 		skillId = 0;
 		skillLevel = 0;
 		type = BuffType.BUFF;
@@ -70,7 +65,7 @@ public final class BuffSkill
 	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
 	{
 		final Skill skill = getSkill();
-		placeholder.addChild("ident", id).addChild("skill_id", String.valueOf(skill.getId())).addChild("skill_name", skill.getName()).addChild("skill_icon", _getClientSkillIconSource(skill.getId())).addChild("type", type.toString());
+		placeholder.addChild("skill_id", String.valueOf(skill.getId())).addChild("skill_name", skill.getName()).addChild("skill_icon", _getClientSkillIconSource(skill.getId())).addChild("type", type.toString());
 		if (!items.isEmpty())
 		{
 			HTMLTemplatePlaceholder itemsPlaceholder = this.placeholder.addChild("items", null).getChild("items");

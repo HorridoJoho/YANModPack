@@ -20,12 +20,13 @@ package YANModPack.YANBuffer.src.model.adapter.direct;
 import java.util.Map;
 
 import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
-import YANModPack.src.model.adapter.direct.AbstractMapAdapter;
+import YANModPack.YANBuffer.src.model.wrapper.NpcBufferListWrapper;
+import YANModPack.src.model.adapter.AbstractDefListToMapAdapter;
 
 /**
  * @author HorridoJoho
  */
-public class NpcBufferMapAdapter extends AbstractMapAdapter<Integer, NpcBuffer>
+public class NpcBufferMapAdapter extends AbstractDefListToMapAdapter<Integer, NpcBuffer, NpcBufferListWrapper>
 {
 	@Override
 	protected Integer getKey(NpcBuffer v)
@@ -34,8 +35,8 @@ public class NpcBufferMapAdapter extends AbstractMapAdapter<Integer, NpcBuffer>
 	}
 	
 	@Override
-	protected NpcBuffer[] mapToArray(Map<Integer, NpcBuffer> v)
+	public NpcBufferListWrapper marshal(Map<Integer, NpcBuffer> v)
 	{
-		return v.values().toArray(new NpcBuffer[0]);
+		return new NpcBufferListWrapper(v.values().toArray(new NpcBuffer[0]));
 	}
 }

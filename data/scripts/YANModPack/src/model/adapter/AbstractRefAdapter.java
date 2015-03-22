@@ -15,32 +15,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANBuffer.src.model;
+package YANModPack.src.model.adapter;
 
 import java.util.Map;
+import java.util.Objects;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.YANBuffer.src.model.adapter.direct.BuffSkillDefListMapAdapter;
-import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * @author HorridoJoho
+ * @param <V> the reference type
  */
-@XmlRootElement(name = "list")
-@XmlAccessorType(XmlAccessType.FIELD)
-public final class BuffSkills
+public abstract class AbstractRefAdapter<V> extends XmlAdapter<String, V>
 {
-	@XmlElement(name = "buffs")
-	@XmlJavaTypeAdapter(BuffSkillDefListMapAdapter.class)
-	public final Map<String, BuffSkillDef> buffs;
+	private final Map<String, V> _map;
 	
-	public BuffSkills()
+	protected AbstractRefAdapter(Map<String, V> map)
 	{
-		buffs = null;
+		Objects.requireNonNull(map);
+		_map = map;
 	}
+	
+	@Override
+	public final V unmarshal(String v)
+	{
+		final V ref = _map.get(v);
+		Objects.requireNonNull(ref);
+		return ref;
+	}
+	
+	@Override
+	public final String marshal(V v)
+	{
+		return getKey(v);
+	}
+	
+	protected abstract String getKey(V v);
 }

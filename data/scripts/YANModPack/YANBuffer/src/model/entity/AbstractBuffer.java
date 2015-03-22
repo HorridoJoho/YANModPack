@@ -23,11 +23,10 @@ import java.util.Map.Entry;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefMapAdapter;
+import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefListMapAdapter;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
@@ -40,14 +39,12 @@ public abstract class AbstractBuffer
 	@XmlAttribute(name = "can_cancel")
 	public final boolean canCancel;
 	
-	@XmlElementWrapper(name = "preset_buff_cats")
-	@XmlElement(name = "preset_buff_cat")
-	@XmlJavaTypeAdapter(BuffCategoryRefMapAdapter.class)
-	public final Map<String, BuffCategory> presetBuffCats;
-	@XmlElementWrapper(name = "buff_cats")
-	@XmlElement(name = "buff_cat")
-	@XmlJavaTypeAdapter(BuffCategoryRefMapAdapter.class)
-	public final Map<String, BuffCategory> buffCats;
+	@XmlElement(name = "preset_buff_categories")
+	@XmlJavaTypeAdapter(BuffCategoryRefListMapAdapter.class)
+	public Map<String, BuffCategoryDef> presetBuffCats;
+	@XmlElement(name = "buff_categories")
+	@XmlJavaTypeAdapter(BuffCategoryRefListMapAdapter.class)
+	public Map<String, BuffCategoryDef> buffCats;
 	
 	@XmlTransient
 	public final HTMLTemplatePlaceholder placeholder;
@@ -76,20 +73,20 @@ public abstract class AbstractBuffer
 		{
 			placeholder.addChild("can_cancel", null);
 		}
-		if (!buffCats.isEmpty())
-		{
-			HTMLTemplatePlaceholder buffCatsPlaceholder = placeholder.addChild("categories", null).getChild("categories");
-			for (Entry<String, BuffCategory> buffCat : buffCats.entrySet())
-			{
-				buffCatsPlaceholder.addAliasChild(String.valueOf(buffCatsPlaceholder.getChildsSize()), buffCat.getValue().placeholder);
-			}
-		}
 		if (!presetBuffCats.isEmpty())
 		{
 			HTMLTemplatePlaceholder presetBufflistsPlaceholder = placeholder.addChild("presets", null).getChild("presets");
-			for (Entry<String, BuffCategory> presetBufflist : presetBuffCats.entrySet())
+			for (Entry<String, BuffCategoryDef> presetBufflist : presetBuffCats.entrySet())
 			{
 				presetBufflistsPlaceholder.addAliasChild(String.valueOf(presetBufflistsPlaceholder.getChildsSize()), presetBufflist.getValue().placeholder);
+			}
+		}
+		if (!buffCats.isEmpty())
+		{
+			HTMLTemplatePlaceholder buffCatsPlaceholder = placeholder.addChild("categories", null).getChild("categories");
+			for (Entry<String, BuffCategoryDef> buffCat : buffCats.entrySet())
+			{
+				buffCatsPlaceholder.addAliasChild(String.valueOf(buffCatsPlaceholder.getChildsSize()), buffCat.getValue().placeholder);
 			}
 		}
 	}

@@ -31,8 +31,8 @@ import java.util.logging.Logger;
 
 import YANModPack.YANBuffer.src.YANBufferData.HtmlType;
 import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
-import YANModPack.YANBuffer.src.model.entity.BuffCategory;
-import YANModPack.YANBuffer.src.model.entity.BuffSkill;
+import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
+import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
 import YANModPack.src.model.entity.ItemReqDef;
 import YANModPack.src.util.htmltmpls.HTMLTemplateParser;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
@@ -128,7 +128,7 @@ public final class YANBuffer extends AbstractNpcAI
 		return HTMLTemplateParser.fromCache("/data/scripts/" + SCRIPT_SUBFOLDER + "/data/html/" + dialogType.toString().toLowerCase(Locale.ENGLISH) + "/" + path, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
 	}
 	
-	private void _fillItemAmountMap(Map<Integer, Long> items, BuffSkill buff)
+	private void _fillItemAmountMap(Map<Integer, Long> items, BuffSkillDef buff)
 	{
 		for (Entry<String, ItemReqDef> item : buff.items.entrySet())
 		{
@@ -141,7 +141,7 @@ public final class YANBuffer extends AbstractNpcAI
 		}
 	}
 	
-	private void _castBuff(L2Playable playable, BuffSkill buff)
+	private void _castBuff(L2Playable playable, BuffSkillDef buff)
 	{
 		buff.getSkill().applyEffects(playable, playable);
 	}
@@ -190,7 +190,7 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	private void _htmlShowCategory(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent)
 	{
-		BuffCategory buffCat = buffer.buffCats.get(categoryIdent);
+		BuffCategoryDef buffCat = buffer.buffCats.get(categoryIdent);
 		if (buffCat == null)
 		{
 			return;
@@ -205,12 +205,12 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	private void _htmlShowBuff(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent, String buffIdent)
 	{
-		BuffCategory buffCat = buffer.buffCats.get(categoryIdent);
+		BuffCategoryDef buffCat = buffer.buffCats.get(categoryIdent);
 		if (buffCat == null)
 		{
 			return;
 		}
-		BuffSkill buff = buffCat.getBuff(buffIdent);
+		BuffSkillDef buff = buffCat.getBuff(buffIdent);
 		if (buff == null)
 		{
 			return;
@@ -226,7 +226,7 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	private void _htmlShowPreset(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String presetBufflistIdent)
 	{
-		BuffCategory presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
+		BuffCategoryDef presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
 			return;
@@ -300,12 +300,12 @@ public final class YANBuffer extends AbstractNpcAI
 	// /////////////////////////////////////////////
 	private void _targetBuffBuff(L2PcInstance player, L2Playable target, AbstractBuffer buffer, String categoryIdent, String buffIdent)
 	{
-		BuffCategory bCat = buffer.buffCats.get(categoryIdent);
+		BuffCategoryDef bCat = buffer.buffCats.get(categoryIdent);
 		if (bCat == null)
 		{
 			return;
 		}
-		BuffSkill buff = bCat.getBuff(buffIdent);
+		BuffSkillDef buff = bCat.getBuff(buffIdent);
 		if (buff == null)
 		{
 			return;
@@ -336,12 +336,12 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	private void _targetBuffUnique(L2PcInstance player, L2Playable target, AbstractBuffer buffer, String uniqueName)
 	{
-		List<BuffSkill> buffs = YANBufferData.getInstance().getUniqueBufflist(player.getObjectId(), uniqueName);
+		List<BuffSkillDef> buffs = YANBufferData.getInstance().getUniqueBufflist(player.getObjectId(), uniqueName);
 		
 		if (buffs != null)
 		{
 			HashMap<Integer, Long> items = null;
-			for (BuffSkill buff : buffs)
+			for (BuffSkillDef buff : buffs)
 			{
 				if (!buff.items.isEmpty())
 				{
@@ -370,7 +370,7 @@ public final class YANBuffer extends AbstractNpcAI
 				}
 			}
 			
-			for (BuffSkill buff : buffs)
+			for (BuffSkillDef buff : buffs)
 			{
 				_castBuff(target, buff);
 			}
@@ -379,18 +379,18 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	private void _targetBuffPreset(L2PcInstance player, L2Playable target, AbstractBuffer buffer, String presetBufflistIdent)
 	{
-		BuffCategory presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
+		BuffCategoryDef presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
 			return;
 		}
 		
-		Collection<BuffSkill> buffs = presetBufflist.buffSkills.values();
+		Collection<BuffSkillDef> buffs = presetBufflist.buffSkills.values();
 		
 		if (buffs != null)
 		{
 			HashMap<Integer, Long> items = null;
-			for (BuffSkill buff : buffs)
+			for (BuffSkillDef buff : buffs)
 			{
 				if (!buff.items.isEmpty())
 				{
@@ -419,7 +419,7 @@ public final class YANBuffer extends AbstractNpcAI
 				}
 			}
 			
-			for (BuffSkill buff : buffs)
+			for (BuffSkillDef buff : buffs)
 			{
 				_castBuff(target, buff);
 			}
@@ -563,12 +563,12 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	private void _uniqueAdd(L2PcInstance player, AbstractBuffer buffer, String uniqueName, String categoryIdent, String buffIdent)
 	{
-		BuffCategory bCat = buffer.buffCats.get(categoryIdent);
+		BuffCategoryDef bCat = buffer.buffCats.get(categoryIdent);
 		if (bCat == null)
 		{
 			return;
 		}
-		BuffSkill buff = bCat.getBuff(buffIdent);
+		BuffSkillDef buff = bCat.getBuff(buffIdent);
 		if (buff == null)
 		{
 			return;
@@ -579,7 +579,7 @@ public final class YANBuffer extends AbstractNpcAI
 	
 	private void _uniqueRemove(L2PcInstance player, String uniqueName, String buffIdent)
 	{
-		BuffSkill buff = YANBufferData.getInstance().getBuff(buffIdent);
+		BuffSkillDef buff = YANBufferData.getInstance().getBuff(buffIdent);
 		if (buff == null)
 		{
 			return;
@@ -618,13 +618,13 @@ public final class YANBuffer extends AbstractNpcAI
 			final List<BuffInfo> effects = player.getEffectList().getEffects();
 			for (final BuffInfo effect : effects)
 			{
-				for (Entry<String, BuffCategory> buffCatEntry : buffer.buffCats.entrySet())
+				for (Entry<String, BuffCategoryDef> buffCatEntry : buffer.buffCats.entrySet())
 				{
 					boolean added = false;
 					
-					for (Entry<String, BuffSkill> buffEntry : buffCatEntry.getValue().buffSkills.entrySet())
+					for (Entry<String, BuffSkillDef> buffEntry : buffCatEntry.getValue().buffSkills.entrySet())
 					{
-						final BuffSkill buff = buffEntry.getValue();
+						final BuffSkillDef buff = buffEntry.getValue();
 						
 						if (buff.getSkill().getId() == effect.getSkill().getId())
 						{

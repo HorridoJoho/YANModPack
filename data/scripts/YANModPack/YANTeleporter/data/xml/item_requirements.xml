@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<item_requirements xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../data/xml/xsd/item_requirements.xsd">
-	<item id="ADENA_1000" item_id="57" item_amount="1000" />
-</item_requirements>
+<list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../data/xml/xsd/item_requirements.xsd">
+	<item_requirements>
+		<item_requirement id="ADENA_1000" item_id="57" item_amount="1000" />
+	</item_requirements>
+</list>

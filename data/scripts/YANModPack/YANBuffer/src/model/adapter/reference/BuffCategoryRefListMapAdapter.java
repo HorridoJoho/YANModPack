@@ -15,24 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.src.model.adapter.reference;
+package YANModPack.YANBuffer.src.model.adapter.reference;
 
 import java.util.Map;
 
-import YANModPack.src.model.entity.ItemReqDef;
+import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
+import YANModPack.src.model.adapter.AbstractRefListToMapAdapter;
 
 /**
  * @author HorridoJoho
  */
-public class ItemReqDefRefMapAdapter extends AbstractRefMapAdapter<ItemReqDef>
+public class BuffCategoryRefListMapAdapter extends AbstractRefListToMapAdapter<BuffCategoryDef>
 {
-	public ItemReqDefRefMapAdapter(Map<String, ItemReqDef> map)
+	public BuffCategoryRefListMapAdapter(Map<String, BuffCategoryDef> map)
 	{
 		super(map);
 	}
 	
 	@Override
-	protected String getKey(ItemReqDef ref)
+	protected String getKey(BuffCategoryDef ref)
 	{
 		return ref.id;
 	}

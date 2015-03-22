@@ -2,15 +2,15 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:complexType name="buffer">
 		<xsd:all maxOccurs="1" minOccurs="1">
-			<xsd:element name="preset_buff_cats" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
-			<xsd:element name="buff_cats" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
+			<xsd:element name="preset_buff_categories" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
+			<xsd:element name="buff_categories" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
 		</xsd:all>
 		<xsd:attribute name="can_heal" type="xsd:boolean" use="required" />
 		<xsd:attribute name="can_cancel" type="xsd:boolean" use="required" />
 	</xsd:complexType>
 	<xsd:complexType name="buff_category_reference_list">
 		<xsd:sequence maxOccurs="1" minOccurs="1">
-			<xsd:element name="buff_cat" type="xsd:NCName" maxOccurs="unbounded" minOccurs="0" />
+			<xsd:element name="reference" type="xsd:NCName" maxOccurs="unbounded" minOccurs="0" />
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:element name="buffers">

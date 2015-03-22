@@ -15,32 +15,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANBuffer.src.model;
+package YANModPack.YANBuffer.src.model.adapter.direct;
 
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.YANBuffer.src.model.adapter.direct.BuffSkillDefListMapAdapter;
 import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.YANBuffer.src.model.wrapper.BuffSkillListWrapper;
+import YANModPack.src.model.adapter.AbstractDefListToMapAdapter;
 
 /**
  * @author HorridoJoho
  */
-@XmlRootElement(name = "list")
-@XmlAccessorType(XmlAccessType.FIELD)
-public final class BuffSkills
+public final class BuffSkillDefListMapAdapter extends AbstractDefListToMapAdapter<String, BuffSkillDef, BuffSkillListWrapper>
 {
-	@XmlElement(name = "buffs")
-	@XmlJavaTypeAdapter(BuffSkillDefListMapAdapter.class)
-	public final Map<String, BuffSkillDef> buffs;
-	
-	public BuffSkills()
+	@Override
+	protected String getKey(BuffSkillDef v)
 	{
-		buffs = null;
+		return v.id;
+	}
+	
+	@Override
+	public BuffSkillListWrapper marshal(Map<String, BuffSkillDef> v)
+	{
+		return new BuffSkillListWrapper(v.values().toArray(new BuffSkillDef[0]));
 	}
 }

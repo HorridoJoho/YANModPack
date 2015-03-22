@@ -15,32 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANBuffer.src.model;
+package YANModPack.src.model.adapter;
 
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.YANBuffer.src.model.adapter.direct.BuffSkillDefListMapAdapter;
-import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.src.model.entity.ItemReqDef;
 
 /**
  * @author HorridoJoho
  */
-@XmlRootElement(name = "list")
-@XmlAccessorType(XmlAccessType.FIELD)
-public final class BuffSkills
+public class ItemReqRefListToMapAdapter extends AbstractRefListToMapAdapter<ItemReqDef>
 {
-	@XmlElement(name = "buffs")
-	@XmlJavaTypeAdapter(BuffSkillDefListMapAdapter.class)
-	public final Map<String, BuffSkillDef> buffs;
-	
-	public BuffSkills()
+	public ItemReqRefListToMapAdapter(Map<String, ItemReqDef> map)
 	{
-		buffs = null;
+		super(map);
+	}
+	
+	@Override
+	protected String getKey(ItemReqDef ref)
+	{
+		return ref.id;
 	}
 }

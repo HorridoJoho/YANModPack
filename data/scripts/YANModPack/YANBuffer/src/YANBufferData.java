@@ -33,24 +33,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
 
 import org.w3c.dom.Element;
 
 import YANModPack.YANBuffer.src.model.BuffCategories;
 import YANModPack.YANBuffer.src.model.BuffSkills;
 import YANModPack.YANBuffer.src.model.Buffers;
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefMapAdapter;
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffSkillRefMapAdapter;
-import YANModPack.YANBuffer.src.model.entity.BuffCategory;
-import YANModPack.YANBuffer.src.model.entity.BuffSkill;
+import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefListMapAdapter;
+import YANModPack.YANBuffer.src.model.adapter.reference.BuffSkillRefListMapAdapter;
+import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
+import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
 import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
 import YANModPack.src.model.ItemReqDefs;
-import YANModPack.src.model.adapter.reference.ItemReqDefRefMapAdapter;
+import YANModPack.src.model.adapter.ItemReqRefListToMapAdapter;
 import YANModPack.src.model.entity.ItemReqDef;
 import YANModPack.src.util.XMLUtils;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
@@ -120,16 +118,16 @@ public final class YANBufferData
 		JAXBContext ctx = JAXBContext.newInstance(ItemReqDefs.class, BuffSkills.class, BuffCategories.class, Buffers.class);
 		Unmarshaller u = ctx.createUnmarshaller();
 		// validate against document specified schema
-		u.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema());
+		// u.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema());
 		
-		_itemRequirements = u.unmarshal(new StreamSource(xmlPath.resolve("item_requirements").toFile()), ItemReqDefs.class).getValue();
-		u.setAdapter(ItemReqDefRefMapAdapter.class, _itemRequirements.getRefAdapter());
+		_itemRequirements = u.unmarshal(new StreamSource(xmlPath.resolve("item_requirements.xml").toFile()), ItemReqDefs.class).getValue();
+		u.setAdapter(ItemReqRefListToMapAdapter.class, new ItemReqRefListToMapAdapter(_itemRequirements.items));
 		
 		_buffs = u.unmarshal(new StreamSource(xmlPath.resolve("buffs.xml").toFile()), BuffSkills.class).getValue();
-		u.setAdapter(BuffSkillRefMapAdapter.class, _buffs.getRefAdapter());
+		u.setAdapter(BuffSkillRefListMapAdapter.class, new BuffSkillRefListMapAdapter(_buffs.buffs));
 		
 		_buffCats = u.unmarshal(new StreamSource(xmlPath.resolve("buff_categories.xml").toFile()), BuffCategories.class).getValue();
-		u.setAdapter(BuffCategoryRefMapAdapter.class, _buffCats.getRefAdapter());
+		u.setAdapter(BuffCategoryRefListMapAdapter.class, new BuffCategoryRefListMapAdapter(_buffCats.cats));
 		
 		_buffers = u.unmarshal(new StreamSource(xmlPath.resolve("buffers.xml").toFile()), Buffers.class).getValue();
 		
@@ -178,7 +176,7 @@ public final class YANBufferData
 							while (rs.next())
 							{
 								String buffIdent = rs.getString("ulist_buff_ident");
-								BuffSkill buff = getBuff(buffIdent);
+								BuffSkillDef buff = getBuff(buffIdent);
 								if (buff == null)
 								{
 									_LOGGER.warning("YANBuffer - Data: Buff with ident does not exists!");
@@ -273,7 +271,7 @@ public final class YANBufferData
 		}
 	}
 	
-	public boolean addToUniqueBufflist(int playerObjectId, String ulistName, BuffSkill buff)
+	public boolean addToUniqueBufflist(int playerObjectId, String ulistName, BuffSkillDef buff)
 	{
 		UniqueBufflist ulist = _getPlayersUList(playerObjectId, ulistName);
 		// prevent duplicate entry with ulist.contains(buff)
@@ -299,7 +297,7 @@ public final class YANBufferData
 		return true;
 	}
 	
-	public void removeFromUniqueBufflist(int playerObjectId, String ulistName, BuffSkill buff)
+	public void removeFromUniqueBufflist(int playerObjectId, String ulistName, BuffSkillDef buff)
 	{
 		UniqueBufflist ulist = _getPlayersUList(playerObjectId, ulistName);
 		if ((ulist == null) || !ulist.contains(buff))
@@ -333,17 +331,17 @@ public final class YANBufferData
 	
 	public ItemReqDef getItemRequirement(String ident)
 	{
-		return _itemRequirements.get(ident);
+		return _itemRequirements.items.get(ident);
 	}
 	
-	public BuffSkill getBuff(String buffIdent)
+	public BuffSkillDef getBuff(String buffIdent)
 	{
-		return _buffs.get(buffIdent);
+		return _buffs.buffs.get(buffIdent);
 	}
 	
-	public BuffCategory getBuffCat(String buffCatIdent)
+	public BuffCategoryDef getBuffCat(String buffCatIdent)
 	{
-		return _buffCats.get(buffCatIdent);
+		return _buffCats.cats.get(buffCatIdent);
 	}
 	
 	public Buffers getBuffers()
@@ -361,7 +359,7 @@ public final class YANBufferData
 		return _getPlayersUList(playerObjectId, ulistName) != null;
 	}
 	
-	public List<BuffSkill> getUniqueBufflist(int playerObjectId, String ulistName)
+	public List<BuffSkillDef> getUniqueBufflist(int playerObjectId, String ulistName)
 	{
 		UniqueBufflist ulist = _getPlayersUList(playerObjectId, ulistName);
 		if (ulist == null)

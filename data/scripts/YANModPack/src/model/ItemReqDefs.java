@@ -19,36 +19,28 @@ package YANModPack.src.model;
 
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.src.model.adapter.direct.ItemReqDefMapAdapter;
-import YANModPack.src.model.adapter.reference.ItemReqDefRefMapAdapter;
+import YANModPack.src.model.adapter.ItemReqDefListToMapAdapter;
 import YANModPack.src.model.entity.ItemReqDef;
 
 /**
  * @author HorridoJoho
  */
-@XmlRootElement(name = "item_requirements")
+@XmlRootElement(name = "list")
+@XmlAccessorType(XmlAccessType.FIELD)
 public final class ItemReqDefs
 {
-	@XmlElement(name = "item")
-	@XmlJavaTypeAdapter(ItemReqDefMapAdapter.class)
-	private final Map<String, ItemReqDef> _items;
+	@XmlElement(name = "item_requirements")
+	@XmlJavaTypeAdapter(ItemReqDefListToMapAdapter.class)
+	public final Map<String, ItemReqDef> items;
 	
 	public ItemReqDefs()
 	{
-		_items = null;
-	}
-	
-	public ItemReqDef get(String ident)
-	{
-		return _items.get(ident);
-	}
-	
-	public ItemReqDefRefMapAdapter getRefAdapter()
-	{
-		return new ItemReqDefRefMapAdapter(_items);
+		items = null;
 	}
 }

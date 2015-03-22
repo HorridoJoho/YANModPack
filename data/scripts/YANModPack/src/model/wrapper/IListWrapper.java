@@ -15,27 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANBuffer.src.model.adapter.direct;
-
-import java.util.Map;
-
-import YANModPack.YANBuffer.src.model.entity.BuffSkill;
-import YANModPack.src.model.adapter.direct.AbstractMapAdapter;
+package YANModPack.src.model.wrapper;
 
 /**
  * @author HorridoJoho
+ * @param <T> The list type
  */
-public final class BuffMapAdapter extends AbstractMapAdapter<String, BuffSkill>
+public interface IListWrapper<T>
 {
-	@Override
-	protected String getKey(BuffSkill v)
-	{
-		return v.id;
-	}
-	
-	@Override
-	protected BuffSkill[] mapToArray(Map<String, BuffSkill> v)
-	{
-		return v.values().toArray(new BuffSkill[0]);
-	}
+	T[] getList();
 }

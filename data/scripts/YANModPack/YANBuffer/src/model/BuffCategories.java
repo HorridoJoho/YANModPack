@@ -19,36 +19,28 @@ package YANModPack.YANBuffer.src.model;
 
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANBuffer.src.model.adapter.direct.BuffCategoryMapAdapter;
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefMapAdapter;
-import YANModPack.YANBuffer.src.model.entity.BuffCategory;
+import YANModPack.YANBuffer.src.model.adapter.direct.BuffCategoryDefListToMapAdapter;
+import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
 
 /**
  * @author HorridoJoho
  */
-@XmlRootElement(name = "buff_cats")
+@XmlRootElement(name = "list")
+@XmlAccessorType(XmlAccessType.FIELD)
 public final class BuffCategories
 {
-	@XmlElement(name = "buff_cat")
-	@XmlJavaTypeAdapter(BuffCategoryMapAdapter.class)
-	private final Map<String, BuffCategory> _categories;
+	@XmlElement(name = "buff_categories")
+	@XmlJavaTypeAdapter(BuffCategoryDefListToMapAdapter.class)
+	public final Map<String, BuffCategoryDef> cats;
 	
 	public BuffCategories()
 	{
-		_categories = null;
-	}
-	
-	public BuffCategory get(String ident)
-	{
-		return _categories.get(ident);
-	}
-	
-	public BuffCategoryRefMapAdapter getRefAdapter()
-	{
-		return new BuffCategoryRefMapAdapter(_categories);
+		cats = null;
 	}
 }

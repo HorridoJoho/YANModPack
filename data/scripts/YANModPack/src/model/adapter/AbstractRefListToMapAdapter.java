@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.src.model.adapter.reference;
+package YANModPack.src.model.adapter;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -24,46 +24,54 @@ import java.util.Objects;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import YANModPack.src.model.wrapper.ReferenceListWrapper;
+
 /**
  * @author HorridoJoho
  * @param <V> the reference type
  */
-public abstract class AbstractRefMapAdapter<V> extends XmlAdapter<String[], Map<String, V>>
+public abstract class AbstractRefListToMapAdapter<V> extends XmlAdapter<ReferenceListWrapper, Map<String, V>>
 {
 	private final Map<String, V> _map;
 	
-	protected AbstractRefMapAdapter(Map<String, V> map)
+	protected AbstractRefListToMapAdapter(Map<String, V> map)
 	{
 		Objects.requireNonNull(map);
 		_map = map;
 	}
 	
 	@Override
-	public final Map<String, V> unmarshal(String[] v)
+	public final Map<String, V> unmarshal(ReferenceListWrapper v)
 	{
-		final Map<String, V> listMap = new LinkedHashMap<>(v.length);
-		for (String key : v)
+		if (v == null)
+		{
+			System.out.println("AbstractRefListToMapAdapter#unmarshal of " + getClass().getSimpleName() + ": v=null");
+			return Collections.unmodifiableMap(new LinkedHashMap<>());
+		}
+		
+		System.out.println("AbstractRefListToMapAdapter#unmarshal of " + getClass().getSimpleName() + ": v.refs=" + v.refs);
+		final LinkedHashMap<String, V> map = new LinkedHashMap<>(v.refs.length);
+		for (String key : v.refs)
 		{
 			final V ref = _map.get(key);
 			Objects.requireNonNull(ref);
-			listMap.put(key, ref);
+			map.put(key, ref);
 		}
-		
-		return Collections.unmodifiableMap(listMap);
+		return Collections.unmodifiableMap(map);
 	}
 	
 	@Override
-	public final String[] marshal(Map<String, V> v)
+	public final ReferenceListWrapper marshal(Map<String, V> v)
 	{
-		final String[] array = new String[v.size()];
+		final String[] list = new String[v.size()];
 		int i = 0;
 		for (Map.Entry<String, V> e : v.entrySet())
 		{
 			final V ref = e.getValue();
-			array[i] = getKey(ref);
+			list[i] = getKey(ref);
 			++i;
 		}
-		return array;
+		return new ReferenceListWrapper(list);
 	}
 	
 	protected abstract String getKey(V ref);

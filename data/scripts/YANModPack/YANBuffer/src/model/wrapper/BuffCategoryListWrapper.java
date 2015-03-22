@@ -15,26 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANBuffer.src.model.adapter.reference;
+package YANModPack.YANBuffer.src.model.wrapper;
 
-import java.util.Map;
+import javax.xml.bind.annotation.XmlElement;
 
-import YANModPack.YANBuffer.src.model.entity.BuffCategory;
-import YANModPack.src.model.adapter.reference.AbstractRefMapAdapter;
+import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
+import YANModPack.src.model.wrapper.IListWrapper;
 
 /**
  * @author HorridoJoho
  */
-public class BuffCategoryRefMapAdapter extends AbstractRefMapAdapter<BuffCategory>
+public final class BuffCategoryListWrapper implements IListWrapper<BuffCategoryDef>
 {
-	public BuffCategoryRefMapAdapter(Map<String, BuffCategory> map)
+	@XmlElement(name = "buff_category")
+	private final BuffCategoryDef[] defs;
+	
+	public BuffCategoryListWrapper()
 	{
-		super(map);
+		defs = null;
+	}
+	
+	public BuffCategoryListWrapper(BuffCategoryDef[] defs)
+	{
+		this.defs = defs;
 	}
 	
 	@Override
-	protected String getKey(BuffCategory ref)
+	public BuffCategoryDef[] getList()
 	{
-		return ref.id;
+		return defs;
 	}
 }

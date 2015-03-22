@@ -15,38 +15,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.src.model.adapter.reference;
+package YANModPack.src.model.adapter;
 
 import java.util.Map;
-import java.util.Objects;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import YANModPack.src.model.entity.ItemReqDef;
+import YANModPack.src.model.wrapper.ItemReqListWrapper;
 
 /**
  * @author HorridoJoho
- * @param <V> the reference type
  */
-public abstract class AbstractRefAdapter<V> extends XmlAdapter<String, V>
+public final class ItemReqDefListToMapAdapter extends AbstractDefListToMapAdapter<String, ItemReqDef, ItemReqListWrapper>
 {
-	private final Map<String, V> _map;
-	
-	protected AbstractRefAdapter(Map<String, V> map)
+	@Override
+	protected String getKey(ItemReqDef v)
 	{
-		Objects.requireNonNull(map);
-		_map = map;
+		return v.id;
 	}
 	
 	@Override
-	public final V unmarshal(String v)
+	public ItemReqListWrapper marshal(Map<String, ItemReqDef> v)
 	{
-		return _map.get(v);
+		return new ItemReqListWrapper(v.values().toArray(new ItemReqDef[0]));
 	}
-	
-	@Override
-	public final String marshal(V v)
-	{
-		return getKey(v);
-	}
-	
-	protected abstract String getKey(V v);
 }

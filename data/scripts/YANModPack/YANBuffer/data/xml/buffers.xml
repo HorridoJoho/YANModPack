@@ -7,20 +7,20 @@
 		can_cancel		(required)	- true|false; enable/disable cancel for voiced buffer
  	-->
 	<voiced_buffer enabled="false" can_heal="true" can_cancel="true">
-		<preset_buff_cats>
-			<buff_cat>BC_FIGHTER</buff_cat>
-			<buff_cat>BC_MAGE</buff_cat>
-		</preset_buff_cats>
-		<buff_cats>
-			<buff_cat>BC_BUFFS</buff_cat>
-			<buff_cat>BC_SONGS</buff_cat>
-			<buff_cat>BC_DANCES</buff_cat>
-			<buff_cat>BC_CHANTS</buff_cat>
-			<buff_cat>BC_DWARVEN</buff_cat>
-			<buff_cat>BC_RESIST</buff_cat>
-			<buff_cat>BC_SPECIAL</buff_cat>
-			<buff_cat>BC_OVERLORD</buff_cat>
-		</buff_cats>
+		<preset_buff_categories>
+			<reference>BC_FIGHTER</reference>
+			<reference>BC_MAGE</reference>
+		</preset_buff_categories>
+		<buff_categories>
+			<reference>BC_BUFFS</reference>
+			<reference>BC_SONGS</reference>
+			<reference>BC_DANCES</reference>
+			<reference>BC_CHANTS</reference>
+			<reference>BC_DWARVEN</reference>
+			<reference>BC_RESIST</reference>
+			<reference>BC_SPECIAL</reference>
+			<reference>BC_OVERLORD</reference>
+		</buff_categories>
 	</voiced_buffer>
 
 	<npc_buffers>
@@ -30,20 +30,20 @@
 			can_cancel		(required)	- true|false; enable/disable cancel for voiced buffer
  		-->
 		<npc_buffer npc_id="1000006" can_heal="true" can_cancel="true">
-			<preset_buff_cats>
-				<buff_cat>BC_FIGHTER</buff_cat>
-				<buff_cat>BC_MAGE</buff_cat>
-			</preset_buff_cats>
-			<buff_cats>
-				<buff_cat>BC_BUFFS</buff_cat>
-				<buff_cat>BC_SONGS</buff_cat>
-				<buff_cat>BC_DANCES</buff_cat>
-				<buff_cat>BC_CHANTS</buff_cat>
-				<buff_cat>BC_DWARVEN</buff_cat>
-				<buff_cat>BC_RESIST</buff_cat>
-				<buff_cat>BC_SPECIAL</buff_cat>
-				<buff_cat>BC_OVERLORD</buff_cat>
-			</buff_cats>
+			<preset_buff_categories>
+				<reference>BC_FIGHTER</reference>
+				<reference>BC_MAGE</reference>
+			</preset_buff_categories>
+			<buff_categories>
+				<reference>BC_BUFFS</reference>
+				<reference>BC_SONGS</reference>
+				<reference>BC_DANCES</reference>
+				<reference>BC_CHANTS</reference>
+				<reference>BC_DWARVEN</reference>
+				<reference>BC_RESIST</reference>
+				<reference>BC_SPECIAL</reference>
+				<reference>BC_OVERLORD</reference>
+			</buff_categories>
 		</npc_buffer>
 	</npc_buffers>
 </buffers>

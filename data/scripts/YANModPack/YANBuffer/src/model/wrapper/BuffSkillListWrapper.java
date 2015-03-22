@@ -15,48 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.src.model.adapter.direct;
+package YANModPack.YANBuffer.src.model.wrapper;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.xml.bind.annotation.XmlElement;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.src.model.wrapper.IListWrapper;
 
 /**
  * @author HorridoJoho
- * @param <K> The key type of the map
- * @param <V> The value type of the map
  */
-public abstract class AbstractMapAdapter<K, V> extends XmlAdapter<V[], Map<K, V>>
+public class BuffSkillListWrapper implements IListWrapper<BuffSkillDef>
 {
-	@Override
-	public final Map<K, V> unmarshal(V[] v)
+	@XmlElement(name = "buff")
+	private final BuffSkillDef[] defs;
+	
+	public BuffSkillListWrapper()
 	{
-		if (v == null)
-		{
-			return null;
-		}
-		
-		Map<K, V> mapped = new LinkedHashMap<>();
-		for (V e : v)
-		{
-			mapped.put(getKey(e), e);
-		}
-		return Collections.unmodifiableMap(mapped);
+		defs = null;
+	}
+	
+	public BuffSkillListWrapper(BuffSkillDef[] defs)
+	{
+		this.defs = defs;
 	}
 	
 	@Override
-	public final V[] marshal(Map<K, V> v)
+	public BuffSkillDef[] getList()
 	{
-		if (v == null)
-		{
-			return null;
-		}
-		return mapToArray(v);
+		return defs;
 	}
-	
-	protected abstract K getKey(V v);
-	
-	protected abstract V[] mapToArray(Map<K, V> v);
 }

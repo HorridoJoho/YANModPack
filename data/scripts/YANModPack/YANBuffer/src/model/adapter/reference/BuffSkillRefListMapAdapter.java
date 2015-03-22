@@ -15,28 +15,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANBuffer.src.model.adapter.direct;
+package YANModPack.YANBuffer.src.model.adapter.reference;
 
 import java.util.Map;
 
-import YANModPack.YANBuffer.src.model.entity.BuffCategory;
-import YANModPack.src.model.adapter.direct.AbstractMapAdapter;
+import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.src.model.adapter.AbstractRefListToMapAdapter;
 
 /**
  * @author HorridoJoho
  */
-public final class BuffCategoryMapAdapter extends AbstractMapAdapter<String, BuffCategory>
+public class BuffSkillRefListMapAdapter extends AbstractRefListToMapAdapter<BuffSkillDef>
 {
-	@Override
-	protected String getKey(BuffCategory v)
+	public BuffSkillRefListMapAdapter(Map<String, BuffSkillDef> map)
 	{
-		return v.id;
+		super(map);
 	}
 	
 	@Override
-	protected BuffCategory[] mapToArray(Map<String, BuffCategory> v)
+	protected String getKey(BuffSkillDef ref)
 	{
-		return v.values().toArray(new BuffCategory[0]);
+		return ref.id;
 	}
-	
 }
