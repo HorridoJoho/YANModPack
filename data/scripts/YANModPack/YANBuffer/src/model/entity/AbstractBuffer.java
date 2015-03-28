@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import YANModPack.YANBuffer.src.YANBufferData.HtmlType;
 import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefListMapAdapter;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
@@ -34,6 +35,10 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
  */
 public abstract class AbstractBuffer
 {
+	@XmlAttribute(name = "dialog_type")
+	public final HtmlType dialogType;
+	@XmlAttribute(name = "html_folder")
+	public final String htmlFolder;
 	@XmlAttribute(name = "can_heal")
 	public final boolean canHeal;
 	@XmlAttribute(name = "can_cancel")
@@ -53,8 +58,11 @@ public abstract class AbstractBuffer
 	
 	public AbstractBuffer(String bypassPrefix)
 	{
+		dialogType = HtmlType.NPC;
+		htmlFolder = null;
 		canHeal = false;
 		canCancel = false;
+		
 		presetBuffCats = null;
 		buffCats = null;
 		

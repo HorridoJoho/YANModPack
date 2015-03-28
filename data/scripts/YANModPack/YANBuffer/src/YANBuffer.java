@@ -22,14 +22,12 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import YANModPack.YANBuffer.src.YANBufferData.HtmlType;
 import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
 import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
 import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
@@ -131,9 +129,9 @@ public final class YANBuffer extends AbstractNpcAI
 		}
 	}
 	
-	private String _generateAdvancedHtml(L2PcInstance player, String path, Map<String, HTMLTemplatePlaceholder> placeholders, HtmlType dialogType)
+	private String _generateAdvancedHtml(L2PcInstance player, AbstractBuffer buffer, String path, Map<String, HTMLTemplatePlaceholder> placeholders)
 	{
-		return HTMLTemplateParser.fromCache("/data/scripts/" + SCRIPT_SUBFOLDER + "/data/html/" + dialogType.toString().toLowerCase(Locale.ENGLISH) + "/" + path, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
+		return HTMLTemplateParser.fromCache("/data/scripts/" + SCRIPT_SUBFOLDER + "/data/html/" + buffer.htmlFolder + "/" + path, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
 	}
 	
 	private void _fillItemAmountMap(Map<Integer, Long> items, BuffSkillDef buff)
@@ -177,10 +175,8 @@ public final class YANBuffer extends AbstractNpcAI
 			}
 		}
 		
-		HtmlType dialogType = YANBufferData.getInstance().getHtmlType();
-		
-		String html = _generateAdvancedHtml(player, htmlPath, placeholders, dialogType);
-		switch (dialogType)
+		String html = _generateAdvancedHtml(player, buffer, htmlPath, placeholders);
+		switch (buffer.dialogType)
 		{
 			case NPC:
 				player.sendPacket(new NpcHtmlMessage(npc == null ? 0 : npc.getObjectId(), html));

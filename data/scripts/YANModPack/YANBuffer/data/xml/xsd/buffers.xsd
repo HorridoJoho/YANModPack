@@ -5,7 +5,16 @@
 			<xsd:element name="preset_buff_categories" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
 			<xsd:element name="buff_categories" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
 		</xsd:all>
-		<xsd:attribute name="can_heal" type="xsd:boolean" use="required" />
+		<xsd:attribute name="dialog_type" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="NPC" />
+					<xsd:enumeration value="COMMUNITY" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+        <xsd:attribute name="html_folder" type="xsd:string" use="required"></xsd:attribute>
+        <xsd:attribute name="can_heal" type="xsd:boolean" use="required" />
 		<xsd:attribute name="can_cancel" type="xsd:boolean" use="required" />
 	</xsd:complexType>
 	<xsd:complexType name="buff_category_reference_list">
@@ -20,8 +29,8 @@
 					<xsd:complexType>
 						<xsd:complexContent>
 							<xsd:extension base="buffer">
-								<xsd:attribute name="enabled" type="xsd:boolean" use="required"/>
-								<xsd:attribute name="required_item_id" type="xsd:boolean" use="optional"/>
+								<xsd:attribute name="enabled" type="xsd:boolean" use="required" />
+								<xsd:attribute name="required_item_id" type="xsd:boolean" use="optional" />
 							</xsd:extension>
 						</xsd:complexContent>
 					</xsd:complexType>
@@ -34,7 +43,7 @@
 									<xsd:complexContent>
 										<xsd:extension base="buffer">
 											<xsd:attribute name="npc_id" type="xsd:positiveInteger" use="required" />
-											<xsd:attribute name="direct_first_talk" type="xsd:boolean" use="required"></xsd:attribute>
+											<xsd:attribute name="direct_first_talk" type="xsd:boolean" use="required" />
 										</xsd:extension>
 									</xsd:complexContent>
 								</xsd:complexType>

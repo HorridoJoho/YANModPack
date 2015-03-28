@@ -92,7 +92,6 @@ public final class YANBufferData
 		return _INSTANCE;
 	}
 	
-	private final HtmlType _htmlType;
 	private final long _healCooldown;
 	protected final int _maxUniqueLists;
 	protected final int _uniqueMaxBuffs;
@@ -110,7 +109,6 @@ public final class YANBufferData
 		Path xsdPath = Paths.get(xmlPath.toString(), "xsd");
 		
 		Element elem = XMLUtils.CreateDocument(xmlPath.resolve("yanbuffer.xml"), xsdPath.resolve("yanbuffer.xsd")).getDocumentElement();
-		_htmlType = HtmlType.valueOf(elem.getAttribute("dialog_type"));
 		_healCooldown = Integer.parseInt(elem.getAttribute("heal_cooldown")) * 1000;
 		_maxUniqueLists = Integer.parseInt(elem.getAttribute("max_unique_lists"));
 		_uniqueMaxBuffs = Integer.parseInt(elem.getAttribute("unique_max_buffs"));
@@ -319,11 +317,6 @@ public final class YANBufferData
 		{
 			_LOGGER.log(Level.WARNING, "Failed to remove buff from unique bufflist!", sqle);
 		}
-	}
-	
-	public HtmlType getHtmlType()
-	{
-		return _htmlType;
 	}
 	
 	public long getHealCooldown()
