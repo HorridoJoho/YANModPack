@@ -36,7 +36,7 @@ public final class VoicedBuffer extends AbstractBuffer
 	
 	public VoicedBuffer()
 	{
-		super(YANBufferVoicedCommandHandler.VOICED_COMMAND);
+		super("voice ." + YANBufferVoicedCommandHandler.VOICED_COMMAND);
 		enabled = false;
 		requiredItemId = 0;
 	}

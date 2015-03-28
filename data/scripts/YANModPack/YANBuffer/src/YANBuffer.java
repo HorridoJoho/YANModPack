@@ -754,6 +754,7 @@ public final class YANBuffer extends AbstractNpcAI
 			command = "html main";
 		}
 		
+		_debug(player, "--------------------");
 		_debug(player, command);
 		
 		if (command.startsWith("html "))
