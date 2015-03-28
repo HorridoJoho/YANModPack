@@ -123,6 +123,14 @@ public final class YANBuffer extends AbstractNpcAI
 	// ///////////////////////////////////
 	// UTILITY METHODS
 	// ///////////////////////////////////
+	private void _debug(L2PcInstance player, String msg)
+	{
+		if (player.isGM() && YANBufferData.getInstance().enabledDebugging())
+		{
+			player.sendMessage("YANB DEBUG: " + msg);
+		}
+	}
+	
 	private String _generateAdvancedHtml(L2PcInstance player, String path, Map<String, HTMLTemplatePlaceholder> placeholders, HtmlType dialogType)
 	{
 		return HTMLTemplateParser.fromCache("/data/scripts/" + SCRIPT_SUBFOLDER + "/data/html/" + dialogType.toString().toLowerCase(Locale.ENGLISH) + "/" + path, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
@@ -193,6 +201,7 @@ public final class YANBuffer extends AbstractNpcAI
 		BuffCategoryDef buffCat = buffer.buffCats.get(categoryIdent);
 		if (buffCat == null)
 		{
+			_debug(player, "Invalid buff category: " + categoryIdent);
 			return;
 		}
 		
@@ -208,11 +217,13 @@ public final class YANBuffer extends AbstractNpcAI
 		BuffCategoryDef buffCat = buffer.buffCats.get(categoryIdent);
 		if (buffCat == null)
 		{
+			_debug(player, "Invalid buff category: " + categoryIdent);
 			return;
 		}
 		BuffSkillDef buff = buffCat.getBuff(buffIdent);
 		if (buff == null)
 		{
+			_debug(player, "Invalid buff skill: " + buffIdent);
 			return;
 		}
 		
@@ -229,6 +240,7 @@ public final class YANBuffer extends AbstractNpcAI
 		BuffCategoryDef presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
+			_debug(player, "Invalid preset buff category: " + presetBufflistIdent);
 			return;
 		}
 		
@@ -277,6 +289,7 @@ public final class YANBuffer extends AbstractNpcAI
 			String[] argsSplit = command.substring(5).split(" ", 2);
 			if (argsSplit.length != 2)
 			{
+				_debug(player, "Missing arguments!");
 				return;
 			}
 			_htmlShowBuff(player, buffer, npc, argsSplit[0], argsSplit[1]);
@@ -303,11 +316,13 @@ public final class YANBuffer extends AbstractNpcAI
 		BuffCategoryDef bCat = buffer.buffCats.get(categoryIdent);
 		if (bCat == null)
 		{
+			_debug(player, "Invalid buff category: " + categoryIdent);
 			return;
 		}
 		BuffSkillDef buff = bCat.getBuff(buffIdent);
 		if (buff == null)
 		{
+			_debug(player, "Invalid buff skill: " + buffIdent);
 			return;
 		}
 		
@@ -382,6 +397,7 @@ public final class YANBuffer extends AbstractNpcAI
 		BuffCategoryDef presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
+			_debug(player, "Invalid preset buff category: " + presetBufflistIdent);
 			return;
 		}
 		
@@ -430,6 +446,7 @@ public final class YANBuffer extends AbstractNpcAI
 	{
 		if (!buffer.canHeal)
 		{
+			_debug(player, "This buffer can not heal!");
 			return;
 		}
 		
@@ -469,6 +486,7 @@ public final class YANBuffer extends AbstractNpcAI
 	{
 		if (!buffer.canCancel)
 		{
+			_debug(player, "This buffer can not cancel!");
 			return;
 		}
 		target.stopAllEffectsExceptThoseThatLastThroughDeath();
@@ -489,12 +507,14 @@ public final class YANBuffer extends AbstractNpcAI
 			target = player.getSummon();
 			if (target == null)
 			{
+				_debug(player, "No summon available!");
 				return;
 			}
 			command = command.substring(7);
 		}
 		else
 		{
+			_debug(player, "Invalid target command target!");
 			return;
 		}
 		
@@ -505,6 +525,7 @@ public final class YANBuffer extends AbstractNpcAI
 			String[] argsSplit = command.substring(5).split(" ", 2);
 			if (argsSplit.length != 2)
 			{
+				_debug(player, "Missing arguments!");
 				return;
 			}
 			_targetBuffBuff(player, target, buffer, argsSplit[0], argsSplit[1]);
@@ -650,6 +671,7 @@ public final class YANBuffer extends AbstractNpcAI
 			String[] argsSplit = command.substring(4).split(" ", 3);
 			if (argsSplit.length != 3)
 			{
+				_debug(player, "Missing arguments!");
 				return;
 			}
 			_uniqueAdd(player, buffer, argsSplit[0], argsSplit[1], argsSplit[2]);
@@ -659,6 +681,7 @@ public final class YANBuffer extends AbstractNpcAI
 			String[] argsSplit = command.substring(7).split(" ", 2);
 			if (argsSplit.length != 2)
 			{
+				_debug(player, "Missing arguments!");
 				return;
 			}
 			_uniqueRemove(player, argsSplit[0], argsSplit[1]);
@@ -726,6 +749,7 @@ public final class YANBuffer extends AbstractNpcAI
 		if (buffer == null)
 		{
 			// not an authorized npc or npc is null and voiced buffer is disabled
+			player.sendMessage("No authorization!");
 			return;
 		}
 		
@@ -733,6 +757,8 @@ public final class YANBuffer extends AbstractNpcAI
 		{
 			command = "html main";
 		}
+		
+		_debug(player, command);
 		
 		if (command.startsWith("html "))
 		{

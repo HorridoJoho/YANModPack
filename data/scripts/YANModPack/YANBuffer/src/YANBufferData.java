@@ -97,6 +97,7 @@ public final class YANBufferData
 	protected final int _maxUniqueLists;
 	protected final int _uniqueMaxBuffs;
 	protected final int _uniqueMaxSongsDances;
+	protected final boolean _debug;
 	protected final ItemReqDefs _itemRequirements;
 	protected final BuffSkills _buffs;
 	protected final BuffCategories _buffCats;
@@ -114,6 +115,7 @@ public final class YANBufferData
 		_maxUniqueLists = Integer.parseInt(elem.getAttribute("max_unique_lists"));
 		_uniqueMaxBuffs = Integer.parseInt(elem.getAttribute("unique_max_buffs"));
 		_uniqueMaxSongsDances = Integer.parseInt(elem.getAttribute("unique_max_songs_dances"));
+		_debug = Boolean.parseBoolean(elem.getAttribute("debug"));
 		
 		JAXBContext ctx = JAXBContext.newInstance(ItemReqDefs.class, BuffSkills.class, BuffCategories.class, Buffers.class);
 		Unmarshaller u = ctx.createUnmarshaller();
@@ -327,6 +329,11 @@ public final class YANBufferData
 	public long getHealCooldown()
 	{
 		return _healCooldown;
+	}
+	
+	public boolean enabledDebugging()
+	{
+		return _debug;
 	}
 	
 	public ItemReqDef getItemRequirement(String ident)

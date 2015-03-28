@@ -7,7 +7,7 @@
 				<xsd:element name="item_requirements" maxOccurs="1" minOccurs="0">
 					<xsd:complexType>
 						<xsd:sequence maxOccurs="1" minOccurs="1">
-							<xsd:element name="item_requirement" maxOccurs="unbounded" minOccurs="0" type="item_definition" />
+							<xsd:element name="item_requirement" maxOccurs="unbounded" minOccurs="0" type="item_requirement_definition" />
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>

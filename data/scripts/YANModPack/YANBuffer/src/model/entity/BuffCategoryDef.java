@@ -37,6 +37,6 @@ public final class BuffCategoryDef extends BuffCategory
 	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
 	{
 		super.afterUnmarshal(unmarshaller, parent);
-		placeholder.addChild("id", id);
+		placeholder.addChild("ident", id);
 	}
 }
