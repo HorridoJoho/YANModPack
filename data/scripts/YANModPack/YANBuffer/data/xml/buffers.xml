@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<buffers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/buffers.xsd">
+	<!-- ATTRIBUTES
+		enabled			(required)	- true|false
+		required_item	(optional)	- item id; required item to use the voiced buffer(not consumed)
+		can_heal		(required)	- true|false; enable/disable heal for voiced buffer
+		can_cancel		(required)	- true|false; enable/disable cancel for voiced buffer
+ 	-->
+	<voiced_buffer enabled="false" can_heal="true" can_cancel="true">
+		<preset_buff_categories>
+			<reference>BC_FIGHTER</reference>
+			<reference>BC_MAGE</reference>
+		</preset_buff_categories>
+		<buff_categories>
+			<reference>BC_BUFFS</reference>
+			<reference>BC_SONGS</reference>
+			<reference>BC_DANCES</reference>
+			<reference>BC_CHANTS</reference>
+			<reference>BC_DWARVEN</reference>
+			<reference>BC_RESIST</reference>
+			<reference>BC_SPECIAL</reference>
+			<reference>BC_OVERLORD</reference>
+		</buff_categories>
+	</voiced_buffer>
+
+	<npc_buffers>
+		<!-- ATTRIBUTES
+			npc_id			(required)	- npc id; the npc who represents the buffer
+			can_heal		(required)	- true|false; enable/disable heal for voiced buffer
+			can_cancel		(required)	- true|false; enable/disable cancel for voiced buffer
+ 		-->
+		<npc_buffer npc_id="1000006" can_heal="true" can_cancel="true">
+			<preset_buff_categories>
+				<reference>BC_FIGHTER</reference>
+				<reference>BC_MAGE</reference>
+			</preset_buff_categories>
+			<buff_categories>
+				<reference>BC_BUFFS</reference>
+				<reference>BC_SONGS</reference>
+				<reference>BC_DANCES</reference>
+				<reference>BC_CHANTS</reference>
+				<reference>BC_DWARVEN</reference>
+				<reference>BC_RESIST</reference>
+				<reference>BC_SPECIAL</reference>
+				<reference>BC_OVERLORD</reference>
+			</buff_categories>
+		</npc_buffer>
+	</npc_buffers>
+</buffers>

@@ -27,13 +27,13 @@ import java.util.logging.Logger;
 
 import YANModPack.YANTeleporter.YANTeleporterData.TeleportLocation;
 import YANModPack.YANTeleporter.YANTeleporterData.TeleportNpc;
-import YANModPack.util.ItemRequirement;
-import YANModPack.util.htmltmpls.HTMLTemplateParser;
-import YANModPack.util.htmltmpls.HTMLTemplatePlaceholder;
-import YANModPack.util.htmltmpls.funcs.ExistsFunc;
-import YANModPack.util.htmltmpls.funcs.ForeachFunc;
-import YANModPack.util.htmltmpls.funcs.IfFunc;
-import YANModPack.util.htmltmpls.funcs.IncludeFunc;
+import YANModPack.src.model.entity.ItemReqDef;
+import YANModPack.src.util.htmltmpls.HTMLTemplateParser;
+import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
+import YANModPack.src.util.htmltmpls.funcs.ExistsFunc;
+import YANModPack.src.util.htmltmpls.funcs.ForeachFunc;
+import YANModPack.src.util.htmltmpls.funcs.IfFunc;
+import YANModPack.src.util.htmltmpls.funcs.IncludeFunc;
 import ai.npc.AbstractNpcAI;
 
 import com.l2jserver.gameserver.model.L2Party;
@@ -75,7 +75,7 @@ public final class YANTeleporter extends AbstractNpcAI
 	
 	private static String _generateHtml(String path, L2PcInstance player, HashMap<String, HTMLTemplatePlaceholder> placeholders)
 	{
-		return HTMLTemplateParser.fromCache(Paths.get("data", "scripts", SCRIPT_SUBFOLDER.toString(), path).toString(), player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE);
+		return HTMLTemplateParser.fromCache(Paths.get("data", "scripts", SCRIPT_SUBFOLDER.toString(), "data", "html", path).toString(), player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE);
 	}
 	
 	private static String _getMainHtml(L2Npc npc, L2PcInstance player)
@@ -148,18 +148,18 @@ public final class YANTeleporter extends AbstractNpcAI
 			}
 		}
 		
-		for (Entry<String, ItemRequirement> item : teleLoc.items.entrySet())
+		for (Entry<String, ItemReqDef> item : teleLoc.items.entrySet())
 		{
-			if (player.getInventory().getInventoryItemCount(item.getValue().item.getId(), 0) < item.getValue().amount)
+			if (player.getInventory().getInventoryItemCount(item.getValue().getItem().getId(), 0) < item.getValue().itemAmount)
 			{
 				player.sendMessage("Not enough items!");
 				return null;
 			}
 		}
 		
-		for (Entry<String, ItemRequirement> item : teleLoc.items.entrySet())
+		for (Entry<String, ItemReqDef> item : teleLoc.items.entrySet())
 		{
-			player.destroyItemByItemId("YANTeleporter-teleport", item.getValue().item.getId(), item.getValue().amount, player, true);
+			player.destroyItemByItemId("YANTeleporter-teleport", item.getValue().getItem().getId(), item.getValue().itemAmount, player, true);
 		}
 		
 		for (L2PcInstance member : members)

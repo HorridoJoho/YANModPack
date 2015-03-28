@@ -1,219 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<buff_cats xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/buff_categories.xsd">
-	<buff_cat ident="BC_FIGHTER" name="Fighter">
-		<buff ident="BUFF_17"/>
-		<buff ident="SPECIAL_1"/>
-		<buff ident="SPECIAL_3"/>
-		<buff ident="SPECIAL_4"/>
-		<buff ident="SPECIAL_5"/>
-		<buff ident="SPECIAL_6"/>
-		<buff ident="SPECIAL_8"/>
-		<buff ident="SPECIAL_9"/>
-		<buff ident="SPECIAL_14"/>
-		<buff ident="SPECIAL_17"/>
-		<buff ident="SPECIAL_18"/>
-		<buff ident="SPECIAL_19"/>
-		<buff ident="SPECIAL_20"/>
-		<buff ident="RESIST_0"/>
-		<buff ident="RESIST_3"/>
-		<buff ident="RESIST_8"/>
-		<buff ident="RESIST_9"/>
-		<buff ident="RESIST_10"/>
-		<buff ident="RESIST_12"/>
-		<buff ident="RESIST_13"/>
-		<buff ident="DANCE_0"/>
-		<buff ident="DANCE_1"/>
-		<buff ident="DANCE_3"/>
-		<buff ident="DANCE_4"/>
-		<buff ident="DANCE_15"/>
-		<buff ident="SONG_0"/>
-		<buff ident="SONG_2"/>
-		<buff ident="SONG_3"/>
-		<buff ident="SONG_4"/>
-		<buff ident="SONG_5"/>
-		<buff ident="SONG_7"/>
-		<buff ident="SONG_11"/>
-	</buff_cat>
+<list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/buff_categories.xsd">
+	<buff_categories>
+		<buff_category id="BC_FIGHTER" name="Fighter">
+			<buffs>
+				<reference>BUFF_17</reference>
+				<reference>SPECIAL_1</reference>
+				<reference>SPECIAL_3</reference>
+				<reference>SPECIAL_4</reference>
+				<reference>SPECIAL_5</reference>
+				<reference>SPECIAL_6</reference>
+				<reference>SPECIAL_8</reference>
+				<reference>SPECIAL_9</reference>
+				<reference>SPECIAL_14</reference>
+				<reference>SPECIAL_17</reference>
+				<reference>SPECIAL_18</reference>
+				<reference>SPECIAL_19</reference>
+				<reference>SPECIAL_20</reference>
+				<reference>RESIST_0</reference>
+				<reference>RESIST_3</reference>
+				<reference>RESIST_8</reference>
+				<reference>RESIST_9</reference>
+				<reference>RESIST_10</reference>
+				<reference>RESIST_12</reference>
+				<reference>RESIST_13</reference>
+				<reference>DANCE_0</reference>
+				<reference>DANCE_1</reference>
+				<reference>DANCE_3</reference>
+				<reference>DANCE_4</reference>
+				<reference>DANCE_15</reference>
+				<reference>SONG_0</reference>
+				<reference>SONG_2</reference>
+				<reference>SONG_3</reference>
+				<reference>SONG_4</reference>
+				<reference>SONG_5</reference>
+				<reference>SONG_7</reference>
+				<reference>SONG_11</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_MAGE" name="Mage">
-		<buff ident="BUFF_17"/>
-		<buff ident="SPECIAL_2"/>
-		<buff ident="SPECIAL_3"/>
-		<buff ident="SPECIAL_4"/>
-		<buff ident="SPECIAL_5"/>
-		<buff ident="SPECIAL_8"/>
-		<buff ident="SPECIAL_15"/>
-		<buff ident="SPECIAL_17"/>
-		<buff ident="SPECIAL_18"/>
-		<buff ident="SPECIAL_19"/>
-		<buff ident="SPECIAL_20"/>
-		<buff ident="RESIST_0"/>
-		<buff ident="RESIST_3"/>
-		<buff ident="RESIST_4"/>
-		<buff ident="RESIST_8"/>
-		<buff ident="RESIST_9"/>
-		<buff ident="RESIST_10"/>
-		<buff ident="RESIST_12"/>
-		<buff ident="RESIST_13"/>
-		<buff ident="DANCE_2"/>
-		<buff ident="DANCE_5"/>
-		<buff ident="DANCE_11"/>
-		<buff ident="DANCE_15"/>
-		<buff ident="SONG_0"/>
-		<buff ident="SONG_1"/>
-		<buff ident="SONG_2"/>
-		<buff ident="SONG_3"/>
-		<buff ident="SONG_4"/>
-		<buff ident="SONG_7"/>
-		<buff ident="SONG_8"/>
-		<buff ident="SONG_11"/>
-	</buff_cat>
+		<buff_category id="BC_MAGE" name="Mage">
+			<buffs>
+				<reference>BUFF_17</reference>
+				<reference>SPECIAL_2</reference>
+				<reference>SPECIAL_3</reference>
+				<reference>SPECIAL_4</reference>
+				<reference>SPECIAL_5</reference>
+				<reference>SPECIAL_8</reference>
+				<reference>SPECIAL_15</reference>
+				<reference>SPECIAL_17</reference>
+				<reference>SPECIAL_18</reference>
+				<reference>SPECIAL_19</reference>
+				<reference>SPECIAL_20</reference>
+				<reference>RESIST_0</reference>
+				<reference>RESIST_3</reference>
+				<reference>RESIST_4</reference>
+				<reference>RESIST_8</reference>
+				<reference>RESIST_9</reference>
+				<reference>RESIST_10</reference>
+				<reference>RESIST_12</reference>
+				<reference>RESIST_13</reference>
+				<reference>DANCE_2</reference>
+				<reference>DANCE_5</reference>
+				<reference>DANCE_11</reference>
+				<reference>DANCE_15</reference>
+				<reference>SONG_0</reference>
+				<reference>SONG_1</reference>
+				<reference>SONG_2</reference>
+				<reference>SONG_3</reference>
+				<reference>SONG_4</reference>
+				<reference>SONG_7</reference>
+				<reference>SONG_8</reference>
+				<reference>SONG_11</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_BUFFS" name="Buffs">
-		<buff ident="BUFF_0"/>
-		<buff ident="BUFF_1"/>
-		<buff ident="BUFF_2"/>
-		<buff ident="BUFF_3"/>
-		<buff ident="BUFF_4"/>
-		<buff ident="BUFF_5"/>
-		<buff ident="BUFF_6"/>
-		<buff ident="BUFF_7"/>
-		<buff ident="BUFF_8"/>
-		<buff ident="BUFF_9"/>
-		<buff ident="BUFF_10"/>
-		<buff ident="BUFF_11"/>
-		<buff ident="BUFF_12"/>
-		<buff ident="BUFF_13"/>
-		<buff ident="BUFF_14"/>
-		<buff ident="BUFF_15"/>
-		<buff ident="BUFF_16"/>
-		<buff ident="BUFF_17"/>
-		<buff ident="BUFF_18"/>
-		<buff ident="BUFF_19"/>
-		<buff ident="BUFF_20"/>
-		<buff ident="BUFF_21"/>
-		<buff ident="BUFF_22"/>
-		<buff ident="BUFF_23"/>
-		<buff ident="BUFF_24"/>
-		<buff ident="BUFF_25"/>
-		<buff ident="BUFF_26"/>
-	</buff_cat>
+		<buff_category id="BC_BUFFS" name="Buffs">
+			<buffs>
+				<reference>BUFF_0</reference>
+				<reference>BUFF_1</reference>
+				<reference>BUFF_2</reference>
+				<reference>BUFF_3</reference>
+				<reference>BUFF_4</reference>
+				<reference>BUFF_5</reference>
+				<reference>BUFF_6</reference>
+				<reference>BUFF_7</reference>
+				<reference>BUFF_8</reference>
+				<reference>BUFF_9</reference>
+				<reference>BUFF_10</reference>
+				<reference>BUFF_11</reference>
+				<reference>BUFF_12</reference>
+				<reference>BUFF_13</reference>
+				<reference>BUFF_14</reference>
+				<reference>BUFF_15</reference>
+				<reference>BUFF_16</reference>
+				<reference>BUFF_17</reference>
+				<reference>BUFF_18</reference>
+				<reference>BUFF_19</reference>
+				<reference>BUFF_20</reference>
+				<reference>BUFF_21</reference>
+				<reference>BUFF_22</reference>
+				<reference>BUFF_23</reference>
+				<reference>BUFF_24</reference>
+				<reference>BUFF_25</reference>
+				<reference>BUFF_26</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_SONGS" name="Songs">
-		<buff ident="SONG_0"/>
-		<buff ident="SONG_1"/>
-		<buff ident="SONG_2"/>
-		<buff ident="SONG_3"/>
-		<buff ident="SONG_4"/>
-		<buff ident="SONG_5"/>
-		<buff ident="SONG_6"/>
-		<buff ident="SONG_7"/>
-		<buff ident="SONG_8"/>
-		<buff ident="SONG_9"/>
-		<buff ident="SONG_10"/>
-		<buff ident="SONG_11"/>
-		<buff ident="SONG_12"/>
-		<buff ident="SONG_13"/>
-		<buff ident="SONG_14"/>
-		<buff ident="SONG_15"/>
-		<buff ident="SONG_16"/>
-	</buff_cat>
+		<buff_category id="BC_SONGS" name="Songs">
+			<buffs>
+				<reference>SONG_0</reference>
+				<reference>SONG_1</reference>
+				<reference>SONG_2</reference>
+				<reference>SONG_3</reference>
+				<reference>SONG_4</reference>
+				<reference>SONG_5</reference>
+				<reference>SONG_6</reference>
+				<reference>SONG_7</reference>
+				<reference>SONG_8</reference>
+				<reference>SONG_9</reference>
+				<reference>SONG_10</reference>
+				<reference>SONG_11</reference>
+				<reference>SONG_12</reference>
+				<reference>SONG_13</reference>
+				<reference>SONG_14</reference>
+				<reference>SONG_15</reference>
+				<reference>SONG_16</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_DANCES" name="Dances">
-		<buff ident="DANCE_0"/>
-		<buff ident="DANCE_1"/>
-		<buff ident="DANCE_2"/>
-		<buff ident="DANCE_3"/>
-		<buff ident="DANCE_4"/>
-		<buff ident="DANCE_5"/>
-		<buff ident="DANCE_6"/>
-		<buff ident="DANCE_7"/>
-		<buff ident="DANCE_8"/>
-		<buff ident="DANCE_9"/>
-		<buff ident="DANCE_10"/>
-		<buff ident="DANCE_11"/>
-		<buff ident="DANCE_12"/>
-		<buff ident="DANCE_13"/>
-		<buff ident="DANCE_14"/>
-		<buff ident="DANCE_15"/>
-	</buff_cat>
+		<buff_category id="BC_DANCES" name="Dances">
+			<buffs>
+				<reference>DANCE_0</reference>
+				<reference>DANCE_1</reference>
+				<reference>DANCE_2</reference>
+				<reference>DANCE_3</reference>
+				<reference>DANCE_4</reference>
+				<reference>DANCE_5</reference>
+				<reference>DANCE_6</reference>
+				<reference>DANCE_7</reference>
+				<reference>DANCE_8</reference>
+				<reference>DANCE_9</reference>
+				<reference>DANCE_10</reference>
+				<reference>DANCE_11</reference>
+				<reference>DANCE_12</reference>
+				<reference>DANCE_13</reference>
+				<reference>DANCE_14</reference>
+				<reference>DANCE_15</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_CHANTS" name="Chants">
-		<buff ident="CHANT_0"/>
-		<buff ident="CHANT_1"/>
-		<buff ident="CHANT_2"/>
-		<buff ident="CHANT_3"/>
-		<buff ident="CHANT_4"/>
-		<buff ident="CHANT_5"/>
-		<buff ident="CHANT_6"/>
-		<buff ident="CHANT_7"/>
-		<buff ident="CHANT_8"/>
-		<buff ident="CHANT_9"/>
-		<buff ident="CHANT_10"/>
-		<buff ident="CHANT_11"/>
-	</buff_cat>
+		<buff_category id="BC_CHANTS" name="Chants">
+			<buffs>
+				<reference>CHANT_0</reference>
+				<reference>CHANT_1</reference>
+				<reference>CHANT_2</reference>
+				<reference>CHANT_3</reference>
+				<reference>CHANT_4</reference>
+				<reference>CHANT_5</reference>
+				<reference>CHANT_6</reference>
+				<reference>CHANT_7</reference>
+				<reference>CHANT_8</reference>
+				<reference>CHANT_9</reference>
+				<reference>CHANT_10</reference>
+				<reference>CHANT_11</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_DWARVEN" name="Dwarven">
-		<buff ident="DWARVEN_0"/>
-		<buff ident="DWARVEN_1"/>
-		<buff ident="DWARVEN_2"/>
-		<buff ident="DWARVEN_3"/>
-		<buff ident="DWARVEN_4"/>
-		<buff ident="DWARVEN_5"/>
-	</buff_cat>
-	
-	<buff_cat ident="BC_RESIST" name="Resist">
-		<buff ident="RESIST_0"/>
-		<buff ident="RESIST_1"/>
-		<buff ident="RESIST_2"/>
-		<buff ident="RESIST_3"/>
-		<buff ident="RESIST_4"/>
-		<buff ident="RESIST_5"/>
-		<buff ident="RESIST_6"/>
-		<buff ident="RESIST_7"/>
-		<buff ident="RESIST_8"/>
-		<buff ident="RESIST_9"/>
-		<buff ident="RESIST_10"/>
-		<buff ident="RESIST_11"/>
-		<buff ident="RESIST_12"/>
-		<buff ident="RESIST_13"/>
-	</buff_cat>
+		<buff_category id="BC_DWARVEN" name="Dwarven">
+			<buffs>
+				<reference>DWARVEN_0</reference>
+				<reference>DWARVEN_1</reference>
+				<reference>DWARVEN_2</reference>
+				<reference>DWARVEN_3</reference>
+				<reference>DWARVEN_4</reference>
+				<reference>DWARVEN_5</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_SPECIAL" name="Special">
-		<buff ident="SPECIAL_0"/>
-		<buff ident="SPECIAL_1"/>
-		<buff ident="SPECIAL_2"/>
-		<buff ident="SPECIAL_3"/>
-		<buff ident="SPECIAL_4"/>
-		<buff ident="SPECIAL_5"/>
-		<buff ident="SPECIAL_6"/>
-		<buff ident="SPECIAL_7"/>
-		<buff ident="SPECIAL_8"/>
-		<buff ident="SPECIAL_9"/>
-		<buff ident="SPECIAL_10"/>
-		<buff ident="SPECIAL_11"/>
-		<buff ident="SPECIAL_12"/>
-		<buff ident="SPECIAL_13"/>
-		<buff ident="SPECIAL_14"/>
-		<buff ident="SPECIAL_15"/>
-		<buff ident="SPECIAL_16"/>
-		<buff ident="SPECIAL_17"/>
-		<buff ident="SPECIAL_18"/>
-		<buff ident="SPECIAL_19"/>
-		<buff ident="SPECIAL_20"/>
-		<buff ident="SPECIAL_21"/>
-	</buff_cat>
+		<buff_category id="BC_RESIST" name="Resist">
+			<buffs>
+				<reference>RESIST_0</reference>
+				<reference>RESIST_1</reference>
+				<reference>RESIST_2</reference>
+				<reference>RESIST_3</reference>
+				<reference>RESIST_4</reference>
+				<reference>RESIST_5</reference>
+				<reference>RESIST_6</reference>
+				<reference>RESIST_7</reference>
+				<reference>RESIST_8</reference>
+				<reference>RESIST_9</reference>
+				<reference>RESIST_10</reference>
+				<reference>RESIST_11</reference>
+				<reference>RESIST_12</reference>
+				<reference>RESIST_13</reference>
+			</buffs>
+		</buff_category>
 
-	<buff_cat ident="BC_OVERLORD" name="Overlord">
-		<buff ident="OVERLORD_0"/>
-		<buff ident="OVERLORD_1"/>
-		<buff ident="OVERLORD_2"/>
-		<buff ident="OVERLORD_3"/>
-		<buff ident="OVERLORD_4"/>
-		<buff ident="OVERLORD_5"/>
-		<buff ident="OVERLORD_6"/>
-		<buff ident="OVERLORD_7"/>
-		<buff ident="OVERLORD_8"/>
-		<buff ident="OVERLORD_9"/>
-	</buff_cat>
-</buff_cats>
+		<buff_category id="BC_SPECIAL" name="Special">
+			<buffs>
+				<reference>SPECIAL_0</reference>
+				<reference>SPECIAL_1</reference>
+				<reference>SPECIAL_2</reference>
+				<reference>SPECIAL_3</reference>
+				<reference>SPECIAL_4</reference>
+				<reference>SPECIAL_5</reference>
+				<reference>SPECIAL_6</reference>
+				<reference>SPECIAL_7</reference>
+				<reference>SPECIAL_8</reference>
+				<reference>SPECIAL_9</reference>
+				<reference>SPECIAL_10</reference>
+				<reference>SPECIAL_11</reference>
+				<reference>SPECIAL_12</reference>
+				<reference>SPECIAL_13</reference>
+				<reference>SPECIAL_14</reference>
+				<reference>SPECIAL_15</reference>
+				<reference>SPECIAL_16</reference>
+				<reference>SPECIAL_17</reference>
+				<reference>SPECIAL_18</reference>
+				<reference>SPECIAL_19</reference>
+				<reference>SPECIAL_20</reference>
+				<reference>SPECIAL_21</reference>
+			</buffs>
+		</buff_category>
+
+		<buff_category id="BC_OVERLORD" name="Overlord">
+			<buffs>
+				<reference>OVERLORD_0</reference>
+				<reference>OVERLORD_1</reference>
+				<reference>OVERLORD_2</reference>
+				<reference>OVERLORD_3</reference>
+				<reference>OVERLORD_4</reference>
+				<reference>OVERLORD_5</reference>
+				<reference>OVERLORD_6</reference>
+				<reference>OVERLORD_7</reference>
+				<reference>OVERLORD_8</reference>
+				<reference>OVERLORD_9</reference>
+			</buffs>
+		</buff_category>
+	</buff_categories>
+</list>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:complexType name="item_requirement">
+		<xsd:attribute name="item_id" type="xsd:positiveInteger" use="required" />
+		<xsd:attribute name="item_amount" type="xsd:positiveInteger" use="required" />
+	</xsd:complexType>
+	<xsd:complexType name="item_requirement_definition">
+		<xsd:complexContent>
+			<xsd:extension base="item_requirement">
+				<xsd:attribute name="id" type="xsd:ID" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="item_requirement_reference">
+		<xsd:restriction base="xsd:NCName" />
+	</xsd:simpleType>
+</xsd:schema>
