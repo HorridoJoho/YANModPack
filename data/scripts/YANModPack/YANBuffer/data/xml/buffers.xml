@@ -25,11 +25,12 @@
 
 	<npc_buffers>
 		<!-- ATTRIBUTES
-			npc_id			(required)	- npc id; the npc who represents the buffer
-			can_heal		(required)	- true|false; enable/disable heal for voiced buffer
-			can_cancel		(required)	- true|false; enable/disable cancel for voiced buffer
+			npc_id				(required)	- npc id; the npc who represents the buffer
+			direct_first_talk	(required)	- true|false; true: yanbuffer main.html as first talk, false: html from data/html for first talk
+			can_heal			(required)	- true|false; enable/disable heal for voiced buffer
+			can_cancel			(required)	- true|false; enable/disable cancel for voiced buffer
  		-->
-		<npc_buffer npc_id="1000006" can_heal="true" can_cancel="true">
+		<npc_buffer npc_id="1000006" direct_first_talk="true" can_heal="true" can_cancel="true">
 			<preset_buff_categories>
 				<reference>BC_FIGHTER</reference>
 				<reference>BC_MAGE</reference>

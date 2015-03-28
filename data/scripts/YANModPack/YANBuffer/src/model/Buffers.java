@@ -72,7 +72,11 @@ public final class Buffers
 	{
 		for (Entry<Integer, NpcBuffer> npc : npcBuffers.entrySet())
 		{
-			scriptInstance.addFirstTalkId(npc.getKey());
+			
+			if (npc.getValue().directFirstTalk)
+			{
+				scriptInstance.addFirstTalkId(npc.getKey());
+			}
 			scriptInstance.addStartNpc(npc.getKey());
 			scriptInstance.addTalkId(npc.getKey());
 		}

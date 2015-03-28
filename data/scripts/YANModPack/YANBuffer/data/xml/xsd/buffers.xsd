@@ -34,6 +34,7 @@
 									<xsd:complexContent>
 										<xsd:extension base="buffer">
 											<xsd:attribute name="npc_id" type="xsd:positiveInteger" use="required" />
+											<xsd:attribute name="direct_first_talk" type="xsd:boolean" use="required"></xsd:attribute>
 										</xsd:extension>
 									</xsd:complexContent>
 								</xsd:complexType>

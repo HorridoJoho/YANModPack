@@ -31,11 +31,14 @@ public final class NpcBuffer extends AbstractBuffer
 {
 	@XmlAttribute(name = "npc_id")
 	public final int npcId;
+	@XmlAttribute(name = "direct_first_talk")
+	public final boolean directFirstTalk;
 	
 	public NpcBuffer()
 	{
 		super(YANBufferNpcBypassHandler.BYPASS);
 		npcId = 0;
+		directFirstTalk = false;
 	}
 	
 	public L2NpcTemplate getNpc()
