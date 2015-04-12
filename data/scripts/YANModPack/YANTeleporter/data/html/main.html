@@ -1,12 +1,13 @@
 <html><title>%teleporter.name% - YANTeleporter</title><body>
-[EXISTS(teleporter.locs,
-	<table>
-	[FOREACH(loc IN teleporter.locs DO
-		<tr>
-			<td height="25" width="154"><a action="bypass -h Quest YANTeleporter show_%loc.ident%">%loc.name%</a></td>
-			<td>%loc.min_members% members required</td>
-		</tr>
-	)ENDEACH]
-	</table>
+<center>
+[EXISTS(teleporter.solo_locs
+	<button width=130 height=34 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Deselect" action="%teleporter.bypass_prefix% h sl"><br>
 )ENDEXISTS]
+[EXISTS(teleporter.party_locs
+	<button width=130 height=34 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Deselect" action="%teleporter.bypass_prefix% h pl"><br>
+)ENDEXISTS]
+[EXISTS(teleporter.command_channel_locs
+	<button width=130 height=34 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="Deselect" action="%teleporter.bypass_prefix% h ccl"><br>
+)ENDEXISTS]
+</center>
 </body></html>

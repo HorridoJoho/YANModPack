@@ -9,7 +9,7 @@
 				<tr><td><center><font line="UNDERLINE" name="hs12" color=LEVEL>Categories</font></center></td></tr>
 				<tr><td height=15></td></tr>
 			[FOREACH(category IN buffer.categories DO
-				<tr><td><center><button width=195 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="%category.name%" action="%buffer.bypass_prefix% html category %category.ident%"></center></td></tr>
+				<tr><td><center><button width=195 height=23 fore=L2UI_CT1.Button_DF back=L2UI_CT1.Button_DF_Down value="%category.name%" action="%buffer.bypass_prefix% h c %category.ident%"></center></td></tr>
 			)ENDEACH]
 			</table>
 		</center></td>

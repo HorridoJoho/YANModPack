@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:redefine schemaLocation="teleport_locations.xsd" />
+	<xsd:element name="list">
+		<xsd:complexType>
+			<xsd:all maxOccurs="1" minOccurs="1">
+				<xsd:element name="group_teleport_locations" maxOccurs="1" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence maxOccurs="1" minOccurs="1">
+							<xsd:element name="group_teleport_location" maxOccurs="unbounded" minOccurs="0">
+								<xsd:complexType>
+									<xsd:complexContent>
+										<xsd:extension base="teleport_location">
+											<xsd:attribute name="min_members" type="xsd:positiveInteger" use="required" />
+											<xsd:attribute name="max_members" type="xsd:positiveInteger" use="required" />
+											<xsd:attribute name="max_distance" type="xsd:positiveInteger" use="optional" default="50"/>
+										</xsd:extension>
+									</xsd:complexContent>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

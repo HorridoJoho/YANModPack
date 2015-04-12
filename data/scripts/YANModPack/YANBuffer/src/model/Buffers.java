@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import YANModPack.YANBuffer.src.YANBuffer;
-import YANModPack.YANBuffer.src.model.adapter.direct.NpcBufferMapAdapter;
+import YANModPack.YANBuffer.src.model.adapter.NpcBufferListToMap;
 import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
 import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
 import YANModPack.YANBuffer.src.model.entity.VoicedBuffer;
@@ -42,11 +42,10 @@ import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class Buffers
 {
-	@XmlElement(name = "voiced_buffer")
+	@XmlElement(name = "voiced_buffer", required = true)
 	public final VoicedBuffer voicedBuffer;
-	// @XmlElementWrapper(name = "npc_buffers")
-	@XmlElement(name = "npc_buffers")
-	@XmlJavaTypeAdapter(NpcBufferMapAdapter.class)
+	@XmlElement(name = "npc_buffers", required = true)
+	@XmlJavaTypeAdapter(NpcBufferListToMap.class)
 	public final Map<Integer, NpcBuffer> npcBuffers;
 	
 	public Buffers()

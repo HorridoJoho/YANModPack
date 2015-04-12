@@ -23,56 +23,45 @@ import java.util.Map.Entry;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANBuffer.src.YANBufferData.HtmlType;
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefListMapAdapter;
+import YANModPack.YANBuffer.src.model.adapter.BuffCategoryRefListToMap;
+import YANModPack.src.model.entity.YANModServer;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * @author HorridoJoho
  */
-public abstract class AbstractBuffer
+public abstract class AbstractBuffer extends YANModServer
 {
-	@XmlAttribute(name = "dialog_type")
-	public final HtmlType dialogType;
-	@XmlAttribute(name = "html_folder")
-	public final String htmlFolder;
-	@XmlAttribute(name = "can_heal")
+	@XmlAttribute(name = "can_heal", required = true)
 	public final boolean canHeal;
-	@XmlAttribute(name = "can_cancel")
+	@XmlAttribute(name = "can_cancel", required = true)
 	public final boolean canCancel;
 	
-	@XmlElement(name = "preset_buff_categories")
-	@XmlJavaTypeAdapter(BuffCategoryRefListMapAdapter.class)
-	public Map<String, BuffCategoryDef> presetBuffCats;
-	@XmlElement(name = "buff_categories")
-	@XmlJavaTypeAdapter(BuffCategoryRefListMapAdapter.class)
-	public Map<String, BuffCategoryDef> buffCats;
-	
-	@XmlTransient
-	public final HTMLTemplatePlaceholder placeholder;
-	@XmlTransient
-	public final String bypassPrefix;
+	@XmlElement(name = "preset_buff_categories", required = true)
+	@XmlJavaTypeAdapter(BuffCategoryRefListToMap.class)
+	public Map<String, BuffCategory> presetBuffCats;
+	@XmlElement(name = "buff_categories", required = true)
+	@XmlJavaTypeAdapter(BuffCategoryRefListToMap.class)
+	public Map<String, BuffCategory> buffCats;
 	
 	public AbstractBuffer(String bypassPrefix)
 	{
-		dialogType = HtmlType.NPC;
-		htmlFolder = null;
+		super(bypassPrefix, "buffer");
+		
 		canHeal = false;
 		canCancel = false;
 		
 		presetBuffCats = null;
 		buffCats = null;
-		
-		placeholder = new HTMLTemplatePlaceholder("buffer", null);
-		this.bypassPrefix = bypassPrefix;
 	}
 	
+	@Override
 	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
 	{
-		placeholder.addChild("bypass_prefix", "bypass -h " + bypassPrefix).addChild("name", getName());
+		super.afterUnmarshal(unmarshaller, parent);
+		
 		if (canHeal)
 		{
 			placeholder.addChild("can_heal", null);
@@ -84,7 +73,7 @@ public abstract class AbstractBuffer
 		if (!presetBuffCats.isEmpty())
 		{
 			HTMLTemplatePlaceholder presetBufflistsPlaceholder = placeholder.addChild("presets", null).getChild("presets");
-			for (Entry<String, BuffCategoryDef> presetBufflist : presetBuffCats.entrySet())
+			for (Entry<String, BuffCategory> presetBufflist : presetBuffCats.entrySet())
 			{
 				presetBufflistsPlaceholder.addAliasChild(String.valueOf(presetBufflistsPlaceholder.getChildsSize()), presetBufflist.getValue().placeholder);
 			}
@@ -92,12 +81,10 @@ public abstract class AbstractBuffer
 		if (!buffCats.isEmpty())
 		{
 			HTMLTemplatePlaceholder buffCatsPlaceholder = placeholder.addChild("categories", null).getChild("categories");
-			for (Entry<String, BuffCategoryDef> buffCat : buffCats.entrySet())
+			for (Entry<String, BuffCategory> buffCat : buffCats.entrySet())
 			{
 				buffCatsPlaceholder.addAliasChild(String.valueOf(buffCatsPlaceholder.getChildsSize()), buffCat.getValue().placeholder);
 			}
 		}
 	}
-	
-	protected abstract String getName();
 }

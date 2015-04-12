@@ -19,29 +19,29 @@ package YANModPack.YANBuffer.src.model.wrapper;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.YANBuffer.src.model.entity.BuffSkill;
 import YANModPack.src.model.wrapper.IListWrapper;
 
 /**
  * @author HorridoJoho
  */
-public class BuffSkillListWrapper implements IListWrapper<BuffSkillDef>
+public class BuffSkillListWrapper implements IListWrapper<BuffSkill>
 {
 	@XmlElement(name = "buff")
-	private final BuffSkillDef[] defs;
+	private final BuffSkill[] defs;
 	
 	public BuffSkillListWrapper()
 	{
 		defs = null;
 	}
 	
-	public BuffSkillListWrapper(BuffSkillDef[] defs)
+	public BuffSkillListWrapper(BuffSkill[] defs)
 	{
 		this.defs = defs;
 	}
 	
 	@Override
-	public BuffSkillDef[] getList()
+	public BuffSkill[] getList()
 	{
 		return defs;
 	}

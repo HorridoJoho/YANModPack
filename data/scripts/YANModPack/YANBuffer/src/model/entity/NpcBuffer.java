@@ -17,9 +17,11 @@
  */
 package YANModPack.YANBuffer.src.model.entity;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import YANModPack.YANBuffer.src.YANBufferNpcBypassHandler;
+import YANModPack.YANBuffer.src.YANBufferBypassHandler;
+import YANModPack.src.model.entity.IDefinition;
 
 import com.l2jserver.gameserver.data.xml.impl.NpcData;
 import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
@@ -27,18 +29,26 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
 /**
  * @author HorridoJoho
  */
-public final class NpcBuffer extends AbstractBuffer
+public final class NpcBuffer extends AbstractBuffer implements IDefinition<Integer>
 {
-	@XmlAttribute(name = "npc_id")
+	@XmlAttribute(name = "npc_id", required = true)
 	public final int npcId;
-	@XmlAttribute(name = "direct_first_talk")
+	@XmlAttribute(name = "direct_first_talk", required = true)
 	public final boolean directFirstTalk;
 	
 	public NpcBuffer()
 	{
-		super(YANBufferNpcBypassHandler.BYPASS);
+		super(YANBufferBypassHandler.BYPASS);
 		npcId = 0;
 		directFirstTalk = false;
+	}
+	
+	@Override
+	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	{
+		super.afterUnmarshal(unmarshaller, parent);
+		
+		placeholder.addChild("ident", String.valueOf(npcId));
 	}
 	
 	public L2NpcTemplate getNpc()
@@ -50,5 +60,11 @@ public final class NpcBuffer extends AbstractBuffer
 	protected String getName()
 	{
 		return getNpc().getName();
+	}
+	
+	@Override
+	public Integer getIdentifier()
+	{
+		return npcId;
 	}
 }

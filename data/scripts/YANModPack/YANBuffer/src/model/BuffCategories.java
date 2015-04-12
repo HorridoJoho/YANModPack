@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANBuffer.src.model.adapter.direct.BuffCategoryDefListToMapAdapter;
-import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
+import YANModPack.YANBuffer.src.model.adapter.BuffCategoryListToMap;
+import YANModPack.YANBuffer.src.model.entity.BuffCategory;
 
 /**
  * @author HorridoJoho
@@ -35,9 +35,9 @@ import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class BuffCategories
 {
-	@XmlElement(name = "buff_categories")
-	@XmlJavaTypeAdapter(BuffCategoryDefListToMapAdapter.class)
-	public final Map<String, BuffCategoryDef> cats;
+	@XmlElement(name = "buff_categories", required = true)
+	@XmlJavaTypeAdapter(BuffCategoryListToMap.class)
+	public final Map<String, BuffCategory> cats;
 	
 	public BuffCategories()
 	{

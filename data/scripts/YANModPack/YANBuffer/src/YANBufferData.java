@@ -37,20 +37,18 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import org.w3c.dom.Element;
-
 import YANModPack.YANBuffer.src.model.BuffCategories;
 import YANModPack.YANBuffer.src.model.BuffSkills;
+import YANModPack.YANBuffer.src.model.BufferConfig;
 import YANModPack.YANBuffer.src.model.Buffers;
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffCategoryRefListMapAdapter;
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffSkillRefListMapAdapter;
-import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
-import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.YANBuffer.src.model.adapter.BuffCategoryRefListToMap;
+import YANModPack.YANBuffer.src.model.adapter.BuffSkillRefListToMap;
+import YANModPack.YANBuffer.src.model.entity.BuffCategory;
+import YANModPack.YANBuffer.src.model.entity.BuffSkill;
 import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
-import YANModPack.src.model.ItemReqDefs;
-import YANModPack.src.model.adapter.ItemReqRefListToMapAdapter;
-import YANModPack.src.model.entity.ItemReqDef;
-import YANModPack.src.util.XMLUtils;
+import YANModPack.src.model.ItemRequirements;
+import YANModPack.src.model.adapter.ItemRequirementRefListToMap;
+import YANModPack.src.model.entity.ItemRequirement;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 import com.l2jserver.Config;
@@ -66,12 +64,6 @@ public final class YANBufferData
 	{
 		BUFF,
 		SONG_DANCE
-	}
-	
-	public static enum HtmlType
-	{
-		NPC,
-		COMMUNITY
 	}
 	
 	protected static final Logger _LOGGER = Logger.getLogger(YANBufferData.class.getName());
@@ -92,12 +84,8 @@ public final class YANBufferData
 		return _INSTANCE;
 	}
 	
-	private final long _healCooldown;
-	protected final int _maxUniqueLists;
-	protected final int _uniqueMaxBuffs;
-	protected final int _uniqueMaxSongsDances;
-	protected final boolean _debug;
-	protected final ItemReqDefs _itemRequirements;
+	private final BufferConfig _config;
+	protected final ItemRequirements _itemRequirements;
 	protected final BuffSkills _buffs;
 	protected final BuffCategories _buffCats;
 	private final Buffers _buffers;
@@ -105,29 +93,24 @@ public final class YANBufferData
 	
 	private YANBufferData() throws Exception
 	{
-		Path xmlPath = Paths.get(Config.DATAPACK_ROOT.getAbsolutePath(), "data", "scripts", YANBuffer.SCRIPT_SUBFOLDER.toString(), "data", "xml");
-		Path xsdPath = Paths.get(xmlPath.toString(), "xsd");
+		Path xmlPath = Paths.get(Config.DATAPACK_ROOT.getAbsolutePath(), "data", "scripts", YANBuffer.SCRIPT_PATH.toString(), "data", "xml");
+		// Path xsdPath = Paths.get(xmlPath.toString(), "xsd");
 		
-		Element elem = XMLUtils.CreateDocument(xmlPath.resolve("yanbuffer.xml"), xsdPath.resolve("yanbuffer.xsd")).getDocumentElement();
-		_healCooldown = Integer.parseInt(elem.getAttribute("heal_cooldown")) * 1000;
-		_maxUniqueLists = Integer.parseInt(elem.getAttribute("max_unique_lists"));
-		_uniqueMaxBuffs = Integer.parseInt(elem.getAttribute("unique_max_buffs"));
-		_uniqueMaxSongsDances = Integer.parseInt(elem.getAttribute("unique_max_songs_dances"));
-		_debug = Boolean.parseBoolean(elem.getAttribute("debug"));
-		
-		JAXBContext ctx = JAXBContext.newInstance(ItemReqDefs.class, BuffSkills.class, BuffCategories.class, Buffers.class);
+		JAXBContext ctx = JAXBContext.newInstance(ItemRequirements.class, BuffSkills.class, BuffCategories.class, Buffers.class);
 		Unmarshaller u = ctx.createUnmarshaller();
 		// validate against document specified schema
 		// u.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema());
 		
-		_itemRequirements = u.unmarshal(new StreamSource(xmlPath.resolve("item_requirements.xml").toFile()), ItemReqDefs.class).getValue();
-		u.setAdapter(ItemReqRefListToMapAdapter.class, new ItemReqRefListToMapAdapter(_itemRequirements.items));
+		_config = u.unmarshal(new StreamSource(xmlPath.resolve("yanbuffer.xml").toFile()), BufferConfig.class).getValue();
+		
+		_itemRequirements = u.unmarshal(new StreamSource(xmlPath.resolve("item_requirements.xml").toFile()), ItemRequirements.class).getValue();
+		u.setAdapter(ItemRequirementRefListToMap.class, new ItemRequirementRefListToMap(_itemRequirements.items));
 		
 		_buffs = u.unmarshal(new StreamSource(xmlPath.resolve("buffs.xml").toFile()), BuffSkills.class).getValue();
-		u.setAdapter(BuffSkillRefListMapAdapter.class, new BuffSkillRefListMapAdapter(_buffs.buffs));
+		u.setAdapter(BuffSkillRefListToMap.class, new BuffSkillRefListToMap(_buffs.buffs));
 		
 		_buffCats = u.unmarshal(new StreamSource(xmlPath.resolve("buff_categories.xml").toFile()), BuffCategories.class).getValue();
-		u.setAdapter(BuffCategoryRefListMapAdapter.class, new BuffCategoryRefListMapAdapter(_buffCats.cats));
+		u.setAdapter(BuffCategoryRefListToMap.class, new BuffCategoryRefListToMap(_buffCats.cats));
 		
 		_buffers = u.unmarshal(new StreamSource(xmlPath.resolve("buffers.xml").toFile()), Buffers.class).getValue();
 		
@@ -137,10 +120,10 @@ public final class YANBufferData
 		// beginning this properties are required to be in the buffers HTML
 		// placeholder. To not break HTML compatibility we now do it here even
 		// if this options are globally set and not per buffer.
-		_buffers.voicedBuffer.placeholder.addChild("max_unique_lists", String.valueOf(_maxUniqueLists)).addChild("unique_max_buffs", String.valueOf(_uniqueMaxBuffs)).addChild("unique_max_songs_dances", String.valueOf(_uniqueMaxSongsDances));
+		_buffers.voicedBuffer.placeholder.addChild("max_unique_lists", String.valueOf(_config.maxUniqueLists)).addChild("unique_max_buffs", String.valueOf(_config.uniqueMaxBuffs)).addChild("unique_max_songs_dances", String.valueOf(_config.uniqueMaxSongsDances));
 		for (Map.Entry<Integer, NpcBuffer> e : _buffers.npcBuffers.entrySet())
 		{
-			e.getValue().placeholder.addChild("max_unique_lists", String.valueOf(_maxUniqueLists)).addChild("unique_max_buffs", String.valueOf(_uniqueMaxBuffs)).addChild("unique_max_songs_dances", String.valueOf(_uniqueMaxSongsDances));
+			e.getValue().placeholder.addChild("max_unique_lists", String.valueOf(_config.maxUniqueLists)).addChild("unique_max_buffs", String.valueOf(_config.uniqueMaxBuffs)).addChild("unique_max_songs_dances", String.valueOf(_config.uniqueMaxSongsDances));
 		}
 		
 		_loadUniqueBufflists();
@@ -176,7 +159,7 @@ public final class YANBufferData
 							while (rs.next())
 							{
 								String buffIdent = rs.getString("ulist_buff_ident");
-								BuffSkillDef buff = getBuff(buffIdent);
+								BuffSkill buff = getBuff(buffIdent);
 								if (buff == null)
 								{
 									_LOGGER.warning("YANBuffer - Data: Buff with ident does not exists!");
@@ -271,11 +254,11 @@ public final class YANBufferData
 		}
 	}
 	
-	public boolean addToUniqueBufflist(int playerObjectId, String ulistName, BuffSkillDef buff)
+	public boolean addToUniqueBufflist(int playerObjectId, String ulistName, BuffSkill buff)
 	{
 		UniqueBufflist ulist = _getPlayersUList(playerObjectId, ulistName);
 		// prevent duplicate entry with ulist.contains(buff)
-		if ((ulist == null) || ulist.contains(buff) || ((buff.type == BuffType.BUFF) && (ulist.numBuffs >= _uniqueMaxBuffs)) || ((buff.type == BuffType.SONG_DANCE) && (ulist.numSongsDances >= _uniqueMaxSongsDances)))
+		if ((ulist == null) || ulist.contains(buff) || ((buff.type == BuffType.BUFF) && (ulist.numBuffs >= _config.uniqueMaxBuffs)) || ((buff.type == BuffType.SONG_DANCE) && (ulist.numSongsDances >= _config.uniqueMaxSongsDances)))
 		{
 			return false;
 		}
@@ -297,7 +280,7 @@ public final class YANBufferData
 		return true;
 	}
 	
-	public void removeFromUniqueBufflist(int playerObjectId, String ulistName, BuffSkillDef buff)
+	public void removeFromUniqueBufflist(int playerObjectId, String ulistName, BuffSkill buff)
 	{
 		UniqueBufflist ulist = _getPlayersUList(playerObjectId, ulistName);
 		if ((ulist == null) || !ulist.contains(buff))
@@ -319,27 +302,22 @@ public final class YANBufferData
 		}
 	}
 	
-	public long getHealCooldown()
+	public BufferConfig getConfig()
 	{
-		return _healCooldown;
+		return _config;
 	}
 	
-	public boolean enabledDebugging()
-	{
-		return _debug;
-	}
-	
-	public ItemReqDef getItemRequirement(String ident)
+	public ItemRequirement getItemRequirement(String ident)
 	{
 		return _itemRequirements.items.get(ident);
 	}
 	
-	public BuffSkillDef getBuff(String buffIdent)
+	public BuffSkill getBuff(String buffIdent)
 	{
 		return _buffs.buffs.get(buffIdent);
 	}
 	
-	public BuffCategoryDef getBuffCat(String buffCatIdent)
+	public BuffCategory getBuffCat(String buffCatIdent)
 	{
 		return _buffCats.cats.get(buffCatIdent);
 	}
@@ -351,7 +329,7 @@ public final class YANBufferData
 	
 	public boolean canHaveMoreBufflists(L2PcInstance player)
 	{
-		return _getPlayersULists(player.getObjectId()).size() < _maxUniqueLists;
+		return _getPlayersULists(player.getObjectId()).size() < _config.maxUniqueLists;
 	}
 	
 	public boolean hasUniqueBufflist(int playerObjectId, String ulistName)
@@ -359,7 +337,7 @@ public final class YANBufferData
 		return _getPlayersUList(playerObjectId, ulistName) != null;
 	}
 	
-	public List<BuffSkillDef> getUniqueBufflist(int playerObjectId, String ulistName)
+	public List<BuffSkill> getUniqueBufflist(int playerObjectId, String ulistName)
 	{
 		UniqueBufflist ulist = _getPlayersUList(playerObjectId, ulistName);
 		if (ulist == null)

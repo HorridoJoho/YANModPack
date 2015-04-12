@@ -1,1 +1,0 @@
-xjc -cp ../../../../lib/XJC_*.jar -Xpublic-final -Xreference-maps -p YANModPack.YANBuffer.src.model.generated -d ../../../../../ *.xsd ../../../../data/xml/xsd/*.xsd

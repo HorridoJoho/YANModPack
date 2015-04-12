@@ -22,11 +22,13 @@ import java.util.Objects;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import YANModPack.src.model.entity.IDefinition;
+
 /**
  * @author HorridoJoho
  * @param <V> the reference type
  */
-public abstract class AbstractRefAdapter<V> extends XmlAdapter<String, V>
+public final class AbstractRefAdapter<V extends IDefinition<String>> extends XmlAdapter<String, V>
 {
 	private final Map<String, V> _map;
 	
@@ -39,6 +41,11 @@ public abstract class AbstractRefAdapter<V> extends XmlAdapter<String, V>
 	@Override
 	public final V unmarshal(String v)
 	{
+		if (v == null)
+		{
+			return null;
+		}
+		
 		final V ref = _map.get(v);
 		Objects.requireNonNull(ref);
 		return ref;
@@ -47,8 +54,11 @@ public abstract class AbstractRefAdapter<V> extends XmlAdapter<String, V>
 	@Override
 	public final String marshal(V v)
 	{
-		return getKey(v);
+		if (v == null)
+		{
+			return null;
+		}
+		
+		return v.getIdentifier();
 	}
-	
-	protected abstract String getKey(V v);
 }

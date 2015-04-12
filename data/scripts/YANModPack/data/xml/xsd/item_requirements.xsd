@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<xsd:redefine schemaLocation="item_types.xsd" />
+	<xsd:redefine schemaLocation="item_requirement_types.xsd" />
 	<xsd:element name="list">
 		<xsd:complexType>
 			<xsd:all maxOccurs="1" minOccurs="1">
-				<xsd:element name="item_requirements" maxOccurs="1" minOccurs="0">
+				<xsd:element name="item_requirements" maxOccurs="1" minOccurs="1">
 					<xsd:complexType>
 						<xsd:sequence maxOccurs="1" minOccurs="1">
 							<xsd:element name="item_requirement" maxOccurs="unbounded" minOccurs="0" type="item_requirement_definition" />
