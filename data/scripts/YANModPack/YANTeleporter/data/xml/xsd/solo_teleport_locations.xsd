@@ -7,8 +7,7 @@
 				<xsd:element name="solo_teleport_locations" maxOccurs="1" minOccurs="0">
 					<xsd:complexType>
 						<xsd:sequence maxOccurs="1" minOccurs="1">
-							<xsd:element name="solo_teleport_location" maxOccurs="unbounded" minOccurs="0" type="teleport_location">
-							</xsd:element>
+							<xsd:element name="solo_teleport_location" maxOccurs="unbounded" minOccurs="0" type="teleport_location" />
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>

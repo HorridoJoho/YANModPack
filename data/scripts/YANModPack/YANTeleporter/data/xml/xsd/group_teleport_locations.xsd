@@ -13,7 +13,8 @@
 										<xsd:extension base="teleport_location">
 											<xsd:attribute name="min_members" type="xsd:positiveInteger" use="required" />
 											<xsd:attribute name="max_members" type="xsd:positiveInteger" use="required" />
-											<xsd:attribute name="max_distance" type="xsd:positiveInteger" use="optional" default="50"/>
+											<xsd:attribute name="max_distance" type="xsd:positiveInteger" use="optional" default="50" />
+											<xsd:attribute name="allow_incomplete" type="xsd:boolean" use="optional" default="false"/>
 										</xsd:extension>
 									</xsd:complexContent>
 								</xsd:complexType>

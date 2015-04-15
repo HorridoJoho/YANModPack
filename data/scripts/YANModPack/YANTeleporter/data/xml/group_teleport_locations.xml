@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/group_teleport_locations.xsd">
 	<group_teleport_locations>
-		<group_teleport_location id="PT_GRP_LOC_01" name="Display Name" x="0" y="0" z="0" min_members="1" max_members="9">
+		<group_teleport_location id="PT_GRP_LOC_01" name="Display Name" x="0" y="0" z="0" heading="0" min_members="1" max_members="9">
 			<item_requirements>
 				<reference>ADENA_1000</reference>
 			</item_requirements>
 		</group_teleport_location>
-		<group_teleport_location id="PT_GRP_LOC_02" name="Display Name" x="0" y="0" z="0" min_members="1" max_members="9">
+		<group_teleport_location id="PT_GRP_LOC_02" name="Display Name" x="0" y="0" z="0" heading="0" min_members="1" max_members="9">
 			<item_requirements>
 				<reference>ADENA_1000</reference>
 			</item_requirements>
 		</group_teleport_location>
 
-		<group_teleport_location id="CC_GRP_LOC_01" name="Display Name" x="0" y="0" z="0" min_members="10" max_members="50">
+		<group_teleport_location id="CC_GRP_LOC_01" name="Display Name" x="0" y="0" z="0" heading="0" min_members="10" max_members="50">
 			<item_requirements>
 				<reference>ADENA_1000</reference>
 			</item_requirements>
 		</group_teleport_location>
-		<group_teleport_location id="CC_GRP_LOC_02" name="Display Name" x="0" y="0" z="0" min_members="10" max_members="50">
+		<group_teleport_location id="CC_GRP_LOC_02" name="Display Name" x="0" y="0" z="0" heading="0" min_members="10" max_members="50">
 			<item_requirements>
 				<reference>ADENA_1000</reference>
 			</item_requirements>

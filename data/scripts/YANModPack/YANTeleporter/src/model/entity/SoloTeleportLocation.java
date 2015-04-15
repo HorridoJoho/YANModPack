@@ -35,6 +35,10 @@ public class SoloTeleportLocation extends YANModProduct
 	public final int y;
 	@XmlAttribute(name = "z", required = true)
 	public final int z;
+	@XmlAttribute(name = "heading", required = true)
+	public final int heading;
+	@XmlAttribute(name = "random_offset")
+	public final int randomOffset;
 	@XmlAttribute(name = "instance")
 	public final String instance;
 	
@@ -44,6 +48,8 @@ public class SoloTeleportLocation extends YANModProduct
 		x = 0;
 		y = 0;
 		z = 0;
+		heading = 0;
+		randomOffset = 0;
 		instance = "";
 	}
 	

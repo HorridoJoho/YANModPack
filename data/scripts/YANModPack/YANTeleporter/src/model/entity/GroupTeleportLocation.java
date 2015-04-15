@@ -31,12 +31,15 @@ public class GroupTeleportLocation extends SoloTeleportLocation
 	public final int maxMembers;
 	@XmlAttribute(name = "max_distance")
 	public final int maxDistance;
+	@XmlAttribute(name = "allow_incomplete")
+	public final boolean allowIncomplete;
 	
 	public GroupTeleportLocation()
 	{
 		minMembers = 0;
 		maxMembers = 0;
 		maxDistance = 50;
+		allowIncomplete = false;
 	}
 	
 	@Override

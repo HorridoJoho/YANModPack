@@ -10,6 +10,8 @@
 		<xsd:attribute use="required" name="x" type="xsd:int" />
 		<xsd:attribute use="required" name="y" type="xsd:int" />
 		<xsd:attribute use="required" name="z" type="xsd:int" />
+		<xsd:attribute name="heading" type="xsd:unsignedShort" use="required" />
+		<xsd:attribute name="random_offset" type="xsd:unsignedShort" use="optional" default="0" />
 		<xsd:attribute name="instance" type="xsd:string" use="optional" default="" />
 	</xsd:complexType>
 </xsd:schema>

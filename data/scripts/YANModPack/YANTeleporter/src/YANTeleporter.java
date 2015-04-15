@@ -19,8 +19,10 @@ package YANModPack.YANTeleporter.src;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,8 +36,13 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 import com.l2jserver.gameserver.handler.BypassHandler;
 import com.l2jserver.gameserver.handler.ItemHandler;
 import com.l2jserver.gameserver.handler.VoicedCommandHandler;
+import com.l2jserver.gameserver.instancemanager.InstanceManager;
+import com.l2jserver.gameserver.model.AbstractPlayerGroup;
+import com.l2jserver.gameserver.model.L2CommandChannel;
+import com.l2jserver.gameserver.model.L2Party;
 import com.l2jserver.gameserver.model.actor.L2Npc;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
+import com.l2jserver.gameserver.model.instancezone.InstanceWorld;
 
 /**
  * @author HorridoJoho
@@ -94,6 +101,41 @@ public final class YANTeleporter extends YANModScript
 		{
 			player.sendMessage("YANT DEBUG: " + msg);
 		}
+	}
+	
+	private boolean _takeTeleportItems(SoloTeleportLocation teleport, L2PcInstance initiator)
+	{
+		if (!teleport.items.isEmpty())
+		{
+			HashMap<Integer, Long> items = new HashMap<>();
+			fillItemAmountMap(items, teleport);
+			
+			for (Entry<Integer, Long> item : items.entrySet())
+			{
+				if (initiator.getInventory().getInventoryItemCount(item.getKey(), 0, true) < item.getValue())
+				{
+					initiator.sendMessage("Not enough items!");
+					return false;
+				}
+			}
+			
+			for (Entry<Integer, Long> item : items.entrySet())
+			{
+				initiator.destroyItemByItemId("YANTeleporter", item.getKey(), item.getValue(), initiator, true);
+			}
+		}
+		
+		return true;
+	}
+	
+	private InstanceWorld _createInstance(String instanceDefinition)
+	{
+		int instanceId = InstanceManager.getInstance().createDynamicInstance(instanceDefinition);
+		InstanceWorld world = new InstanceWorld();
+		world.setInstanceId(instanceId);
+		// TODO: world.setTemplateId(???);
+		InstanceManager.getInstance().addWorld(world);
+		return world;
 	}
 	
 	// ////////////////////////////////////
@@ -221,9 +263,160 @@ public final class YANTeleporter extends YANModScript
 	// ////////////////////////////////////
 	// TELEPORT COMMANDS
 	// ////////////////////////////////////
-	private void _executeTeleportCommand(L2PcInstance player, AbstractTeleporter teleporter, L2Npc npc, String command)
+	private void _makeTeleport(SoloTeleportLocation teleport, L2PcInstance initiator)
 	{
+		if (!_takeTeleportItems(teleport, initiator))
+		{
+			return;
+		}
 		
+		InstanceWorld world = null;
+		if (!teleport.instance.isEmpty())
+		{
+			world = _createInstance(teleport.instance);
+		}
+		
+		initiator.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, world != null ? world.getInstanceId() : initiator.getInstanceId(), teleport.randomOffset);
+	}
+	
+	private void _makeGroupTeleport(GroupTeleportLocation teleport, L2PcInstance initiator, AbstractPlayerGroup group)
+	{
+		final L2PcInstance leader = group.getLeader();
+		if (leader != initiator)
+		{
+			initiator.sendMessage("You are not the leader!");
+			return;
+		}
+		
+		final int memberCount = group.getMemberCount();
+		if (group.getMemberCount() < teleport.minMembers)
+		{
+			group.broadcastString("Not enough members!");
+			return;
+		}
+		
+		final int leaderInstanceId = leader.getInstanceId();
+		final ArrayList<L2PcInstance> membersInRange = new ArrayList<>(memberCount);
+		
+		for (L2PcInstance member : group.getMembers())
+		{
+			if ((member != leader) && ((member.getInstanceId() != leaderInstanceId) || (member.calculateDistance(leader, false, false) > teleport.maxDistance)))
+			{
+				continue;
+			}
+			
+			membersInRange.add(member);
+		}
+		
+		if (membersInRange.size() < memberCount)
+		{
+			if (!teleport.allowIncomplete)
+			{
+				group.broadcastString("Your group is not together!");
+				return;
+			}
+			else if (membersInRange.size() < teleport.minMembers)
+			{
+				group.broadcastString("Not enough members around!");
+				return;
+			}
+		}
+		
+		if (membersInRange.size() > teleport.maxMembers)
+		{
+			group.broadcastString("Too many members!");
+			return;
+		}
+		
+		if (!_takeTeleportItems(teleport, initiator))
+		{
+			return;
+		}
+		
+		InstanceWorld world = null;
+		if (!teleport.instance.isEmpty())
+		{
+			world = _createInstance(teleport.instance);
+		}
+		
+		initiator.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, world != null ? world.getInstanceId() : initiator.getInstanceId());
+		for (L2PcInstance member : membersInRange)
+		{
+			member.teleToLocation(initiator, teleport.randomOffset);
+		}
+	}
+	
+	private void _teleportSolo(L2PcInstance player, AbstractTeleporter teleporter, String teleId)
+	{
+		SoloTeleportLocation teleport = teleporter.soloLocs.get(teleId);
+		if (teleport == null)
+		{
+			_debug(player, "Invalid solo teleport id: " + teleId);
+			return;
+		}
+		
+		_makeTeleport(teleport, player);
+	}
+	
+	private void _teleportParty(L2PcInstance player, AbstractTeleporter teleporter, String teleId)
+	{
+		GroupTeleportLocation teleport = teleporter.partyLocs.get(teleId);
+		if (teleport == null)
+		{
+			_debug(player, "Invalid party teleport id: " + teleId);
+			return;
+		}
+		
+		final L2Party party = player.getParty();
+		if (party == null)
+		{
+			player.sendMessage("You are not in a party!");
+			return;
+		}
+		
+		_makeGroupTeleport(teleport, player, party);
+	}
+	
+	private void _teleportCommandChannel(L2PcInstance player, AbstractTeleporter teleporter, String teleId)
+	{
+		GroupTeleportLocation teleport = teleporter.commandChannelLocs.get(teleId);
+		if (teleport == null)
+		{
+			_debug(player, "Invalid command channel teleport id: " + teleId);
+			return;
+		}
+		
+		final L2Party party = player.getParty();
+		if (party == null)
+		{
+			player.sendMessage("You are not in a party!");
+			return;
+		}
+		
+		final L2CommandChannel commandChannel = party.getCommandChannel();
+		if (commandChannel == null)
+		{
+			player.sendMessage("Your party is not in a command channel!");
+			return;
+		}
+		
+		_makeGroupTeleport(teleport, player, commandChannel);
+	}
+	
+	private void _executeTeleportCommand(L2PcInstance player, AbstractTeleporter teleporter, String command)
+	{
+		if ((command = matchAndRemove("solo ", "s ")) != null)
+		{
+			_teleportSolo(player, teleporter, command);
+		}
+		else if ((command = matchAndRemove("party ", "p ")) != null)
+		{
+			_teleportParty(player, teleporter, command);
+		}
+		else if ((command = matchAndRemove("command_channel ", "cc ")) != null)
+		{
+			_teleportCommandChannel(player, teleporter, command);
+		}
 	}
 	
 	@Override
@@ -253,7 +446,7 @@ public final class YANTeleporter extends YANModScript
 		{
 			if ((command = matchAndRemove("teleport ", "t ")) != null)
 			{
-				_executeTeleportCommand(player, teleporter, npc, command);
+				_executeTeleportCommand(player, teleporter, command);
 			}
 			
 			showLastPlayerHtml(player, npc);
