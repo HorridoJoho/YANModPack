@@ -15,32 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANTeleporter.src.model;
+package YANModPack.YANTeleporter.src.model.adapter;
 
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.YANTeleporter.src.model.adapter.SoloTeleportLocationListToMap;
-import YANModPack.YANTeleporter.src.model.entity.SoloTeleportLocation;
+import YANModPack.YANTeleporter.src.model.entity.SoloTeleport;
+import YANModPack.src.model.adapter.AbstractRefListToMap;
 
 /**
  * @author HorridoJoho
  */
-@XmlRootElement(name = "list")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class SoloTeleportLocations
+public final class SoloTeleportRefListToMap extends AbstractRefListToMap<SoloTeleport>
 {
-	@XmlElement(name = "solo_teleport_locations", required = true)
-	@XmlJavaTypeAdapter(SoloTeleportLocationListToMap.class)
-	public final Map<String, SoloTeleportLocation> locs;
-	
-	public SoloTeleportLocations()
+	public SoloTeleportRefListToMap(Map<String, SoloTeleport> map)
 	{
-		locs = null;
+		super(map);
 	}
 }

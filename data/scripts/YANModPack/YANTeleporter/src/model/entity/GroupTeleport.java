@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 /**
  * @author HorridoJoho
  */
-public class GroupTeleportLocation extends SoloTeleportLocation
+public class GroupTeleport extends SoloTeleport
 {
 	@XmlAttribute(name = "min_members", required = true)
 	public final int minMembers;
@@ -34,7 +34,7 @@ public class GroupTeleportLocation extends SoloTeleportLocation
 	@XmlAttribute(name = "allow_incomplete")
 	public final boolean allowIncomplete;
 	
-	public GroupTeleportLocation()
+	public GroupTeleport()
 	{
 		minMembers = 0;
 		maxMembers = 0;

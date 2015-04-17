@@ -32,6 +32,7 @@ import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
 import YANModPack.YANBuffer.src.model.entity.BuffCategory;
 import YANModPack.YANBuffer.src.model.entity.BuffSkill;
 import YANModPack.src.YANModScript;
+import YANModPack.src.util.CommandProcessor;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 import com.l2jserver.gameserver.handler.BypassHandler;
@@ -199,7 +200,7 @@ public final class YANBuffer extends YANModScript
 		if (uniquePlaceholder == null)
 		{
 			// redirect to main html if uniqueName is not valid, will most likely happen when the player deletes a unique bufflist he is currently viewing
-			_executeHtmlCommand(player, buffer, npc, "main");
+			_executeHtmlCommand(player, buffer, npc, new CommandProcessor("main"));
 			return;
 		}
 		
@@ -210,25 +211,25 @@ public final class YANBuffer extends YANModScript
 		_showAdvancedHtml(player, buffer, npc, "unique.html", placeholders);
 	}
 	
-	private void _executeHtmlCommand(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String command)
+	private void _executeHtmlCommand(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, CommandProcessor command)
 	{
 		setLastPlayerHtml(player, command);
 		
-		if ((command = matchAndRemove("main", "m")) != null)
+		if (command.matchAndRemove("main", "m"))
 		{
 			_htmlShowMain(player, buffer, npc);
 		}
-		else if ((command = matchAndRemove("category ", "c ")) != null)
+		else if (command.matchAndRemove("category ", "c "))
 		{
-			_htmlShowCategory(player, buffer, npc, command);
+			_htmlShowCategory(player, buffer, npc, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("preset ", "p ")) != null)
+		else if (command.matchAndRemove("preset ", "p "))
 		{
-			_htmlShowPreset(player, buffer, npc, command);
+			_htmlShowPreset(player, buffer, npc, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("buff ", "b ")) != null)
+		else if (command.matchAndRemove("buff ", "b "))
 		{
-			String[] argsSplit = command.split(" ", 2);
+			String[] argsSplit = command.splitRemaining(" ");
 			if (argsSplit.length != 2)
 			{
 				_debug(player, "Missing arguments!");
@@ -236,9 +237,9 @@ public final class YANBuffer extends YANModScript
 			}
 			_htmlShowBuff(player, buffer, npc, argsSplit[0], argsSplit[1]);
 		}
-		else if ((command = matchAndRemove("unique ", "u ")) != null)
+		else if (command.matchAndRemove("unique ", "u "))
 		{
-			_htmlShowUnique(player, buffer, npc, command);
+			_htmlShowUnique(player, buffer, npc, command.getRemaining());
 		}
 		else
 		{
@@ -434,16 +435,16 @@ public final class YANBuffer extends YANModScript
 		target.stopAllEffectsExceptThoseThatLastThroughDeath();
 	}
 	
-	private void _executeTargetCommand(L2PcInstance player, AbstractBuffer buffer, String command)
+	private void _executeTargetCommand(L2PcInstance player, AbstractBuffer buffer, CommandProcessor command)
 	{
 		// /////////////////////////////////
 		// first determine the target
 		L2Playable target;
-		if ((command = matchAndRemove("player ", "p ")) != null)
+		if (command.matchAndRemove("player ", "p "))
 		{
 			target = player;
 		}
-		else if ((command = matchAndRemove("summon ", "s ")) != null)
+		else if (command.matchAndRemove("summon ", "s "))
 		{
 			target = player.getSummon();
 			if (target == null)
@@ -460,9 +461,9 @@ public final class YANBuffer extends YANModScript
 		
 		// //////////////////////////////////////////
 		// run the choosen action on the target
-		if ((command = matchAndRemove("buff ", "b ")) != null)
+		if (command.matchAndRemove("buff ", "b "))
 		{
-			String[] argsSplit = command.split(" ", 2);
+			String[] argsSplit = command.splitRemaining(" ");
 			if (argsSplit.length != 2)
 			{
 				_debug(player, "Missing arguments!");
@@ -470,19 +471,19 @@ public final class YANBuffer extends YANModScript
 			}
 			_targetBuffBuff(player, target, buffer, argsSplit[0], argsSplit[1]);
 		}
-		else if ((command = matchAndRemove("unique ", "u ")) != null)
+		else if (command.matchAndRemove("unique ", "u "))
 		{
-			_targetBuffUnique(player, target, buffer, command);
+			_targetBuffUnique(player, target, buffer, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("preset ", "p ")) != null)
+		else if (command.matchAndRemove("preset ", "p "))
 		{
-			_targetBuffPreset(player, target, buffer, command);
+			_targetBuffPreset(player, target, buffer, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("heal", "h")) != null)
+		else if (command.matchAndRemove("heal", "h"))
 		{
 			_targetHeal(player, target, buffer);
 		}
-		else if ((command = matchAndRemove("cancel", "c")) != null)
+		else if (command.matchAndRemove("cancel", "c"))
 		{
 			_targetCancel(player, target, buffer);
 		}
@@ -562,15 +563,15 @@ public final class YANBuffer extends YANModScript
 		_ACTIVE_PLAYER_BUFFLISTS.remove(player.getObjectId());
 	}
 	
-	private void _executeUniqueCommand(L2PcInstance player, AbstractBuffer buffer, String command)
+	private void _executeUniqueCommand(L2PcInstance player, AbstractBuffer buffer, CommandProcessor command)
 	{
-		if ((command = matchAndRemove("create ", "c ")) != null)
+		if (command.matchAndRemove("create ", "c "))
 		{
-			_uniqueCreate(player, command);
+			_uniqueCreate(player, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("create_from_effects ", "cfe ")) != null)
+		else if (command.matchAndRemove("create_from_effects ", "cfe "))
 		{
-			String uniqueName = command;
+			String uniqueName = command.getRemaining();
 			if (!_uniqueCreate(player, uniqueName))
 			{
 				return;
@@ -602,13 +603,13 @@ public final class YANBuffer extends YANModScript
 				}
 			}
 		}
-		else if ((command = matchAndRemove("delete ", "del ")) != null)
+		else if (command.matchAndRemove("delete ", "del "))
 		{
-			_uniqueDelete(player, command);
+			_uniqueDelete(player, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("add ", "a ")) != null)
+		else if (command.matchAndRemove("add ", "a "))
 		{
-			String[] argsSplit = command.split(" ", 3);
+			String[] argsSplit = command.splitRemaining(" ");
 			if (argsSplit.length != 3)
 			{
 				_debug(player, "Missing arguments!");
@@ -616,9 +617,9 @@ public final class YANBuffer extends YANModScript
 			}
 			_uniqueAdd(player, buffer, argsSplit[0], argsSplit[1], argsSplit[2]);
 		}
-		else if ((command = matchAndRemove("remove ", "r ")) != null)
+		else if (command.matchAndRemove("remove ", "r "))
 		{
-			String[] argsSplit = command.split(" ", 2);
+			String[] argsSplit = command.splitRemaining(" ");
 			if (argsSplit.length != 2)
 			{
 				_debug(player, "Missing arguments!");
@@ -626,11 +627,11 @@ public final class YANBuffer extends YANModScript
 			}
 			_uniqueRemove(player, argsSplit[0], argsSplit[1]);
 		}
-		else if ((command = matchAndRemove("select ", "s ")) != null)
+		else if (command.matchAndRemove("select ", "s "))
 		{
-			_uniqueSelect(player, command);
+			_uniqueSelect(player, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("deselect", "des")) != null)
+		else if (command.matchAndRemove("deselect", "des"))
 		{
 			_uniqueDeselect(player);
 		}
@@ -640,7 +641,7 @@ public final class YANBuffer extends YANModScript
 	// ////////////////////////////////
 	
 	@Override
-	public void executeCommandImpl(L2PcInstance player, L2Npc npc, String command)
+	public void executeCommandImpl(L2PcInstance player, L2Npc npc, String commandString)
 	{
 		AbstractBuffer buffer = YANBufferData.getInstance().getBuffers().determineBuffer(npc, player);
 		if (buffer == null)
@@ -650,25 +651,27 @@ public final class YANBuffer extends YANModScript
 			return;
 		}
 		
-		if ((command == null) || command.isEmpty())
+		if ((commandString == null) || commandString.isEmpty())
 		{
-			command = "html main";
+			commandString = "html main";
 		}
 		
 		_debug(player, "--------------------");
-		_debug(player, command);
+		_debug(player, commandString);
 		
-		if ((command = matchAndRemove("html ", "h ")) != null)
+		CommandProcessor command = new CommandProcessor(commandString);
+		
+		if (command.matchAndRemove("html ", "h "))
 		{
 			_executeHtmlCommand(player, buffer, npc, command);
 		}
 		else
 		{
-			if ((command = matchAndRemove("target ", "t ")) != null)
+			if (command.matchAndRemove("target ", "t "))
 			{
 				_executeTargetCommand(player, buffer, command);
 			}
-			else if ((command = matchAndRemove("unique ", "u ")) != null)
+			else if (command.matchAndRemove("unique ", "u "))
 			{
 				_executeUniqueCommand(player, buffer, command);
 			}

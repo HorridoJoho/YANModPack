@@ -15,32 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANTeleporter.src.model;
+package YANModPack.YANTeleporter.src.model.wrapper;
 
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANTeleporter.src.model.adapter.GroupTeleportLocationListToMap;
-import YANModPack.YANTeleporter.src.model.entity.GroupTeleportLocation;
+import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
+import YANModPack.src.model.wrapper.IListWrapper;
 
 /**
  * @author HorridoJoho
  */
-@XmlRootElement(name = "list")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class GroupTeleportLocations
+public class GroupTeleportListWrapper implements IListWrapper<GroupTeleport>
 {
-	@XmlElement(name = "grouo_teleport_locations", required = true)
-	@XmlJavaTypeAdapter(GroupTeleportLocationListToMap.class)
-	public final Map<String, GroupTeleportLocation> locs;
+	@XmlElement(name = "group_teleport_location")
+	private final GroupTeleport[] defs;
 	
-	public GroupTeleportLocations()
+	public GroupTeleportListWrapper()
 	{
-		locs = null;
+		defs = null;
+	}
+	
+	public GroupTeleportListWrapper(GroupTeleport[] defs)
+	{
+		this.defs = defs;
+	}
+	
+	@Override
+	public GroupTeleport[] getList()
+	{
+		return defs;
 	}
 }

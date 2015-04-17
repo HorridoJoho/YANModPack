@@ -15,22 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANTeleporter.src.model.adapter;
+package YANModPack.YANTeleporter.src.model.wrapper;
 
-import java.util.Map;
+import javax.xml.bind.annotation.XmlElement;
 
-import YANModPack.YANTeleporter.src.model.entity.SoloTeleportLocation;
-import YANModPack.YANTeleporter.src.model.wrapper.SoloTeleportLocationListWrapper;
-import YANModPack.src.model.adapter.AbstractListToMap;
+import YANModPack.YANTeleporter.src.model.entity.SoloTeleport;
+import YANModPack.src.model.wrapper.IListWrapper;
 
 /**
  * @author HorridoJoho
  */
-public final class SoloTeleportLocationListToMap extends AbstractListToMap<String, SoloTeleportLocation, SoloTeleportLocationListWrapper>
+public class SoloTeleportListWrapper implements IListWrapper<SoloTeleport>
 {
-	@Override
-	public SoloTeleportLocationListWrapper marshal(Map<String, SoloTeleportLocation> v)
+	@XmlElement(name = "solo_teleport_location")
+	private final SoloTeleport[] defs;
+	
+	public SoloTeleportListWrapper()
 	{
-		return new SoloTeleportLocationListWrapper(v.values().toArray(new SoloTeleportLocation[0]));
+		defs = null;
+	}
+	
+	public SoloTeleportListWrapper(SoloTeleport[] defs)
+	{
+		this.defs = defs;
+	}
+	
+	@Override
+	public SoloTeleport[] getList()
+	{
+		return defs;
 	}
 }

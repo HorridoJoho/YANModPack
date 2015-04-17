@@ -36,9 +36,9 @@
 
 	<xsd:complexType name="teleporter">
 		<xsd:all maxOccurs="1" minOccurs="1">
-			<xsd:element name="solo_teleport_locations" type="reference_list" maxOccurs="1" minOccurs="1" />
-			<xsd:element name="party_teleport_locations" type="reference_list" maxOccurs="1" minOccurs="1"></xsd:element>
-			<xsd:element name="command_channel_teleport_locations" type="reference_list" maxOccurs="1" minOccurs="1"></xsd:element>
+			<xsd:element name="solo_teleports" type="reference_list" maxOccurs="1" minOccurs="1" />
+			<xsd:element name="party_teleports" type="reference_list" maxOccurs="1" minOccurs="1"></xsd:element>
+			<xsd:element name="command_channel_teleports" type="reference_list" maxOccurs="1" minOccurs="1"></xsd:element>
 		</xsd:all>
 		<xsd:attribute name="dialog_type" type="xsd:string" />
 		<xsd:attribute name="html_folder" type="xsd:string" />

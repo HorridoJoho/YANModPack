@@ -7,21 +7,21 @@
 		required_item	(optional)	- item id; default 0, 0 = no item required
 	-->
 	<voiced_teleporter enabled="false" dialog_type="COMMUNITY" html_folder="community">
-		<solo_teleport_locations>
-			<!-- teleports from solo_teleport_locations.xml -->
+		<solo_teleports>
+			<!-- teleports from solo_teleports.xml -->
 			<reference>S_LOC_01</reference>
 			<reference>S_LOC_02</reference>
-		</solo_teleport_locations>
-		<party_teleport_locations>
-			<!-- teleports from group_teleport_locations.xml -->
+		</solo_teleports>
+		<party_teleports>
+			<!-- teleports from group_teleports.xml -->
 			<reference>PT_GRP_LOC_01</reference>
 			<reference>PT_GRP_LOC_02</reference>
-		</party_teleport_locations>
-		<command_channel_teleport_locations>
-			<!-- teleports from group_teleport_locations.xml -->
+		</party_teleports>
+		<command_channel_teleports>
+			<!-- teleports from group_teleports.xml -->
 			<reference>CC_GRP_LOC_01</reference>
 			<reference>CC_GRP_LOC_02</reference>
-		</command_channel_teleport_locations>
+		</command_channel_teleports>
 	</voiced_teleporter>
 
 	<npc_teleporters>
@@ -32,21 +32,21 @@
 			html_folder			(required)	- html subfolder; which subfolder to use for yanbuffer htmls(data/scripts/YANModPack/YANBuffer/data/html/<html_folder>/)			
  		-->
 		<npc_teleporter npc_id="1000007" direct_first_talk="true" dialog_type="NPC" html_folder="npc">
-			<solo_teleport_locations>
-				<!-- teleports from solo_teleport_locations.xml -->
+			<solo_teleports>
+				<!-- teleports from solo_teleports.xml -->
 				<reference>S_LOC_01</reference>
 				<reference>S_LOC_02</reference>
-			</solo_teleport_locations>
-		<party_teleport_locations>
-			<!-- teleports from group_teleport_locations.xml -->
+			</solo_teleports>
+		<party_teleports>
+			<!-- teleports from group_teleports.xml -->
 			<reference>PT_GRP_LOC_01</reference>
 			<reference>PT_GRP_LOC_02</reference>
-		</party_teleport_locations>
-		<command_channel_teleport_locations>
-			<!-- teleports from group_teleport_locations.xml -->
+		</party_teleports>
+		<command_channel_teleports>
+			<!-- teleports from group_teleports.xml -->
 			<reference>CC_GRP_LOC_01</reference>
 			<reference>CC_GRP_LOC_02</reference>
-		</command_channel_teleport_locations>
+		</command_channel_teleports>
 		</npc_teleporter>
 	</npc_teleporters>
 </teleporters>

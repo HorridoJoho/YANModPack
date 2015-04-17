@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:redefine schemaLocation="../../../../data/xml/xsd/base_types.xsd" />
-	<xsd:complexType name="teleport_location">
+	<xsd:complexType name="teleport">
 		<xsd:all minOccurs="1" maxOccurs="1">
 			<xsd:element name="item_requirements" type="reference_list" maxOccurs="1" minOccurs="1" />
 		</xsd:all>

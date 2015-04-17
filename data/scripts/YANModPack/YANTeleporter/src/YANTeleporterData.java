@@ -25,14 +25,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import YANModPack.YANTeleporter.src.model.GroupTeleportLocations;
-import YANModPack.YANTeleporter.src.model.SoloTeleportLocations;
+import YANModPack.YANTeleporter.src.model.GroupTeleports;
+import YANModPack.YANTeleporter.src.model.SoloTeleports;
 import YANModPack.YANTeleporter.src.model.TeleporterConfig;
 import YANModPack.YANTeleporter.src.model.Teleporters;
-import YANModPack.YANTeleporter.src.model.adapter.GroupTeleportLocationRefListToMap;
-import YANModPack.YANTeleporter.src.model.adapter.SoloTeleportLocationRefListToMap;
-import YANModPack.YANTeleporter.src.model.entity.GroupTeleportLocation;
-import YANModPack.YANTeleporter.src.model.entity.SoloTeleportLocation;
+import YANModPack.YANTeleporter.src.model.adapter.GroupTeleportRefListToMap;
+import YANModPack.YANTeleporter.src.model.adapter.SoloTeleportRefListToMap;
+import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
+import YANModPack.YANTeleporter.src.model.entity.SoloTeleport;
 import YANModPack.src.model.ItemRequirements;
 import YANModPack.src.model.adapter.ItemRequirementRefListToMap;
 
@@ -58,15 +58,15 @@ final class YANTeleporterData
 	
 	protected final TeleporterConfig _config;
 	protected final ItemRequirements _itemRequirements;
-	protected final SoloTeleportLocations _soloLocs;
-	protected final GroupTeleportLocations _groupLocs;
+	protected final SoloTeleports _soloLocs;
+	protected final GroupTeleports _groupLocs;
 	protected final Teleporters _teleporters;
 	
 	private YANTeleporterData() throws Exception
 	{
 		Path xmlPath = Paths.get(Config.DATAPACK_ROOT.getAbsolutePath(), "data", "scripts", YANTeleporter.SCRIPT_PATH.toString(), "data", "xml");
 		
-		JAXBContext ctx = JAXBContext.newInstance(TeleporterConfig.class, ItemRequirements.class, SoloTeleportLocations.class, GroupTeleportLocations.class, Teleporters.class);
+		JAXBContext ctx = JAXBContext.newInstance(TeleporterConfig.class, ItemRequirements.class, SoloTeleports.class, GroupTeleports.class, Teleporters.class);
 		Unmarshaller u = ctx.createUnmarshaller();
 		// validate against document specified schema
 		// u.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema());
@@ -76,11 +76,11 @@ final class YANTeleporterData
 		_itemRequirements = u.unmarshal(new StreamSource(xmlPath.resolve("item_requirements.xml").toFile()), ItemRequirements.class).getValue();
 		u.setAdapter(ItemRequirementRefListToMap.class, new ItemRequirementRefListToMap(_itemRequirements.items));
 		
-		_soloLocs = u.unmarshal(new StreamSource(xmlPath.resolve("solo_teleport_locations.xml").toFile()), SoloTeleportLocations.class).getValue();
-		u.setAdapter(SoloTeleportLocationRefListToMap.class, new SoloTeleportLocationRefListToMap(_soloLocs.locs));
+		_soloLocs = u.unmarshal(new StreamSource(xmlPath.resolve("solo_teleport_locations.xml").toFile()), SoloTeleports.class).getValue();
+		u.setAdapter(SoloTeleportRefListToMap.class, new SoloTeleportRefListToMap(_soloLocs.locs));
 		
-		_groupLocs = u.unmarshal(new StreamSource(xmlPath.resolve("group_teleport_locations.xml").toFile()), GroupTeleportLocations.class).getValue();
-		u.setAdapter(GroupTeleportLocationRefListToMap.class, new GroupTeleportLocationRefListToMap(_groupLocs.locs));
+		_groupLocs = u.unmarshal(new StreamSource(xmlPath.resolve("group_teleport_locations.xml").toFile()), GroupTeleports.class).getValue();
+		u.setAdapter(GroupTeleportRefListToMap.class, new GroupTeleportRefListToMap(_groupLocs.locs));
 		
 		_teleporters = u.unmarshal(new StreamSource(xmlPath.resolve("teleporters.xml").toFile()), Teleporters.class).getValue();
 	}
@@ -90,12 +90,12 @@ final class YANTeleporterData
 		return _config;
 	}
 	
-	public SoloTeleportLocation getSoloLoc(String ident)
+	public SoloTeleport getSoloLoc(String ident)
 	{
 		return _soloLocs.locs.get(ident);
 	}
 	
-	public GroupTeleportLocation getGroupLoc(String ident)
+	public GroupTeleport getGroupLoc(String ident)
 	{
 		return _groupLocs.locs.get(ident);
 	}

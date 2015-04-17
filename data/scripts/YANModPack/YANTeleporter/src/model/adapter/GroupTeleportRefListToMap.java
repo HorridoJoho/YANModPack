@@ -19,15 +19,15 @@ package YANModPack.YANTeleporter.src.model.adapter;
 
 import java.util.Map;
 
-import YANModPack.YANTeleporter.src.model.entity.GroupTeleportLocation;
+import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
 import YANModPack.src.model.adapter.AbstractRefListToMap;
 
 /**
  * @author HorridoJoho
  */
-public final class GroupTeleportLocationRefListToMap extends AbstractRefListToMap<GroupTeleportLocation>
+public final class GroupTeleportRefListToMap extends AbstractRefListToMap<GroupTeleport>
 {
-	public GroupTeleportLocationRefListToMap(Map<String, GroupTeleportLocation> map)
+	public GroupTeleportRefListToMap(Map<String, GroupTeleport> map)
 	{
 		super(map);
 	}

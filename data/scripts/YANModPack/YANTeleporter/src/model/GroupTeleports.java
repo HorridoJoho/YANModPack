@@ -15,34 +15,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANTeleporter.src.model.wrapper;
+package YANModPack.YANTeleporter.src.model;
 
+import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANTeleporter.src.model.entity.SoloTeleportLocation;
-import YANModPack.src.model.wrapper.IListWrapper;
+import YANModPack.YANTeleporter.src.model.adapter.GroupTeleportListToMap;
+import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
 
 /**
  * @author HorridoJoho
  */
-public class SoloTeleportLocationListWrapper implements IListWrapper<SoloTeleportLocation>
+@XmlRootElement(name = "list")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class GroupTeleports
 {
-	@XmlElement(name = "solo_teleport_location")
-	private final SoloTeleportLocation[] defs;
+	@XmlElement(name = "grouo_teleport_locations", required = true)
+	@XmlJavaTypeAdapter(GroupTeleportListToMap.class)
+	public final Map<String, GroupTeleport> locs;
 	
-	public SoloTeleportLocationListWrapper()
+	public GroupTeleports()
 	{
-		defs = null;
-	}
-	
-	public SoloTeleportLocationListWrapper(SoloTeleportLocation[] defs)
-	{
-		this.defs = defs;
-	}
-	
-	@Override
-	public SoloTeleportLocation[] getList()
-	{
-		return defs;
+		locs = null;
 	}
 }

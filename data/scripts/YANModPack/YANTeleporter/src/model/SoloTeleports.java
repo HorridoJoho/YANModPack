@@ -15,22 +15,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANTeleporter.src.model.adapter;
+package YANModPack.YANTeleporter.src.model;
 
 import java.util.Map;
 
-import YANModPack.YANTeleporter.src.model.entity.GroupTeleportLocation;
-import YANModPack.YANTeleporter.src.model.wrapper.GroupTeleportLocationListWrapper;
-import YANModPack.src.model.adapter.AbstractListToMap;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import YANModPack.YANTeleporter.src.model.adapter.SoloTeleportListToMap;
+import YANModPack.YANTeleporter.src.model.entity.SoloTeleport;
 
 /**
  * @author HorridoJoho
  */
-public final class GroupTeleportLocationListToMap extends AbstractListToMap<String, GroupTeleportLocation, GroupTeleportLocationListWrapper>
+@XmlRootElement(name = "list")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class SoloTeleports
 {
-	@Override
-	public GroupTeleportLocationListWrapper marshal(Map<String, GroupTeleportLocation> v)
+	@XmlElement(name = "solo_teleport_locations", required = true)
+	@XmlJavaTypeAdapter(SoloTeleportListToMap.class)
+	public final Map<String, SoloTeleport> locs;
+	
+	public SoloTeleports()
 	{
-		return new GroupTeleportLocationListWrapper(v.values().toArray(new GroupTeleportLocation[0]));
+		locs = null;
 	}
 }

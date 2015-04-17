@@ -25,7 +25,7 @@ import YANModPack.src.model.entity.YANModProduct;
 /**
  * @author HorridoJoho
  */
-public class SoloTeleportLocation extends YANModProduct
+public class SoloTeleport extends YANModProduct
 {
 	@XmlAttribute(name = "name", required = true)
 	public final String name;
@@ -42,7 +42,7 @@ public class SoloTeleportLocation extends YANModProduct
 	@XmlAttribute(name = "instance")
 	public final String instance;
 	
-	public SoloTeleportLocation()
+	public SoloTeleport()
 	{
 		name = null;
 		x = 0;

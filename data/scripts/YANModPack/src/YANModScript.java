@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import YANModPack.src.model.entity.ItemRequirement;
 import YANModPack.src.model.entity.YANModProduct;
 import YANModPack.src.model.entity.YANModServer;
+import YANModPack.src.util.CommandProcessor;
 import YANModPack.src.util.htmltmpls.HTMLTemplateParser;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 import YANModPack.src.util.htmltmpls.funcs.ChildsCountFunc;
@@ -68,24 +69,6 @@ public abstract class YANModScript extends AbstractNpcAI
 	public final String onFirstTalk(L2Npc npc, L2PcInstance player)
 	{
 		executeCommand(player, npc, null);
-		return null;
-	}
-	
-	protected final String matchAndRemove(String command, String... expectations)
-	{
-		if (command == null)
-		{
-			return null;
-		}
-		Objects.requireNonNull(expectations);
-		for (String expectation : expectations)
-		{
-			Objects.requireNonNull(expectation);
-			if (!expectation.isEmpty() && command.startsWith(expectation))
-			{
-				return command.substring(expectation.length());
-			}
-		}
 		return null;
 	}
 	
@@ -171,9 +154,9 @@ public abstract class YANModScript extends AbstractNpcAI
 		executeCommandImpl(player, npc, command);
 	}
 	
-	protected void setLastPlayerHtml(L2PcInstance player, String html)
+	protected void setLastPlayerHtml(L2PcInstance player, CommandProcessor command)
 	{
-		_lastPlayerHtmls.put(player.getObjectId(), html);
+		_lastPlayerHtmls.put(player.getObjectId(), command.getRemaining());
 	}
 	
 	protected void showLastPlayerHtml(L2PcInstance player, L2Npc npc)

@@ -28,9 +28,10 @@ import java.util.logging.Logger;
 
 import YANModPack.YANBuffer.src.YANBufferData;
 import YANModPack.YANTeleporter.src.model.entity.AbstractTeleporter;
-import YANModPack.YANTeleporter.src.model.entity.GroupTeleportLocation;
-import YANModPack.YANTeleporter.src.model.entity.SoloTeleportLocation;
+import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
+import YANModPack.YANTeleporter.src.model.entity.SoloTeleport;
 import YANModPack.src.YANModScript;
+import YANModPack.src.util.CommandProcessor;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 import com.l2jserver.gameserver.handler.BypassHandler;
@@ -103,7 +104,7 @@ public final class YANTeleporter extends YANModScript
 		}
 	}
 	
-	private boolean _takeTeleportItems(SoloTeleportLocation teleport, L2PcInstance initiator)
+	private boolean _takeTeleportItems(SoloTeleport teleport, L2PcInstance initiator)
 	{
 		if (!teleport.items.isEmpty())
 		{
@@ -166,7 +167,7 @@ public final class YANTeleporter extends YANModScript
 		_showAdvancedHtml(player, teleporter, npc, "command_channel_list.html", new HashMap<String, HTMLTemplatePlaceholder>());
 	}
 	
-	private void _showTeleportHtml(L2PcInstance player, AbstractTeleporter teleporter, SoloTeleportLocation teleport, L2Npc npc, String htmlPath)
+	private void _showTeleportHtml(L2PcInstance player, AbstractTeleporter teleporter, SoloTeleport teleport, L2Npc npc, String htmlPath)
 	{
 		Map<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
 		placeholders.put("teleport", teleport.placeholder);
@@ -176,7 +177,7 @@ public final class YANTeleporter extends YANModScript
 	
 	private void _showSoloTeleportHtml(L2PcInstance player, AbstractTeleporter teleporter, L2Npc npc, String teleIdent)
 	{
-		SoloTeleportLocation teleport = teleporter.soloLocs.get(teleIdent);
+		SoloTeleport teleport = teleporter.soloLocs.get(teleIdent);
 		if (teleport == null)
 		{
 			return;
@@ -187,7 +188,7 @@ public final class YANTeleporter extends YANModScript
 	
 	private void _showPartyTeleportHtml(L2PcInstance player, AbstractTeleporter teleporter, L2Npc npc, String teleIdent)
 	{
-		GroupTeleportLocation teleport = teleporter.partyLocs.get(teleIdent);
+		GroupTeleport teleport = teleporter.partyLocs.get(teleIdent);
 		if (teleport == null)
 		{
 			return;
@@ -198,7 +199,7 @@ public final class YANTeleporter extends YANModScript
 	
 	private void _showCommandChannelTeleportHtml(L2PcInstance player, AbstractTeleporter teleporter, L2Npc npc, String teleIdent)
 	{
-		GroupTeleportLocation teleport = teleporter.commandChannelLocs.get(teleIdent);
+		GroupTeleport teleport = teleporter.commandChannelLocs.get(teleIdent);
 		if (teleport == null)
 		{
 			return;
@@ -207,11 +208,11 @@ public final class YANTeleporter extends YANModScript
 		_showTeleportHtml(player, teleporter, teleport, npc, "command_channel_teleport.html");
 	}
 	
-	private void _executeHtmlCommand(L2PcInstance player, AbstractTeleporter teleporter, L2Npc npc, String command)
+	private void _executeHtmlCommand(L2PcInstance player, AbstractTeleporter teleporter, L2Npc npc, CommandProcessor command)
 	{
 		setLastPlayerHtml(player, command);
 		
-		if ((command = matchAndRemove("main", "m")) != null)
+		if (command.matchAndRemove("main", "m"))
 		{
 			if (!teleporter.soloLocs.isEmpty() && teleporter.partyLocs.isEmpty() && teleporter.commandChannelLocs.isEmpty())
 			{
@@ -230,29 +231,29 @@ public final class YANTeleporter extends YANModScript
 				_showMainHtml(player, teleporter, npc);
 			}
 		}
-		else if ((command = matchAndRemove("solo_list", "sl")) != null)
+		else if (command.matchAndRemove("solo_list", "sl"))
 		{
 			_showSoloListHtml(player, teleporter, npc);
 		}
-		else if ((command = matchAndRemove("party_list", "pl")) != null)
+		else if (command.matchAndRemove("party_list", "pl"))
 		{
 			_showPartyListHtml(player, teleporter, npc);
 		}
-		else if ((command = matchAndRemove("command_channel_list", "ccl")) != null)
+		else if (command.matchAndRemove("command_channel_list", "ccl"))
 		{
 			_showCommandChannelListHtml(player, teleporter, npc);
 		}
-		else if ((command = matchAndRemove("solo_teleport ", "st ")) != null)
+		else if (command.matchAndRemove("solo_teleport ", "st "))
 		{
-			_showSoloTeleportHtml(player, teleporter, npc, command);
+			_showSoloTeleportHtml(player, teleporter, npc, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("party_teleport ", "pt ")) != null)
+		else if (command.matchAndRemove("party_teleport ", "pt "))
 		{
-			_showPartyTeleportHtml(player, teleporter, npc, command);
+			_showPartyTeleportHtml(player, teleporter, npc, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("command_channel_teleport ", "cct ")) != null)
+		else if (command.matchAndRemove("command_channel_teleport ", "cct "))
 		{
-			_showCommandChannelTeleportHtml(player, teleporter, npc, command);
+			_showCommandChannelTeleportHtml(player, teleporter, npc, command.getRemaining());
 		}
 		else
 		{
@@ -263,7 +264,7 @@ public final class YANTeleporter extends YANModScript
 	// ////////////////////////////////////
 	// TELEPORT COMMANDS
 	// ////////////////////////////////////
-	private void _makeTeleport(SoloTeleportLocation teleport, L2PcInstance initiator)
+	private void _makeTeleport(SoloTeleport teleport, L2PcInstance initiator)
 	{
 		if (!_takeTeleportItems(teleport, initiator))
 		{
@@ -279,7 +280,7 @@ public final class YANTeleporter extends YANModScript
 		initiator.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, world != null ? world.getInstanceId() : initiator.getInstanceId(), teleport.randomOffset);
 	}
 	
-	private void _makeGroupTeleport(GroupTeleportLocation teleport, L2PcInstance initiator, AbstractPlayerGroup group)
+	private void _makeGroupTeleport(GroupTeleport teleport, L2PcInstance initiator, AbstractPlayerGroup group)
 	{
 		final L2PcInstance leader = group.getLeader();
 		if (leader != initiator)
@@ -348,7 +349,7 @@ public final class YANTeleporter extends YANModScript
 	
 	private void _teleportSolo(L2PcInstance player, AbstractTeleporter teleporter, String teleId)
 	{
-		SoloTeleportLocation teleport = teleporter.soloLocs.get(teleId);
+		SoloTeleport teleport = teleporter.soloLocs.get(teleId);
 		if (teleport == null)
 		{
 			_debug(player, "Invalid solo teleport id: " + teleId);
@@ -360,7 +361,7 @@ public final class YANTeleporter extends YANModScript
 	
 	private void _teleportParty(L2PcInstance player, AbstractTeleporter teleporter, String teleId)
 	{
-		GroupTeleportLocation teleport = teleporter.partyLocs.get(teleId);
+		GroupTeleport teleport = teleporter.partyLocs.get(teleId);
 		if (teleport == null)
 		{
 			_debug(player, "Invalid party teleport id: " + teleId);
@@ -379,7 +380,7 @@ public final class YANTeleporter extends YANModScript
 	
 	private void _teleportCommandChannel(L2PcInstance player, AbstractTeleporter teleporter, String teleId)
 	{
-		GroupTeleportLocation teleport = teleporter.commandChannelLocs.get(teleId);
+		GroupTeleport teleport = teleporter.commandChannelLocs.get(teleId);
 		if (teleport == null)
 		{
 			_debug(player, "Invalid command channel teleport id: " + teleId);
@@ -403,24 +404,24 @@ public final class YANTeleporter extends YANModScript
 		_makeGroupTeleport(teleport, player, commandChannel);
 	}
 	
-	private void _executeTeleportCommand(L2PcInstance player, AbstractTeleporter teleporter, String command)
+	private void _executeTeleportCommand(L2PcInstance player, AbstractTeleporter teleporter, CommandProcessor command)
 	{
-		if ((command = matchAndRemove("solo ", "s ")) != null)
+		if (command.matchAndRemove("solo ", "s "))
 		{
-			_teleportSolo(player, teleporter, command);
+			_teleportSolo(player, teleporter, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("party ", "p ")) != null)
+		else if (command.matchAndRemove("party ", "p "))
 		{
-			_teleportParty(player, teleporter, command);
+			_teleportParty(player, teleporter, command.getRemaining());
 		}
-		else if ((command = matchAndRemove("command_channel ", "cc ")) != null)
+		else if (command.matchAndRemove("command_channel ", "cc "))
 		{
-			_teleportCommandChannel(player, teleporter, command);
+			_teleportCommandChannel(player, teleporter, command.getRemaining());
 		}
 	}
 	
 	@Override
-	protected void executeCommandImpl(L2PcInstance player, L2Npc npc, String command)
+	protected void executeCommandImpl(L2PcInstance player, L2Npc npc, String commandString)
 	{
 		AbstractTeleporter teleporter = YANTeleporterData.getInstance().getTeleporters().determineTeleporter(npc, player);
 		if (teleporter == null)
@@ -430,21 +431,23 @@ public final class YANTeleporter extends YANModScript
 			return;
 		}
 		
-		if ((command == null) || command.isEmpty())
+		if ((commandString == null) || commandString.isEmpty())
 		{
-			command = "html main";
+			commandString = "html main";
 		}
 		
 		_debug(player, "--------------------");
-		_debug(player, command);
+		_debug(player, commandString);
 		
-		if ((command = matchAndRemove("html ", "h ")) != null)
+		CommandProcessor command = new CommandProcessor(commandString);
+		
+		if (command.matchAndRemove("html ", "h "))
 		{
 			_executeHtmlCommand(player, teleporter, npc, command);
 		}
 		else
 		{
-			if ((command = matchAndRemove("teleport ", "t ")) != null)
+			if (command.matchAndRemove("teleport ", "t "))
 			{
 				_executeTeleportCommand(player, teleporter, command);
 			}

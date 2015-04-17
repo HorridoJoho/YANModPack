@@ -24,8 +24,8 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANTeleporter.src.model.adapter.GroupTeleportLocationRefListToMap;
-import YANModPack.YANTeleporter.src.model.adapter.SoloTeleportLocationRefListToMap;
+import YANModPack.YANTeleporter.src.model.adapter.GroupTeleportRefListToMap;
+import YANModPack.YANTeleporter.src.model.adapter.SoloTeleportRefListToMap;
 import YANModPack.src.model.entity.YANModServer;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
@@ -35,14 +35,14 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 public abstract class AbstractTeleporter extends YANModServer
 {
 	@XmlElement(name = "solo_teleport_locations", required = true)
-	@XmlJavaTypeAdapter(SoloTeleportLocationRefListToMap.class)
-	public Map<String, SoloTeleportLocation> soloLocs;
+	@XmlJavaTypeAdapter(SoloTeleportRefListToMap.class)
+	public Map<String, SoloTeleport> soloLocs;
 	@XmlElement(name = "party_teleport_locations", required = true)
-	@XmlJavaTypeAdapter(GroupTeleportLocationRefListToMap.class)
-	public Map<String, GroupTeleportLocation> partyLocs;
+	@XmlJavaTypeAdapter(GroupTeleportRefListToMap.class)
+	public Map<String, GroupTeleport> partyLocs;
 	@XmlElement(name = "command_channel_teleport_locations", required = true)
-	@XmlJavaTypeAdapter(GroupTeleportLocationRefListToMap.class)
-	public Map<String, GroupTeleportLocation> commandChannelLocs;
+	@XmlJavaTypeAdapter(GroupTeleportRefListToMap.class)
+	public Map<String, GroupTeleport> commandChannelLocs;
 	
 	public AbstractTeleporter(String bypassPrefix)
 	{
@@ -61,7 +61,7 @@ public abstract class AbstractTeleporter extends YANModServer
 		if (!soloLocs.isEmpty())
 		{
 			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("solo_locs", null).getChild("solo_locs");
-			for (Entry<String, SoloTeleportLocation> soloLoc : soloLocs.entrySet())
+			for (Entry<String, SoloTeleport> soloLoc : soloLocs.entrySet())
 			{
 				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), soloLoc.getValue().placeholder);
 			}
@@ -69,7 +69,7 @@ public abstract class AbstractTeleporter extends YANModServer
 		if (!partyLocs.isEmpty())
 		{
 			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("party_locs", null).getChild("party_locs");
-			for (Entry<String, GroupTeleportLocation> partyLoc : partyLocs.entrySet())
+			for (Entry<String, GroupTeleport> partyLoc : partyLocs.entrySet())
 			{
 				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), partyLoc.getValue().placeholder);
 			}
@@ -77,7 +77,7 @@ public abstract class AbstractTeleporter extends YANModServer
 		if (!commandChannelLocs.isEmpty())
 		{
 			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("command_channel_locs", null).getChild("command_channel_locs");
-			for (Entry<String, GroupTeleportLocation> commandChannelLoc : commandChannelLocs.entrySet())
+			for (Entry<String, GroupTeleport> commandChannelLoc : commandChannelLocs.entrySet())
 			{
 				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), commandChannelLoc.getValue().placeholder);
 			}

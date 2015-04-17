@@ -19,16 +19,18 @@ package YANModPack.YANTeleporter.src.model.adapter;
 
 import java.util.Map;
 
-import YANModPack.YANTeleporter.src.model.entity.SoloTeleportLocation;
-import YANModPack.src.model.adapter.AbstractRefListToMap;
+import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
+import YANModPack.YANTeleporter.src.model.wrapper.GroupTeleportListWrapper;
+import YANModPack.src.model.adapter.AbstractListToMap;
 
 /**
  * @author HorridoJoho
  */
-public final class SoloTeleportLocationRefListToMap extends AbstractRefListToMap<SoloTeleportLocation>
+public final class GroupTeleportListToMap extends AbstractListToMap<String, GroupTeleport, GroupTeleportListWrapper>
 {
-	public SoloTeleportLocationRefListToMap(Map<String, SoloTeleportLocation> map)
+	@Override
+	public GroupTeleportListWrapper marshal(Map<String, GroupTeleport> v)
 	{
-		super(map);
+		return new GroupTeleportListWrapper(v.values().toArray(new GroupTeleport[0]));
 	}
 }
