@@ -35,12 +35,12 @@ import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GroupTeleports
 {
-	@XmlElement(name = "grouo_teleport_locations", required = true)
+	@XmlElement(name = "group_teleports", required = true)
 	@XmlJavaTypeAdapter(GroupTeleportListToMap.class)
-	public final Map<String, GroupTeleport> locs;
+	public final Map<String, GroupTeleport> teleports;
 	
 	public GroupTeleports()
 	{
-		locs = null;
+		teleports = null;
 	}
 }

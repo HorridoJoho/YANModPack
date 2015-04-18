@@ -83,7 +83,7 @@ public final class YANBuffer extends YANModScript
 	
 	YANBuffer()
 	{
-		super("YANBuffer");
+		super(SCRIPT_NAME);
 		
 		BypassHandler.getInstance().registerHandler(YANBufferBypassHandler.getInstance());
 		
@@ -97,14 +97,6 @@ public final class YANBuffer extends YANModScript
 	// ///////////////////////////////////
 	// UTILITY METHODS
 	// ///////////////////////////////////
-	private void _debug(L2PcInstance player, String msg)
-	{
-		if (player.isGM() && YANBufferData.getInstance().getConfig().debug)
-		{
-			player.sendMessage("YANB DEBUG: " + msg);
-		}
-	}
-	
 	private void _castBuff(L2Playable playable, BuffSkill buff)
 	{
 		buff.getSkill().applyEffects(playable, playable);
@@ -134,18 +126,19 @@ public final class YANBuffer extends YANModScript
 		showAdvancedHtml(player, buffer, npc, htmlPath, placeholders);
 	}
 	
-	private void _htmlShowMain(L2PcInstance player, AbstractBuffer buffer, L2Npc npc)
+	private boolean _htmlShowMain(L2PcInstance player, AbstractBuffer buffer, L2Npc npc)
 	{
 		_showAdvancedHtml(player, buffer, npc, "main.html", new HashMap<String, HTMLTemplatePlaceholder>());
+		return true;
 	}
 	
-	private void _htmlShowCategory(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent)
+	private boolean _htmlShowCategory(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent)
 	{
 		BuffCategory buffCat = buffer.buffCats.get(categoryIdent);
 		if (buffCat == null)
 		{
-			_debug(player, "Invalid buff category: " + categoryIdent);
-			return;
+			debug(player, "Invalid buff category: " + categoryIdent);
+			return false;
 		}
 		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
@@ -153,21 +146,22 @@ public final class YANBuffer extends YANModScript
 		placeholders.put("category", buffCat.placeholder);
 		
 		_showAdvancedHtml(player, buffer, npc, "category.html", placeholders);
+		return true;
 	}
 	
-	private void _htmlShowBuff(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent, String buffIdent)
+	private boolean _htmlShowBuff(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent, String buffIdent)
 	{
 		BuffCategory buffCat = buffer.buffCats.get(categoryIdent);
 		if (buffCat == null)
 		{
-			_debug(player, "Invalid buff category: " + categoryIdent);
-			return;
+			debug(player, "Invalid buff category: " + categoryIdent);
+			return false;
 		}
 		BuffSkill buff = buffCat.getBuff(buffIdent);
 		if (buff == null)
 		{
-			_debug(player, "Invalid buff skill: " + buffIdent);
-			return;
+			debug(player, "Invalid buff skill: " + buffIdent);
+			return false;
 		}
 		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
@@ -176,15 +170,16 @@ public final class YANBuffer extends YANModScript
 		placeholders.put("buff", buff.placeholder);
 		
 		_showAdvancedHtml(player, buffer, npc, "buff.html", placeholders);
+		return true;
 	}
 	
-	private void _htmlShowPreset(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String presetBufflistIdent)
+	private boolean _htmlShowPreset(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String presetBufflistIdent)
 	{
 		BuffCategory presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
-			_debug(player, "Invalid preset buff category: " + presetBufflistIdent);
-			return;
+			debug(player, "Invalid preset buff category: " + presetBufflistIdent);
+			return false;
 		}
 		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
@@ -192,16 +187,17 @@ public final class YANBuffer extends YANModScript
 		placeholders.put("preset", presetBufflist.placeholder);
 		
 		_showAdvancedHtml(player, buffer, npc, "preset.html", placeholders);
+		return true;
 	}
 	
-	private void _htmlShowUnique(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String uniqueName)
+	private boolean _htmlShowUnique(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String uniqueName)
 	{
 		HTMLTemplatePlaceholder uniquePlaceholder = YANBufferData.getInstance().getPlayersUListPlaceholder(player.getObjectId(), uniqueName);
 		if (uniquePlaceholder == null)
 		{
 			// redirect to main html if uniqueName is not valid, will most likely happen when the player deletes a unique bufflist he is currently viewing
-			_executeHtmlCommand(player, buffer, npc, new CommandProcessor("main"));
-			return;
+			executeHtmlCommand(player, npc, new CommandProcessor("main"));
+			return false;
 		}
 		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
@@ -209,43 +205,7 @@ public final class YANBuffer extends YANModScript
 		placeholders.put(uniquePlaceholder.getName(), uniquePlaceholder);
 		
 		_showAdvancedHtml(player, buffer, npc, "unique.html", placeholders);
-	}
-	
-	private void _executeHtmlCommand(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, CommandProcessor command)
-	{
-		setLastPlayerHtml(player, command);
-		
-		if (command.matchAndRemove("main", "m"))
-		{
-			_htmlShowMain(player, buffer, npc);
-		}
-		else if (command.matchAndRemove("category ", "c "))
-		{
-			_htmlShowCategory(player, buffer, npc, command.getRemaining());
-		}
-		else if (command.matchAndRemove("preset ", "p "))
-		{
-			_htmlShowPreset(player, buffer, npc, command.getRemaining());
-		}
-		else if (command.matchAndRemove("buff ", "b "))
-		{
-			String[] argsSplit = command.splitRemaining(" ");
-			if (argsSplit.length != 2)
-			{
-				_debug(player, "Missing arguments!");
-				return;
-			}
-			_htmlShowBuff(player, buffer, npc, argsSplit[0], argsSplit[1]);
-		}
-		else if (command.matchAndRemove("unique ", "u "))
-		{
-			_htmlShowUnique(player, buffer, npc, command.getRemaining());
-		}
-		else
-		{
-			// all other malformed bypasses
-			_htmlShowMain(player, buffer, npc);
-		}
+		return true;
 	}
 	
 	//
@@ -259,13 +219,13 @@ public final class YANBuffer extends YANModScript
 		BuffCategory bCat = buffer.buffCats.get(categoryIdent);
 		if (bCat == null)
 		{
-			_debug(player, "Invalid buff category: " + categoryIdent);
+			debug(player, "Invalid buff category: " + categoryIdent);
 			return;
 		}
 		BuffSkill buff = bCat.getBuff(buffIdent);
 		if (buff == null)
 		{
-			_debug(player, "Invalid buff skill: " + buffIdent);
+			debug(player, "Invalid buff skill: " + buffIdent);
 			return;
 		}
 		
@@ -340,7 +300,7 @@ public final class YANBuffer extends YANModScript
 		BuffCategory presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
-			_debug(player, "Invalid preset buff category: " + presetBufflistIdent);
+			debug(player, "Invalid preset buff category: " + presetBufflistIdent);
 			return;
 		}
 		
@@ -389,7 +349,7 @@ public final class YANBuffer extends YANModScript
 	{
 		if (!buffer.canHeal)
 		{
-			_debug(player, "This buffer can not heal!");
+			debug(player, "This buffer can not heal!");
 			return;
 		}
 		
@@ -429,7 +389,7 @@ public final class YANBuffer extends YANModScript
 	{
 		if (!buffer.canCancel)
 		{
-			_debug(player, "This buffer can not cancel!");
+			debug(player, "This buffer can not cancel!");
 			return;
 		}
 		target.stopAllEffectsExceptThoseThatLastThroughDeath();
@@ -449,13 +409,13 @@ public final class YANBuffer extends YANModScript
 			target = player.getSummon();
 			if (target == null)
 			{
-				_debug(player, "No summon available!");
+				debug(player, "No summon available!");
 				return;
 			}
 		}
 		else
 		{
-			_debug(player, "Invalid target command target!");
+			debug(player, "Invalid target command target!");
 			return;
 		}
 		
@@ -466,7 +426,7 @@ public final class YANBuffer extends YANModScript
 			String[] argsSplit = command.splitRemaining(" ");
 			if (argsSplit.length != 2)
 			{
-				_debug(player, "Missing arguments!");
+				debug(player, "Missing arguments!");
 				return;
 			}
 			_targetBuffBuff(player, target, buffer, argsSplit[0], argsSplit[1]);
@@ -612,7 +572,7 @@ public final class YANBuffer extends YANModScript
 			String[] argsSplit = command.splitRemaining(" ");
 			if (argsSplit.length != 3)
 			{
-				_debug(player, "Missing arguments!");
+				debug(player, "Missing arguments!");
 				return;
 			}
 			_uniqueAdd(player, buffer, argsSplit[0], argsSplit[1], argsSplit[2]);
@@ -622,7 +582,7 @@ public final class YANBuffer extends YANModScript
 			String[] argsSplit = command.splitRemaining(" ");
 			if (argsSplit.length != 2)
 			{
-				_debug(player, "Missing arguments!");
+				debug(player, "Missing arguments!");
 				return;
 			}
 			_uniqueRemove(player, argsSplit[0], argsSplit[1]);
@@ -641,42 +601,70 @@ public final class YANBuffer extends YANModScript
 	// ////////////////////////////////
 	
 	@Override
-	public void executeCommandImpl(L2PcInstance player, L2Npc npc, String commandString)
+	public boolean executeHtmlCommand(L2PcInstance player, L2Npc npc, CommandProcessor command)
 	{
 		AbstractBuffer buffer = YANBufferData.getInstance().getBuffers().determineBuffer(npc, player);
 		if (buffer == null)
 		{
-			// not an authorized npc or npc is null and voiced buffer is disabled
 			player.sendMessage("No authorization!");
-			return;
+			return false;
 		}
 		
-		if ((commandString == null) || commandString.isEmpty())
+		if (command.matchAndRemove("main", "m"))
 		{
-			commandString = "html main";
+			return _htmlShowMain(player, buffer, npc);
 		}
-		
-		_debug(player, "--------------------");
-		_debug(player, commandString);
-		
-		CommandProcessor command = new CommandProcessor(commandString);
-		
-		if (command.matchAndRemove("html ", "h "))
+		else if (command.matchAndRemove("category ", "c "))
 		{
-			_executeHtmlCommand(player, buffer, npc, command);
+			return _htmlShowCategory(player, buffer, npc, command.getRemaining());
 		}
-		else
+		else if (command.matchAndRemove("preset ", "p "))
 		{
-			if (command.matchAndRemove("target ", "t "))
+			return _htmlShowPreset(player, buffer, npc, command.getRemaining());
+		}
+		else if (command.matchAndRemove("buff ", "b "))
+		{
+			String[] argsSplit = command.splitRemaining(" ");
+			if (argsSplit.length != 2)
 			{
-				_executeTargetCommand(player, buffer, command);
+				debug(player, "Missing arguments!");
+				return false;
 			}
-			else if (command.matchAndRemove("unique ", "u "))
-			{
-				_executeUniqueCommand(player, buffer, command);
-			}
-			
-			showLastPlayerHtml(player, npc);
+			return _htmlShowBuff(player, buffer, npc, argsSplit[0], argsSplit[1]);
 		}
+		else if (command.matchAndRemove("unique ", "u "))
+		{
+			return _htmlShowUnique(player, buffer, npc, command.getRemaining());
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean executeActionCommand(L2PcInstance player, L2Npc npc, CommandProcessor command)
+	{
+		AbstractBuffer buffer = YANBufferData.getInstance().getBuffers().determineBuffer(npc, player);
+		if (buffer == null)
+		{
+			player.sendMessage("No authorization!");
+			return false;
+		}
+		
+		if (command.matchAndRemove("target ", "t "))
+		{
+			_executeTargetCommand(player, buffer, command);
+		}
+		else if (command.matchAndRemove("unique ", "u "))
+		{
+			_executeUniqueCommand(player, buffer, command);
+		}
+		
+		return true;
+	}
+	
+	@Override
+	protected boolean isDebugEnabled()
+	{
+		return YANBufferData.getInstance().getConfig().debug;
 	}
 }

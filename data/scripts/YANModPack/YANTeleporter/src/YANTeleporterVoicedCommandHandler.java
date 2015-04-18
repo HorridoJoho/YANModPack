@@ -48,8 +48,7 @@ public final class YANTeleporterVoicedCommandHandler implements IVoicedCommandHa
 	@Override
 	public boolean useVoicedCommand(String command, L2PcInstance activeChar, String params)
 	{
-		// TODO:
-		// YANTeleporter.getInstance().executeCommand(activeChar, null, params);
+		YANTeleporter.getInstance().executeCommand(activeChar, null, params);
 		return true;
 	}
 	

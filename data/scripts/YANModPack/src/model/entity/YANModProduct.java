@@ -29,7 +29,7 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 /**
  * @author HorridoJoho
  */
-public abstract class YANModProduct extends Definition<String>
+public abstract class YANModProduct extends Definition
 {
 	@XmlElement(name = "item_requirements", required = true)
 	@XmlJavaTypeAdapter(ItemRequirementRefListToMap.class)

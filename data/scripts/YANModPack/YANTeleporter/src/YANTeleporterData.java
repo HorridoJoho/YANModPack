@@ -58,8 +58,8 @@ final class YANTeleporterData
 	
 	protected final TeleporterConfig _config;
 	protected final ItemRequirements _itemRequirements;
-	protected final SoloTeleports _soloLocs;
-	protected final GroupTeleports _groupLocs;
+	protected final SoloTeleports _soloTeleports;
+	protected final GroupTeleports _groupTeleports;
 	protected final Teleporters _teleporters;
 	
 	private YANTeleporterData() throws Exception
@@ -76,11 +76,11 @@ final class YANTeleporterData
 		_itemRequirements = u.unmarshal(new StreamSource(xmlPath.resolve("item_requirements.xml").toFile()), ItemRequirements.class).getValue();
 		u.setAdapter(ItemRequirementRefListToMap.class, new ItemRequirementRefListToMap(_itemRequirements.items));
 		
-		_soloLocs = u.unmarshal(new StreamSource(xmlPath.resolve("solo_teleport_locations.xml").toFile()), SoloTeleports.class).getValue();
-		u.setAdapter(SoloTeleportRefListToMap.class, new SoloTeleportRefListToMap(_soloLocs.locs));
+		_soloTeleports = u.unmarshal(new StreamSource(xmlPath.resolve("solo_teleports.xml").toFile()), SoloTeleports.class).getValue();
+		u.setAdapter(SoloTeleportRefListToMap.class, new SoloTeleportRefListToMap(_soloTeleports.teleports));
 		
-		_groupLocs = u.unmarshal(new StreamSource(xmlPath.resolve("group_teleport_locations.xml").toFile()), GroupTeleports.class).getValue();
-		u.setAdapter(GroupTeleportRefListToMap.class, new GroupTeleportRefListToMap(_groupLocs.locs));
+		_groupTeleports = u.unmarshal(new StreamSource(xmlPath.resolve("group_teleports.xml").toFile()), GroupTeleports.class).getValue();
+		u.setAdapter(GroupTeleportRefListToMap.class, new GroupTeleportRefListToMap(_groupTeleports.teleports));
 		
 		_teleporters = u.unmarshal(new StreamSource(xmlPath.resolve("teleporters.xml").toFile()), Teleporters.class).getValue();
 	}
@@ -90,14 +90,14 @@ final class YANTeleporterData
 		return _config;
 	}
 	
-	public SoloTeleport getSoloLoc(String ident)
+	public SoloTeleport getSoloTeleport(String ident)
 	{
-		return _soloLocs.locs.get(ident);
+		return _soloTeleports.teleports.get(ident);
 	}
 	
-	public GroupTeleport getGroupLoc(String ident)
+	public GroupTeleport getGroupTeleport(String ident)
 	{
-		return _groupLocs.locs.get(ident);
+		return _groupTeleports.teleports.get(ident);
 	}
 	
 	public Teleporters getTeleporters()

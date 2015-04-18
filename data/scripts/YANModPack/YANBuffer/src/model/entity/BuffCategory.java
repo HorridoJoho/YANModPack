@@ -32,7 +32,7 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 /**
  * @author HorridoJoho
  */
-public class BuffCategory extends Definition<String>
+public class BuffCategory extends Definition
 {
 	@XmlAttribute(name = "name", required = true)
 	public final String name;

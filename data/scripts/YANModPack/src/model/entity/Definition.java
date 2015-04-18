@@ -27,12 +27,11 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * @author HorridoJoho
- * @param <T> id type
  */
-public abstract class Definition<T> implements IDefinition<T>
+public abstract class Definition implements IDefinition<String>
 {
 	@XmlAttribute(name = "id", required = true)
-	public final T id;
+	public final String id;
 	
 	@XmlTransient
 	public final HTMLTemplatePlaceholder placeholder;
@@ -44,7 +43,7 @@ public abstract class Definition<T> implements IDefinition<T>
 		placeholder = new HTMLTemplatePlaceholder("placeholder", null);
 	}
 	
-	protected Definition(T id)
+	protected Definition(String id)
 	{
 		Objects.requireNonNull(id);
 		this.id = id;
@@ -58,7 +57,7 @@ public abstract class Definition<T> implements IDefinition<T>
 	}
 	
 	@Override
-	public final T getIdentifier()
+	public final String getIdentifier()
 	{
 		return id;
 	}

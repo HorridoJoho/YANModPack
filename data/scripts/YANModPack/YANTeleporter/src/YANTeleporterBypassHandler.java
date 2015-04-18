@@ -19,6 +19,7 @@ package YANModPack.YANTeleporter.src;
 
 import com.l2jserver.gameserver.handler.IBypassHandler;
 import com.l2jserver.gameserver.model.actor.L2Character;
+import com.l2jserver.gameserver.model.actor.L2Npc;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 
 /*
@@ -54,8 +55,7 @@ public class YANTeleporterBypassHandler implements IBypassHandler
 			return false;
 		}
 		
-		// TODO:
-		// YANTeleporter.getInstance().executeCommand(activeChar, (L2Npc) target, command.substring(BYPASS.length()).trim());
+		YANTeleporter.getInstance().executeCommand(activeChar, (L2Npc) target, command.substring(BYPASS.length()).trim());
 		return true;
 	}
 	

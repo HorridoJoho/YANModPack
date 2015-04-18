@@ -56,20 +56,34 @@ public abstract class YANModScript extends AbstractNpcAI
 	public final Path scriptPath;
 	private final ConcurrentHashMap<Integer, String> _lastPlayerHtmls = new ConcurrentHashMap<>();
 	
-	public YANModScript(String descr)
+	public YANModScript(String name)
 	{
-		super(SCRIPT_COLLECTION, descr);
+		super(name, SCRIPT_COLLECTION);
 		
-		Objects.requireNonNull(descr);
-		scriptName = descr;
+		Objects.requireNonNull(name);
+		scriptName = name;
 		scriptPath = Paths.get(SCRIPT_COLLECTION, scriptName);
 	}
 	
-	@Override
-	public final String onFirstTalk(L2Npc npc, L2PcInstance player)
+	private void _setLastPlayerHtml(L2PcInstance player, String command)
 	{
-		executeCommand(player, npc, null);
-		return null;
+		_lastPlayerHtmls.put(player.getObjectId(), command);
+	}
+	
+	private void _showLastPlayerHtml(L2PcInstance player, L2Npc npc)
+	{
+		String lastHtmlCommand = _lastPlayerHtmls.get(player.getObjectId());
+		if (lastHtmlCommand != null)
+		{
+			executeHtmlCommand(player, npc, new CommandProcessor(lastHtmlCommand));
+		}
+	}
+	
+	private String _generateAdvancedHtml(L2PcInstance player, YANModServer service, String path, Map<String, HTMLTemplatePlaceholder> placeholders)
+	{
+		final String htmlPath = "/data/scripts/" + scriptPath + "/data/html/" + service.htmlFolder + "/" + path;
+		debug(player, htmlPath);
+		return HTMLTemplateParser.fromCache(htmlPath, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
 	}
 	
 	protected final boolean isInsideAnyZoneOf(L2Character character, ZoneId first, ZoneId... more)
@@ -106,15 +120,13 @@ public abstract class YANModScript extends AbstractNpcAI
 		}
 	}
 	
-	private final String _generateAdvancedHtml(L2PcInstance player, YANModServer service, String path, Map<String, HTMLTemplatePlaceholder> placeholders)
-	{
-		return HTMLTemplateParser.fromCache("/data/scripts/" + scriptPath + "/data/html/" + service.htmlFolder + "/" + path, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
-	}
-	
 	protected final void showAdvancedHtml(L2PcInstance player, YANModServer service, L2Npc npc, String path, Map<String, HTMLTemplatePlaceholder> placeholders)
 	{
-		placeholders.put(service.placeholder.getName(), service.placeholder);
+		placeholders.put(service.htmlAccessorName, service.placeholder);
 		String html = _generateAdvancedHtml(player, service, path, placeholders);
+		
+		debug(html);
+		
 		switch (service.dialogType)
 		{
 			case NPC:
@@ -126,7 +138,30 @@ public abstract class YANModScript extends AbstractNpcAI
 		}
 	}
 	
-	public final void executeCommand(L2PcInstance player, L2Npc npc, String command)
+	@Override
+	public final String onFirstTalk(L2Npc npc, L2PcInstance player)
+	{
+		executeCommand(player, npc, null);
+		return null;
+	}
+	
+	public final void debug(L2PcInstance player, String message)
+	{
+		if (player.isGM() && isDebugEnabled())
+		{
+			player.sendMessage(scriptName + ": " + message);
+		}
+	}
+	
+	public final void debug(String message)
+	{
+		if (isDebugEnabled())
+		{
+			System.out.println(message);
+		}
+	}
+	
+	public final void executeCommand(L2PcInstance player, L2Npc npc, String commandString)
 	{
 		if (isInsideAnyZoneOf(player, ZoneId.PVP, ZoneId.SIEGE, ZoneId.WATER, ZoneId.JAIL, ZoneId.DANGER_AREA))
 		{
@@ -151,22 +186,64 @@ public abstract class YANModScript extends AbstractNpcAI
 			return;
 		}
 		
-		executeCommandImpl(player, npc, command);
-	}
-	
-	protected void setLastPlayerHtml(L2PcInstance player, CommandProcessor command)
-	{
-		_lastPlayerHtmls.put(player.getObjectId(), command.getRemaining());
-	}
-	
-	protected void showLastPlayerHtml(L2PcInstance player, L2Npc npc)
-	{
-		String lastHtmlCommand = _lastPlayerHtmls.get(player.getObjectId());
-		if (lastHtmlCommand != null)
+		if ((commandString == null) || commandString.isEmpty())
 		{
-			executeCommandImpl(player, npc, "html" + lastHtmlCommand);
+			commandString = "html main";
+		}
+		
+		debug(player, "--------------------");
+		debug(player, commandString);
+		
+		CommandProcessor command = new CommandProcessor(commandString);
+		
+		if (command.matchAndRemove("html ", "h "))
+		{
+			String playerCommand = command.getRemaining();
+			if (!executeHtmlCommand(player, npc, command))
+			{
+				_setLastPlayerHtml(player, "main");
+			}
+			else
+			{
+				_setLastPlayerHtml(player, playerCommand);
+			}
+		}
+		else
+		{
+			if (executeActionCommand(player, npc, command))
+			{
+				_showLastPlayerHtml(player, npc);
+			}
 		}
 	}
 	
-	protected abstract void executeCommandImpl(L2PcInstance player, L2Npc npc, String command);
+	/**
+	 * Method for Html command processing. The default html command is "main". This also<br>
+	 * means, "main" must be implemented. The return value indicates if the user<br>
+	 * supplied html command should be saved as last html command.
+	 * @param player
+	 * @param npc
+	 * @param command
+	 * @return true: save the html command as last html command<br>
+	 *         false: don't save the html command as last html command
+	 */
+	protected abstract boolean executeHtmlCommand(L2PcInstance player, L2Npc npc, CommandProcessor command);
+	
+	/**
+	 * Method for action command processing. The return value indicates if the<br>
+	 * last saved player html command should be executed after this method.
+	 * @param player
+	 * @param npc
+	 * @param command
+	 * @return true: execute last saved html command of the player<br>
+	 *         false: don't execute last saved html command of the player
+	 */
+	protected abstract boolean executeActionCommand(L2PcInstance player, L2Npc npc, CommandProcessor command);
+	
+	/**
+	 * Method to determine if debugging is enabled.
+	 * @return true: debugging is enabled<br>
+	 *         false: debugging is disabled
+	 */
+	protected abstract boolean isDebugEnabled();
 }

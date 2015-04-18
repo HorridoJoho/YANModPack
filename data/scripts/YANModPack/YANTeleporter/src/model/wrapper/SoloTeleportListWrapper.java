@@ -27,7 +27,7 @@ import YANModPack.src.model.wrapper.IListWrapper;
  */
 public class SoloTeleportListWrapper implements IListWrapper<SoloTeleport>
 {
-	@XmlElement(name = "solo_teleport_location")
+	@XmlElement(name = "solo_teleport")
 	private final SoloTeleport[] defs;
 	
 	public SoloTeleportListWrapper()

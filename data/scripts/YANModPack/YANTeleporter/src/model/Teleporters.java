@@ -44,7 +44,7 @@ public final class Teleporters
 {
 	@XmlElement(name = "voiced_teleporter", required = true)
 	public final VoicedTeleporter voicedTeleporter;
-	@XmlElement(name = "npc_teleporter", required = true)
+	@XmlElement(name = "npc_teleporters", required = true)
 	@XmlJavaTypeAdapter(NpcTeleporterListToMap.class)
 	public final Map<Integer, NpcTeleporter> npcTeleporters;
 	

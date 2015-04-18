@@ -96,7 +96,7 @@ public final class YANBufferData
 		Path xmlPath = Paths.get(Config.DATAPACK_ROOT.getAbsolutePath(), "data", "scripts", YANBuffer.SCRIPT_PATH.toString(), "data", "xml");
 		// Path xsdPath = Paths.get(xmlPath.toString(), "xsd");
 		
-		JAXBContext ctx = JAXBContext.newInstance(ItemRequirements.class, BuffSkills.class, BuffCategories.class, Buffers.class);
+		JAXBContext ctx = JAXBContext.newInstance(BufferConfig.class, ItemRequirements.class, BuffSkills.class, BuffCategories.class, Buffers.class);
 		Unmarshaller u = ctx.createUnmarshaller();
 		// validate against document specified schema
 		// u.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema());

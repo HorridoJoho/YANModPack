@@ -27,7 +27,7 @@ import YANModPack.src.model.wrapper.IListWrapper;
  */
 public class GroupTeleportListWrapper implements IListWrapper<GroupTeleport>
 {
-	@XmlElement(name = "group_teleport_location")
+	@XmlElement(name = "group_teleport")
 	private final GroupTeleport[] defs;
 	
 	public GroupTeleportListWrapper()

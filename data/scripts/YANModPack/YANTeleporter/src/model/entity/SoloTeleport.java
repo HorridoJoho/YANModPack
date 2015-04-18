@@ -58,6 +58,6 @@ public class SoloTeleport extends YANModProduct
 	{
 		super.afterUnmarshal(unmarshaller, parent);
 		
-		placeholder.addChild("x", String.valueOf(x)).addChild("y", String.valueOf(y)).addChild("z", String.valueOf(z)).addChild("instance", instance);
+		placeholder.addChild("name", name);
 	}
 }

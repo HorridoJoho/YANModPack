@@ -26,7 +26,7 @@ import com.l2jserver.gameserver.model.items.L2Item;
 /**
  * @author HorridoJoho
  */
-public class ItemRequirement extends Definition<String>
+public class ItemRequirement extends Definition
 {
 	@XmlAttribute(name = "item_id", required = true)
 	public final int itemId;

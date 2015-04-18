@@ -132,11 +132,6 @@
 				<reference>ADENA_100</reference>
 			</item_requirements>
 		</buff>
-		<buff id="BUFF_26" skill_id="1086" skill_level="2" type="BUFF">
-			<item_requirements>
-				<reference>ADENA_100</reference>
-			</item_requirements>
-		</buff>
 
 		<!-- Songs -->
 		<buff id="SONG_0" skill_id="264" skill_level="1" type="SONG_DANCE">

@@ -35,12 +35,12 @@ import YANModPack.YANTeleporter.src.model.entity.SoloTeleport;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SoloTeleports
 {
-	@XmlElement(name = "solo_teleport_locations", required = true)
+	@XmlElement(name = "solo_teleports", required = true)
 	@XmlJavaTypeAdapter(SoloTeleportListToMap.class)
-	public final Map<String, SoloTeleport> locs;
+	public final Map<String, SoloTeleport> teleports;
 	
 	public SoloTeleports()
 	{
-		locs = null;
+		teleports = null;
 	}
 }

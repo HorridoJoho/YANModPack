@@ -34,23 +34,23 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
  */
 public abstract class AbstractTeleporter extends YANModServer
 {
-	@XmlElement(name = "solo_teleport_locations", required = true)
+	@XmlElement(name = "solo_teleports", required = true)
 	@XmlJavaTypeAdapter(SoloTeleportRefListToMap.class)
-	public Map<String, SoloTeleport> soloLocs;
-	@XmlElement(name = "party_teleport_locations", required = true)
+	public Map<String, SoloTeleport> soloTeleports;
+	@XmlElement(name = "party_teleports", required = true)
 	@XmlJavaTypeAdapter(GroupTeleportRefListToMap.class)
-	public Map<String, GroupTeleport> partyLocs;
-	@XmlElement(name = "command_channel_teleport_locations", required = true)
+	public Map<String, GroupTeleport> partyTeleports;
+	@XmlElement(name = "command_channel_teleports", required = true)
 	@XmlJavaTypeAdapter(GroupTeleportRefListToMap.class)
-	public Map<String, GroupTeleport> commandChannelLocs;
+	public Map<String, GroupTeleport> commandChannelTeleports;
 	
 	public AbstractTeleporter(String bypassPrefix)
 	{
 		super(bypassPrefix, "teleporter");
 		
-		soloLocs = null;
-		partyLocs = null;
-		commandChannelLocs = null;
+		soloTeleports = null;
+		partyTeleports = null;
+		commandChannelTeleports = null;
 	}
 	
 	@Override
@@ -58,28 +58,28 @@ public abstract class AbstractTeleporter extends YANModServer
 	{
 		super.afterUnmarshal(unmarshaller, parent);
 		
-		if (!soloLocs.isEmpty())
+		if (!soloTeleports.isEmpty())
 		{
-			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("solo_locs", null).getChild("solo_locs");
-			for (Entry<String, SoloTeleport> soloLoc : soloLocs.entrySet())
+			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("solo_teleports", null).getChild("solo_teleports");
+			for (Entry<String, SoloTeleport> soloTeleport : soloTeleports.entrySet())
 			{
-				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), soloLoc.getValue().placeholder);
+				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), soloTeleport.getValue().placeholder);
 			}
 		}
-		if (!partyLocs.isEmpty())
+		if (!partyTeleports.isEmpty())
 		{
-			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("party_locs", null).getChild("party_locs");
-			for (Entry<String, GroupTeleport> partyLoc : partyLocs.entrySet())
+			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("party_teleports", null).getChild("party_teleports");
+			for (Entry<String, GroupTeleport> partyTeleport : partyTeleports.entrySet())
 			{
-				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), partyLoc.getValue().placeholder);
+				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), partyTeleport.getValue().placeholder);
 			}
 		}
-		if (!commandChannelLocs.isEmpty())
+		if (!commandChannelTeleports.isEmpty())
 		{
-			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("command_channel_locs", null).getChild("command_channel_locs");
-			for (Entry<String, GroupTeleport> commandChannelLoc : commandChannelLocs.entrySet())
+			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("command_channel_teleports", null).getChild("command_channel_teleports");
+			for (Entry<String, GroupTeleport> commandChannelTeleport : commandChannelTeleports.entrySet())
 			{
-				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), commandChannelLoc.getValue().placeholder);
+				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), commandChannelTeleport.getValue().placeholder);
 			}
 		}
 	}

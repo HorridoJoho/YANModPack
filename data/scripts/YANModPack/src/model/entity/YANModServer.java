@@ -38,6 +38,8 @@ public abstract class YANModServer
 	public final HTMLTemplatePlaceholder placeholder;
 	@XmlTransient
 	public final String bypassPrefix;
+	@XmlTransient
+	public final String htmlAccessorName;
 	
 	public YANModServer(String bypassPrefix, String htmlAccessorName)
 	{
@@ -45,7 +47,8 @@ public abstract class YANModServer
 		htmlFolder = null;
 		
 		placeholder = new HTMLTemplatePlaceholder("service", null);
-		this.bypassPrefix = bypassPrefix;
+		this.bypassPrefix = "bypass -h " + bypassPrefix;
+		this.htmlAccessorName = htmlAccessorName;
 	}
 	
 	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
