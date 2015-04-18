@@ -20,14 +20,14 @@ package YANModPack.YANBuffer.src;
 import java.util.LinkedList;
 
 import YANModPack.YANBuffer.src.YANBufferData.BuffType;
-import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.YANBuffer.src.model.entity.BuffSkill;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * This class is here so we can actually get the name of this list and make placeholder adjustments easily while keeping outside code cleaner
  * @author HorridoJoho
  */
-public class UniqueBufflist extends LinkedList<BuffSkillDef>
+public class UniqueBufflist extends LinkedList<BuffSkill>
 {
 	private static final long serialVersionUID = -2586607798277226501L;
 	
@@ -47,7 +47,7 @@ public class UniqueBufflist extends LinkedList<BuffSkillDef>
 	}
 	
 	@Override
-	public boolean add(BuffSkillDef e)
+	public boolean add(BuffSkill e)
 	{
 		if (super.add(e))
 		{
@@ -73,7 +73,7 @@ public class UniqueBufflist extends LinkedList<BuffSkillDef>
 	{
 		if (super.remove(o))
 		{
-			switch (((BuffSkillDef) o).type)
+			switch (((BuffSkill) o).type)
 			{
 				case BUFF:
 					--numBuffs;
@@ -84,7 +84,7 @@ public class UniqueBufflist extends LinkedList<BuffSkillDef>
 			}
 			
 			this.placeholder = new HTMLTemplatePlaceholder("unique", null).addChild("buffs", null).addChild("name", this.ulistName).addChild("num_buffs", String.valueOf(numBuffs)).addChild("num_songs_dances", String.valueOf(numSongsDances));
-			for (BuffSkillDef buff : this)
+			for (BuffSkill buff : this)
 			{
 				this.placeholder.getChild("buffs").addAliasChild(buff.id, buff.placeholder);
 			}

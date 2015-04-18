@@ -2,11 +2,13 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:element name="yanbuffer">
 		<xsd:complexType>
-			<xsd:attribute name="heal_cooldown" type="xsd:positiveInteger" use="required" />
-			<xsd:attribute name="max_unique_lists" type="xsd:positiveInteger" use="required" />
-			<xsd:attribute name="unique_max_buffs" type="xsd:positiveInteger" use="required" />
-			<xsd:attribute name="unique_max_songs_dances" type="xsd:positiveInteger" use="required" />
-			<xsd:attribute name="debug" type="xsd:boolean" use="required" />
+			<xsd:all maxOccurs="1" minOccurs="1">
+				<xsd:element name="heal_cooldown" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="max_unique_lists" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="unique_max_buffs" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="unique_max_songs_dances" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="debug" type="xsd:boolean" maxOccurs="1" minOccurs="1" />
+			</xsd:all>
 		</xsd:complexType>
 	</xsd:element>
 </xsd:schema>

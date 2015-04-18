@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANBuffer.src.model.adapter.direct.BuffSkillDefListMapAdapter;
-import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
+import YANModPack.YANBuffer.src.model.adapter.BuffSkillListToMap;
+import YANModPack.YANBuffer.src.model.entity.BuffSkill;
 
 /**
  * @author HorridoJoho
@@ -35,9 +35,9 @@ import YANModPack.YANBuffer.src.model.entity.BuffSkillDef;
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class BuffSkills
 {
-	@XmlElement(name = "buffs")
-	@XmlJavaTypeAdapter(BuffSkillDefListMapAdapter.class)
-	public final Map<String, BuffSkillDef> buffs;
+	@XmlElement(name = "buffs", required = true)
+	@XmlJavaTypeAdapter(BuffSkillListToMap.class)
+	public final Map<String, BuffSkill> buffs;
 	
 	public BuffSkills()
 	{

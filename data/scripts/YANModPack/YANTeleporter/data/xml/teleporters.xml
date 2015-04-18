@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teleporters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/teleporters.xsd">
+	<!-- ATTRIBUTES
+		enabled			(required)	- true|false
+		dialog_type		(required)	- NPC|COMMUNITY; NPC open npc html window, open COMMUNITY window
+		html_folder		(required)	- html subfolder; which subfolder to use for yanbuffer htmls(data/scripts/YANModPack/YANBuffer/data/html/<html_folder>/)
+		required_item	(optional)	- default "0"; 0: no item required, required item to have int he inventory(not consumed)
+	-->
+	<voiced_teleporter enabled="true" dialog_type="COMMUNITY" html_folder="community">
+		<solo_teleports>
+			<!-- teleports from solo_teleports.xml -->
+			<reference>S_CEDRICS_TRAINING_HALL</reference>
+		</solo_teleports>
+		<party_teleports>
+			<!-- teleports from group_teleports.xml -->
+			<reference>P_CEDRICS_TRAINING_HALL</reference>
+		</party_teleports>
+		<command_channel_teleports>
+			<!-- teleports from group_teleports.xml -->
+			<reference>CC_CEDRICS_TRAINING_HALL</reference>
+		</command_channel_teleports>
+	</voiced_teleporter>
+
+	<npc_teleporters>
+		<!-- ATTRIBUTES
+			npc_id				(required)	- the npc who represents the buffer
+			direct_first_talk	(required)	- true|false; true: yanbuffer main.html as first talk, false: html from data/html for first talk
+			dialog_type			(required)	- NPC|COMMUNITY; NPC open npc html window, open COMMUNITY window
+			html_folder			(required)	- which subfolder to use for yanbuffer htmls(data/scripts/YANModPack/YANBuffer/data/html/<html_folder>/)			
+ 		-->
+		<npc_teleporter npc_id="1000007" direct_first_talk="true" dialog_type="NPC" html_folder="npc">
+			<solo_teleports>
+				<!-- teleports from solo_teleports.xml -->
+				<reference>S_CEDRICS_TRAINING_HALL</reference>
+			</solo_teleports>
+			<party_teleports>
+				<!-- teleports from group_teleports.xml -->
+				<reference>P_CEDRICS_TRAINING_HALL</reference>
+			</party_teleports>
+			<command_channel_teleports>
+				<!-- teleports from group_teleports.xml -->
+				<reference>CC_CEDRICS_TRAINING_HALL</reference>
+			</command_channel_teleports>
+		</npc_teleporter>
+	</npc_teleporters>
+</teleporters>

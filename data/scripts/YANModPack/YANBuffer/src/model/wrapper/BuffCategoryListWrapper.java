@@ -19,29 +19,29 @@ package YANModPack.YANBuffer.src.model.wrapper;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import YANModPack.YANBuffer.src.model.entity.BuffCategoryDef;
+import YANModPack.YANBuffer.src.model.entity.BuffCategory;
 import YANModPack.src.model.wrapper.IListWrapper;
 
 /**
  * @author HorridoJoho
  */
-public final class BuffCategoryListWrapper implements IListWrapper<BuffCategoryDef>
+public final class BuffCategoryListWrapper implements IListWrapper<BuffCategory>
 {
 	@XmlElement(name = "buff_category")
-	private final BuffCategoryDef[] defs;
+	private final BuffCategory[] defs;
 	
 	public BuffCategoryListWrapper()
 	{
 		defs = null;
 	}
 	
-	public BuffCategoryListWrapper(BuffCategoryDef[] defs)
+	public BuffCategoryListWrapper(BuffCategory[] defs)
 	{
 		this.defs = defs;
 	}
 	
 	@Override
-	public BuffCategoryDef[] getList()
+	public BuffCategory[] getList()
 	{
 		return defs;
 	}

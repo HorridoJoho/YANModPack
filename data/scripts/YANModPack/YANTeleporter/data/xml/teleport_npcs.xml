@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tele_npcs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/teleport_npcs.xsd">
-	<tele_npc id="1000005">
-		<tele_loc ident="TELE_LOC_1"/>
-	</tele_npc>
-</tele_npcs>

@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<xsd:redefine schemaLocation="../../../../data/xml/xsd/item_types.xsd" />
+	<xsd:redefine schemaLocation="../../../../data/xml/xsd/base_types.xsd" />
 	<xsd:element name="list">
 		<xsd:complexType>
 			<xsd:all maxOccurs="1" minOccurs="1">
-				<xsd:element name="buffs" maxOccurs="1" minOccurs="0">
+				<xsd:element name="buffs" maxOccurs="1" minOccurs="1">
 					<xsd:complexType>
 						<xsd:sequence maxOccurs="1" minOccurs="1">
 							<xsd:element name="buff" maxOccurs="unbounded" minOccurs="0">
 								<xsd:complexType>
 									<xsd:all maxOccurs="1" minOccurs="1">
-										<xsd:element name="item_requirements" maxOccurs="1" minOccurs="0">
-											<xsd:complexType>
-												<xsd:sequence maxOccurs="1" minOccurs="1">
-													<xsd:element name="reference" type="item_requirement_reference" maxOccurs="unbounded" minOccurs="0" />
-												</xsd:sequence>
-											</xsd:complexType>
-										</xsd:element>
+										<xsd:element name="item_requirements" maxOccurs="1" minOccurs="1" type="reference_list" />
 									</xsd:all>
 									<xsd:attribute name="id" type="xsd:ID" use="required" />
 									<xsd:attribute name="skill_id" type="xsd:positiveInteger" use="required" />

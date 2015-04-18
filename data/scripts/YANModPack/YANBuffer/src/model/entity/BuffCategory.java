@@ -23,49 +23,48 @@ import java.util.Map.Entry;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import YANModPack.YANBuffer.src.model.adapter.reference.BuffSkillRefListMapAdapter;
+import YANModPack.YANBuffer.src.model.adapter.BuffSkillRefListToMap;
+import YANModPack.src.model.entity.Definition;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * @author HorridoJoho
  */
-public class BuffCategory
+public class BuffCategory extends Definition
 {
-	@XmlAttribute(name = "name")
+	@XmlAttribute(name = "name", required = true)
 	public final String name;
 	
-	@XmlElement(name = "buffs")
-	@XmlJavaTypeAdapter(BuffSkillRefListMapAdapter.class)
-	public final Map<String, BuffSkillDef> buffSkills;
-	
-	@XmlTransient
-	public final HTMLTemplatePlaceholder placeholder;
+	@XmlElement(name = "buffs", required = true)
+	@XmlJavaTypeAdapter(BuffSkillRefListToMap.class)
+	public final Map<String, BuffSkill> buffSkills;
 	
 	public BuffCategory()
 	{
 		name = null;
-		buffSkills = null;
 		
-		placeholder = new HTMLTemplatePlaceholder("category", null);
+		buffSkills = null;
 	}
 	
+	@Override
 	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
 	{
+		super.afterUnmarshal(unmarshaller, parent);
+		
 		placeholder.addChild("name", name);
 		if (!buffSkills.isEmpty())
 		{
 			HTMLTemplatePlaceholder buffsPlaceholder = this.placeholder.addChild("buffs", null).getChild("buffs");
-			for (Entry<String, BuffSkillDef> buff : buffSkills.entrySet())
+			for (Entry<String, BuffSkill> buff : buffSkills.entrySet())
 			{
 				buffsPlaceholder.addAliasChild(String.valueOf(buffsPlaceholder.getChildsSize()), buff.getValue().placeholder);
 			}
 		}
 	}
 	
-	public BuffSkillDef getBuff(String id)
+	public BuffSkill getBuff(String id)
 	{
 		return buffSkills.get(id);
 	}

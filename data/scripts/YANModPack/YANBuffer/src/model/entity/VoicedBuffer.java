@@ -29,9 +29,9 @@ import com.l2jserver.gameserver.model.items.L2Item;
  */
 public final class VoicedBuffer extends AbstractBuffer
 {
-	@XmlAttribute(name = "enabled")
+	@XmlAttribute(name = "enabled", required = true)
 	public final boolean enabled;
-	@XmlAttribute(name = "required_item_id", required = false)
+	@XmlAttribute(name = "required_item_id")
 	public final int requiredItemId;
 	
 	public VoicedBuffer()
@@ -49,6 +49,6 @@ public final class VoicedBuffer extends AbstractBuffer
 	@Override
 	protected String getName()
 	{
-		return "Voiced Command Buffer";
+		return "Voiced Command Teleporter";
 	}
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/solo_teleports.xsd">
+	<solo_teleports>
+		<!-- ATTRIBUTES
+			id					(required)	- the teleport identifier
+			name				(required)	- the display name
+			x, y, z, heading	(required)	- the teleport location
+			random_offset		(optional)	- default "0"; when specified, a random offset is applied to the specified teleport location on each teleport request
+			instance			(optional)	- default ""; when specified, an instance is created from the specified instance definition xml and the player is teleported into that instance
+		-->
+		<solo_teleport id="S_CEDRICS_TRAINING_HALL" name="Cedrics Training Hall" x="-71504" y="258211" z="-3105" heading="0">
+			<item_requirements>
+				<reference>ADENA_1000</reference>
+			</item_requirements>
+		</solo_teleport>
+	</solo_teleports>
+</list>

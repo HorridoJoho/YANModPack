@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tele_locs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/teleport_locations.xsd">
-	<tele_loc ident="TELE_LOC_1" name="Display Name" min_members="1" max_member_distance="1" x="0" y="0" z="0">
-		<item ident="ADENA_1000"/>
-	</tele_loc>
-</tele_locs>

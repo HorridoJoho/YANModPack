@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:redefine schemaLocation="../../../../data/xml/xsd/base_types.xsd" />
 	<xsd:complexType name="buffer">
 		<xsd:all maxOccurs="1" minOccurs="1">
-			<xsd:element name="preset_buff_categories" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
-			<xsd:element name="buff_categories" maxOccurs="1" minOccurs="0" type="buff_category_reference_list" />
+			<xsd:element name="preset_buff_categories" maxOccurs="1" minOccurs="1" type="reference_list" />
+			<xsd:element name="buff_categories" maxOccurs="1" minOccurs="1" type="reference_list" />
 		</xsd:all>
 		<xsd:attribute name="dialog_type" use="required">
 			<xsd:simpleType>
@@ -13,14 +14,9 @@
 				</xsd:restriction>
 			</xsd:simpleType>
 		</xsd:attribute>
-        <xsd:attribute name="html_folder" type="xsd:string" use="required"></xsd:attribute>
-        <xsd:attribute name="can_heal" type="xsd:boolean" use="required" />
+		<xsd:attribute name="html_folder" type="xsd:string" use="required" />
+		<xsd:attribute name="can_heal" type="xsd:boolean" use="required" />
 		<xsd:attribute name="can_cancel" type="xsd:boolean" use="required" />
-	</xsd:complexType>
-	<xsd:complexType name="buff_category_reference_list">
-		<xsd:sequence maxOccurs="1" minOccurs="1">
-			<xsd:element name="reference" type="xsd:NCName" maxOccurs="unbounded" minOccurs="0" />
-		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:element name="buffers">
 		<xsd:complexType>
@@ -30,12 +26,12 @@
 						<xsd:complexContent>
 							<xsd:extension base="buffer">
 								<xsd:attribute name="enabled" type="xsd:boolean" use="required" />
-								<xsd:attribute name="required_item_id" type="xsd:boolean" use="optional" />
+								<xsd:attribute name="required_item_id" type="xsd:unsignedInt" use="optional" default="0" />
 							</xsd:extension>
 						</xsd:complexContent>
 					</xsd:complexType>
 				</xsd:element>
-				<xsd:element name="npc_buffers" maxOccurs="1" minOccurs="0">
+				<xsd:element name="npc_buffers" maxOccurs="1" minOccurs="1">
 					<xsd:complexType>
 						<xsd:sequence maxOccurs="1" minOccurs="1">
 							<xsd:element name="npc_buffer" maxOccurs="unbounded" minOccurs="0">
