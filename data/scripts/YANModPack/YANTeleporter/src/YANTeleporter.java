@@ -223,6 +223,7 @@ public final class YANTeleporter extends YANModScript
 		if (!teleport.instance.isEmpty())
 		{
 			world = _createInstance(teleport.instance);
+			world.addAllowed(initiator.getObjectId());
 		}
 		
 		initiator.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, world != null ? world.getInstanceId() : initiator.getInstanceId(), teleport.randomOffset);
@@ -286,11 +287,16 @@ public final class YANTeleporter extends YANModScript
 		if (!teleport.instance.isEmpty())
 		{
 			world = _createInstance(teleport.instance);
+			world.addAllowed(initiator.getObjectId());
 		}
 		
 		initiator.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, world != null ? world.getInstanceId() : initiator.getInstanceId());
 		for (L2PcInstance member : membersInRange)
 		{
+			if (world != null)
+			{
+				world.addAllowed(member.getObjectId());
+			}
 			member.teleToLocation(initiator, teleport.randomOffset);
 		}
 	}
