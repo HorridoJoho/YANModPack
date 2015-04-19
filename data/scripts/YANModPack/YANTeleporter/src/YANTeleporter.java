@@ -247,6 +247,7 @@ public final class YANTeleporter extends YANModScript
 		
 		final int leaderInstanceId = leader.getInstanceId();
 		final ArrayList<L2PcInstance> membersInRange = new ArrayList<>(memberCount);
+		membersInRange.add(leader);
 		
 		for (L2PcInstance member : group.getMembers())
 		{
@@ -284,20 +285,20 @@ public final class YANTeleporter extends YANModScript
 		}
 		
 		InstanceWorld world = null;
+		int instanceId = initiator.getInstanceId();
 		if (!teleport.instance.isEmpty())
 		{
 			world = _createInstance(teleport.instance);
-			world.addAllowed(initiator.getObjectId());
+			instanceId = world.getInstanceId();
 		}
 		
-		initiator.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, world != null ? world.getInstanceId() : initiator.getInstanceId());
 		for (L2PcInstance member : membersInRange)
 		{
 			if (world != null)
 			{
 				world.addAllowed(member.getObjectId());
 			}
-			member.teleToLocation(initiator, teleport.randomOffset);
+			member.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, instanceId, teleport.randomOffset);
 		}
 	}
 	
