@@ -46,7 +46,7 @@ public abstract class AbstractRefListToMap<V extends IDefinition<String>> extend
 	{
 		if (v == null)
 		{
-			return Collections.unmodifiableMap(new LinkedHashMap<>());
+			return Collections.unmodifiableMap(new LinkedHashMap<String, V>());
 		}
 		
 		final LinkedHashMap<String, V> map = new LinkedHashMap<>(v.refs.length);

@@ -39,7 +39,7 @@ public abstract class AbstractListToMap<K, V extends IDefinition<K>, W extends I
 	{
 		if (v == null)
 		{
-			return Collections.unmodifiableMap(new LinkedHashMap<>());
+			return Collections.unmodifiableMap(new LinkedHashMap<K, V>());
 		}
 		
 		final V[] list = v.getList();

@@ -37,6 +37,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
+import com.l2jserver.Config;
+import com.l2jserver.commons.database.pool.impl.ConnectionFactory;
+import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
+
 import YANModPack.YANBuffer.src.model.BuffCategories;
 import YANModPack.YANBuffer.src.model.BuffSkills;
 import YANModPack.YANBuffer.src.model.BufferConfig;
@@ -50,10 +54,6 @@ import YANModPack.src.model.ItemRequirements;
 import YANModPack.src.model.adapter.ItemRequirementRefListToMap;
 import YANModPack.src.model.entity.ItemRequirement;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
-
-import com.l2jserver.Config;
-import com.l2jserver.L2DatabaseFactory;
-import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * @author HorridoJoho
@@ -131,7 +131,7 @@ public final class YANBufferData
 	
 	private void _loadUniqueBufflists() throws Exception
 	{
-		try (Connection con = L2DatabaseFactory.getInstance().getConnection();)
+		try (Connection con = ConnectionFactory.getInstance().getConnection();)
 		{
 			try (Statement stmt = con.createStatement();
 				ResultSet rset = stmt.executeQuery("SELECT ulist_id,ulist_char_id,ulist_name FROM yanb_ulists ORDER BY ulist_char_id ASC");)
@@ -213,7 +213,7 @@ public final class YANBufferData
 			return false;
 		}
 		
-		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
+		try (Connection con = ConnectionFactory.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO yanb_ulists (ulist_char_id,ulist_name) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);)
 		{
 			stmt.setInt(1, playerObjectId);
@@ -240,7 +240,7 @@ public final class YANBufferData
 			return;
 		}
 		
-		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
+		try (Connection con = ConnectionFactory.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement("DELETE FROM yanb_ulists WHERE ulist_char_id=? AND ulist_id=?");)
 		{
 			stmt.setInt(1, playerObjectId);
@@ -263,7 +263,7 @@ public final class YANBufferData
 			return false;
 		}
 		
-		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
+		try (Connection con = ConnectionFactory.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO yanb_ulist_buffs VALUES(?,?)");)
 		{
 			stmt.setInt(1, ulist.ulistId);
@@ -288,7 +288,7 @@ public final class YANBufferData
 			return;
 		}
 		
-		try (Connection con = L2DatabaseFactory.getInstance().getConnection();
+		try (Connection con = ConnectionFactory.getInstance().getConnection();
 			PreparedStatement stmt = con.prepareStatement("DELETE FROM yanb_ulist_buffs WHERE ulist_id=? AND ulist_buff_ident=?");)
 		{
 			stmt.setInt(1, ulist.ulistId);
