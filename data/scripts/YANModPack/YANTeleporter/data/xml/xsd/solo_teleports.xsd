@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:redefine schemaLocation="teleports.xsd" />
+	<xsd:element name="list">
+		<xsd:complexType>
+			<xsd:all maxOccurs="1" minOccurs="1">
+				<xsd:element name="solo_teleports" maxOccurs="1" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence maxOccurs="1" minOccurs="1">
+							<xsd:element name="solo_teleport" maxOccurs="unbounded" minOccurs="0" type="teleport" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

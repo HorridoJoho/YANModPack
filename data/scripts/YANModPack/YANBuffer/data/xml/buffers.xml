@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<buffers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/buffers.xsd">
+	<!-- ATTRIBUTES
+		enabled			(required)	- true|false
+		dialog_type		(required)	- NPC|COMMUNITY; NPC open npc html window, open COMMUNITY window
+		html_folder		(required)	- html subfolder; which subfolder to use for yanbuffer htmls(data/scripts/YANModPack/YANBuffer/data/html/<html_folder>/)
+		required_item	(optional)	- item id; required item to use the voiced buffer(not consumed)
+		can_heal		(required)	- true|false; enable/disable heal for voiced buffer
+		can_cancel		(required)	- true|false; enable/disable cancel for voiced buffer
+ 	-->
+	<voiced_buffer enabled="false" dialog_type="COMMUNITY" html_folder="community" can_heal="true" can_cancel="true">
+		<preset_buff_categories>
+			<reference>BC_FIGHTER</reference>
+			<reference>BC_MAGE</reference>
+		</preset_buff_categories>
+		<buff_categories>
+			<reference>BC_BUFFS</reference>
+			<reference>BC_SONGS</reference>
+			<reference>BC_DANCES</reference>
+			<reference>BC_CHANTS</reference>
+			<reference>BC_DWARVEN</reference>
+			<reference>BC_RESIST</reference>
+			<reference>BC_SPECIAL</reference>
+			<reference>BC_OVERLORD</reference>
+		</buff_categories>
+	</voiced_buffer>
+
+	<npc_buffers>
+		<!-- ATTRIBUTES
+			npc_id				(required)	- npc id; the npc who represents the buffer
+			direct_first_talk	(required)	- true|false; true: yanbuffer main.html as first talk, false: html from data/html for first talk
+			dialog_type			(required)	- NPC|COMMUNITY; NPC open npc html window, open COMMUNITY window
+			html_folder			(required)	- html subfolder; which subfolder to use for yanbuffer htmls(data/scripts/YANModPack/YANBuffer/data/html/<html_folder>/)			
+			can_heal			(required)	- true|false; enable/disable heal for voiced buffer
+			can_cancel			(required)	- true|false; enable/disable cancel for voiced buffer
+ 		-->
+		<npc_buffer npc_id="1000006" direct_first_talk="true" dialog_type="NPC" html_folder="npc" can_heal="true" can_cancel="true">
+			<preset_buff_categories>
+				<reference>BC_FIGHTER</reference>
+				<reference>BC_MAGE</reference>
+			</preset_buff_categories>
+			<buff_categories>
+				<reference>BC_BUFFS</reference>
+				<reference>BC_SONGS</reference>
+				<reference>BC_DANCES</reference>
+				<reference>BC_CHANTS</reference>
+				<reference>BC_DWARVEN</reference>
+				<reference>BC_RESIST</reference>
+				<reference>BC_SPECIAL</reference>
+				<reference>BC_OVERLORD</reference>
+			</buff_categories>
+		</npc_buffer>
+	</npc_buffers>
+</buffers>

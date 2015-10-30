@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:redefine schemaLocation="../../../../data/xml/xsd/base_types.xsd" />
+	<xsd:complexType name="teleport">
+		<xsd:all minOccurs="1" maxOccurs="1">
+			<xsd:element name="item_requirements" type="reference_list" maxOccurs="1" minOccurs="1" />
+		</xsd:all>
+		<xsd:attribute use="required" name="id" type="xsd:ID" />
+		<xsd:attribute use="required" name="name" type="xsd:string" />
+		<xsd:attribute use="required" name="x" type="xsd:int" />
+		<xsd:attribute use="required" name="y" type="xsd:int" />
+		<xsd:attribute use="required" name="z" type="xsd:int" />
+		<xsd:attribute name="heading" type="xsd:unsignedShort" use="required" />
+		<xsd:attribute name="random_offset" type="xsd:unsignedShort" use="optional" default="0" />
+		<xsd:attribute name="instance" type="xsd:string" use="optional" default="" />
+	</xsd:complexType>
+</xsd:schema>

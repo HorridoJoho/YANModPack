@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/group_teleports.xsd">
+	<group_teleports>
+		<!-- ATTRIBUTES
+			id					(required)	- the teleport identifier
+			name				(required)	- the display name
+			x, y, z, heading	(required)	- the teleport location
+			random_offset		(optional)	- default "0"; when specified, a random offset is applied to the specified teleport location for each group member but the leader
+			instance			(optional)	- default ""; when specified, an instance is created from the specified instance definition xml and the players are teleported into that instance
+			min_members			(required)	- minimum members in the group, including leader
+			max_members			(required)	- maximum members in the group, including leader
+			max_distance		(optional)	- default "50"; max distance of party members to the leader
+			allow_incomplete	(optional)	- default "false"; allow an incomplete group to teleport; when not all group members are in max_distance range to the party leader, only teleport the members which are in range, if the amount of members is at least min_members
+		-->
+		<group_teleport id="P_CEDRICS_TRAINING_HALL" name="Cedrics Training Hall" x="-71504" y="258211" z="-3105" heading="0" min_members="2" max_members="9">
+			<item_requirements>
+				<reference>ADENA_1000</reference>
+			</item_requirements>
+		</group_teleport>
+
+		<group_teleport id="CC_CEDRICS_TRAINING_HALL" name="Cedrics Training Hall" x="-71504" y="258211" z="-3105" heading="0" min_members="10" max_members="50">
+			<item_requirements>
+				<reference>ADENA_1000</reference>
+			</item_requirements>
+		</group_teleport>
+	</group_teleports>
+</list>

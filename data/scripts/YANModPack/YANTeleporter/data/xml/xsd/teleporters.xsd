@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:redefine schemaLocation="../../../../data/xml/xsd/base_types.xsd"></xsd:redefine>
+	<xsd:element name="teleporters">
+		<xsd:complexType>
+			<xsd:all maxOccurs="1" minOccurs="1">
+				<xsd:element name="voiced_teleporter" maxOccurs="1" minOccurs="1">
+					<xsd:complexType>
+						<xsd:complexContent>
+							<xsd:extension base="teleporter">
+								<xsd:attribute name="enabled" type="xsd:boolean" use="required" />
+								<xsd:attribute name="required_item" type="xsd:unsignedInt" use="optional" />
+							</xsd:extension>
+						</xsd:complexContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="npc_teleporters" maxOccurs="1" minOccurs="1">
+					<xsd:complexType>
+						<xsd:sequence maxOccurs="1" minOccurs="1">
+							<xsd:element name="npc_teleporter" maxOccurs="unbounded" minOccurs="0">
+								<xsd:complexType>
+									<xsd:complexContent>
+										<xsd:extension base="teleporter">
+											<xsd:attribute name="npc_id" type="xsd:positiveInteger" use="required" />
+											<xsd:attribute name="direct_first_talk" type="xsd:boolean" use="required" />
+										</xsd:extension>
+									</xsd:complexContent>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="teleporter">
+		<xsd:all maxOccurs="1" minOccurs="1">
+			<xsd:element name="solo_teleports" type="reference_list" maxOccurs="1" minOccurs="1" />
+			<xsd:element name="party_teleports" type="reference_list" maxOccurs="1" minOccurs="1"></xsd:element>
+			<xsd:element name="command_channel_teleports" type="reference_list" maxOccurs="1" minOccurs="1"></xsd:element>
+		</xsd:all>
+		<xsd:attribute name="dialog_type" type="xsd:string" />
+		<xsd:attribute name="html_folder" type="xsd:string" />
+	</xsd:complexType>
+
+</xsd:schema>

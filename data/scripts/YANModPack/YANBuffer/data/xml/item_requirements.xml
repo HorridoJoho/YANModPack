@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<item_requirements xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd/item_requirements.xsd">
-	<item ident="ADENA_1" id="57" amount="1"/>
-	<item ident="ADENA_10" id="57" amount="10"/>
-	<item ident="ADENA_100" id="57" amount="100"/>
-	<item ident="ADENA_1000" id="57" amount="1000"/>
-	<item ident="ADENA_10000" id="57" amount="10000"/>
-</item_requirements>
+<list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../data/xml/xsd/item_requirements.xsd">
+	<item_requirements>
+		<item_requirement id="ADENA_1" item_id="57" item_amount="1" />
+		<item_requirement id="ADENA_10" item_id="57" item_amount="10" />
+		<item_requirement id="ADENA_100" item_id="57" item_amount="100" />
+		<item_requirement id="ADENA_1000" item_id="57" item_amount="1000" />
+		<item_requirement id="ADENA_10000" item_id="57" item_amount="10000" />
+	</item_requirements>
+</list>

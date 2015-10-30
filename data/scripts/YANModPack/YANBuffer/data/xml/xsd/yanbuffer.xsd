@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema">
-    <element name="yanbuffer">
-    	<complexType>
-    		<attribute name="dialog_type" use="required">
-    			<simpleType>
-    				<restriction base="string">
-    					<enumeration value="NPC"/>
-    					<enumeration value="TUTORIAL"/>
-    					<enumeration value="COMMUNITY"/>
-    				</restriction>
-    			</simpleType>
-    		</attribute>
-    		<attribute name="heal_cooldown" type="positiveInteger" use="required"/>
-    		<attribute name="max_unique_lists" type="positiveInteger" use="required"/>
-    		<attribute name="unique_max_buffs" type="positiveInteger" use="required"/>
-    		<attribute name="unique_max_songs_dances" type="positiveInteger" use="required"/>
-    	</complexType>
-    </element>
-</schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="yanbuffer">
+		<xsd:complexType>
+			<xsd:all maxOccurs="1" minOccurs="1">
+				<xsd:element name="heal_cooldown" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="max_unique_lists" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="unique_max_buffs" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="unique_max_songs_dances" type="xsd:positiveInteger" maxOccurs="1" minOccurs="1" />
+				<xsd:element name="debug" type="xsd:boolean" maxOccurs="1" minOccurs="1" />
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

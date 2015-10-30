@@ -1,0 +1,4 @@
+<html><title>%teleporter.name%</title><body>
+<a action="%teleporter.bypass_prefix%">Home</a>&nbsp;> <font color=LEVEL>Party</font><br>
+[FOREACH(teleport IN teleporter.party_teleports DO <a action="%teleporter.bypass_prefix% t p %teleport.ident%">%teleport.name% (%teleport.min_members% - %teleport.max_members%, [FOREACH(item IN teleport.items DO %item.amount% %item.name%)ENDEACH])</a><br1>)ENDEACH]
+</body></html>
