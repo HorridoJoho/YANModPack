@@ -32,7 +32,7 @@ public class SoloTeleportListWrapper implements IListWrapper<SoloTeleport>
 	
 	public SoloTeleportListWrapper()
 	{
-		defs = null;
+		defs = new SoloTeleport[0];
 	}
 	
 	public SoloTeleportListWrapper(SoloTeleport[] defs)

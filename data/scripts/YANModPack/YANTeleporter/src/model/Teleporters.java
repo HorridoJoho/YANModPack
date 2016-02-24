@@ -17,6 +17,8 @@
  */
 package YANModPack.YANTeleporter.src.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -26,14 +28,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.l2jserver.gameserver.model.actor.L2Npc;
+import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
+
 import YANModPack.YANTeleporter.src.YANTeleporter;
 import YANModPack.YANTeleporter.src.model.adapter.NpcTeleporterListToMap;
 import YANModPack.YANTeleporter.src.model.entity.AbstractTeleporter;
 import YANModPack.YANTeleporter.src.model.entity.NpcTeleporter;
 import YANModPack.YANTeleporter.src.model.entity.VoicedTeleporter;
-
-import com.l2jserver.gameserver.model.actor.L2Npc;
-import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * @author HorridoJoho
@@ -51,7 +53,7 @@ public final class Teleporters
 	public Teleporters()
 	{
 		voicedTeleporter = null;
-		npcTeleporters = null;
+		npcTeleporters = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 	
 	public AbstractTeleporter determineTeleporter(L2Npc npc, L2PcInstance player)

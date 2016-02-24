@@ -32,7 +32,7 @@ public final class NpcTeleporterListWrapper implements IListWrapper<NpcTeleporte
 	
 	public NpcTeleporterListWrapper()
 	{
-		defs = null;
+		defs = new NpcTeleporter[0];
 	}
 	
 	public NpcTeleporterListWrapper(NpcTeleporter[] defs)

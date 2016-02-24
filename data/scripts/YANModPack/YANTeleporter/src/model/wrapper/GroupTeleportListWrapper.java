@@ -32,7 +32,7 @@ public class GroupTeleportListWrapper implements IListWrapper<GroupTeleport>
 	
 	public GroupTeleportListWrapper()
 	{
-		defs = null;
+		defs = new GroupTeleport[0];
 	}
 	
 	public GroupTeleportListWrapper(GroupTeleport[] defs)

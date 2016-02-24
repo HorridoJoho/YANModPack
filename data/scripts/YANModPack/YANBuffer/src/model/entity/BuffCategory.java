@@ -17,6 +17,8 @@
  */
 package YANModPack.YANBuffer.src.model.entity;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -45,7 +47,7 @@ public class BuffCategory extends Definition
 	{
 		name = null;
 		
-		buffSkills = null;
+		buffSkills = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 	
 	@Override

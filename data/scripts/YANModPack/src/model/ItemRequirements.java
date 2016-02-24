@@ -17,6 +17,8 @@
  */
 package YANModPack.src.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,6 +43,6 @@ public final class ItemRequirements
 	
 	public ItemRequirements()
 	{
-		items = null;
+		items = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 }

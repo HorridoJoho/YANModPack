@@ -32,7 +32,7 @@ public final class BuffCategoryListWrapper implements IListWrapper<BuffCategory>
 	
 	public BuffCategoryListWrapper()
 	{
-		defs = null;
+		defs = new BuffCategory[0];
 	}
 	
 	public BuffCategoryListWrapper(BuffCategory[] defs)

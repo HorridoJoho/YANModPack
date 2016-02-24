@@ -31,7 +31,7 @@ public final class ItemRequirementListWrapper implements IListWrapper<ItemRequir
 	
 	public ItemRequirementListWrapper()
 	{
-		defs = null;
+		defs = new ItemRequirement[0];
 	}
 	
 	public ItemRequirementListWrapper(ItemRequirement[] defs)

@@ -32,7 +32,7 @@ public final class NpcBufferListWrapper implements IListWrapper<NpcBuffer>
 	
 	public NpcBufferListWrapper()
 	{
-		defs = null;
+		defs = new NpcBuffer[0];
 	}
 	
 	public NpcBufferListWrapper(NpcBuffer[] defs)

@@ -32,7 +32,7 @@ public class BuffSkillListWrapper implements IListWrapper<BuffSkill>
 	
 	public BuffSkillListWrapper()
 	{
-		defs = null;
+		defs = new BuffSkill[0];
 	}
 	
 	public BuffSkillListWrapper(BuffSkill[] defs)

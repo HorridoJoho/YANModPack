@@ -17,6 +17,8 @@
  */
 package YANModPack.YANBuffer.src.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -26,14 +28,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.l2jserver.gameserver.model.actor.L2Npc;
+import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
+
 import YANModPack.YANBuffer.src.YANBuffer;
 import YANModPack.YANBuffer.src.model.adapter.NpcBufferListToMap;
 import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
 import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
 import YANModPack.YANBuffer.src.model.entity.VoicedBuffer;
-
-import com.l2jserver.gameserver.model.actor.L2Npc;
-import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 
 /**
  * @author HorridoJoho
@@ -51,7 +53,7 @@ public final class Buffers
 	public Buffers()
 	{
 		voicedBuffer = null;
-		npcBuffers = null;
+		npcBuffers = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 	
 	public AbstractBuffer determineBuffer(L2Npc npc, L2PcInstance player)

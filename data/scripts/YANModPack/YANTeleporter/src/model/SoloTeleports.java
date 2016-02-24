@@ -17,6 +17,8 @@
  */
 package YANModPack.YANTeleporter.src.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,6 +43,6 @@ public class SoloTeleports
 	
 	public SoloTeleports()
 	{
-		teleports = null;
+		teleports = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 }

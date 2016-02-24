@@ -17,6 +17,8 @@
  */
 package YANModPack.YANBuffer.src.model.entity;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -53,8 +55,8 @@ public abstract class AbstractBuffer extends YANModServer
 		canHeal = false;
 		canCancel = false;
 		
-		presetBuffCats = null;
-		buffCats = null;
+		presetBuffCats = Collections.unmodifiableMap(new LinkedHashMap<>());
+		buffCats = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 	
 	@Override

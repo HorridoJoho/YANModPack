@@ -29,7 +29,7 @@ public final class ReferenceListWrapper
 	
 	public ReferenceListWrapper()
 	{
-		refs = null;
+		refs = new String[0];
 	}
 	
 	public ReferenceListWrapper(String[] refs)

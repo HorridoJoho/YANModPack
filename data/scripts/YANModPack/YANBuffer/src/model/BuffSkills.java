@@ -17,6 +17,8 @@
  */
 package YANModPack.YANBuffer.src.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,6 +43,6 @@ public final class BuffSkills
 	
 	public BuffSkills()
 	{
-		buffs = null;
+		buffs = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 }

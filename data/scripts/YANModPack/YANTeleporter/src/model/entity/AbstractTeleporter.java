@@ -17,6 +17,8 @@
  */
 package YANModPack.YANTeleporter.src.model.entity;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -48,9 +50,9 @@ public abstract class AbstractTeleporter extends YANModServer
 	{
 		super(bypassPrefix, "teleporter");
 		
-		soloTeleports = null;
-		partyTeleports = null;
-		commandChannelTeleports = null;
+		soloTeleports = Collections.unmodifiableMap(new LinkedHashMap<>());
+		partyTeleports = Collections.unmodifiableMap(new LinkedHashMap<>());
+		commandChannelTeleports = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 	
 	@Override

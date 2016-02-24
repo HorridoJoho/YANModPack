@@ -17,6 +17,8 @@
  */
 package YANModPack.src.model.entity;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.bind.Unmarshaller;
@@ -37,7 +39,7 @@ public abstract class YANModProduct extends Definition
 	
 	protected YANModProduct()
 	{
-		items = null;
+		items = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 	
 	@Override
