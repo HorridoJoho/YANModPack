@@ -32,7 +32,7 @@ import com.l2jserver.datapack.yanmodpack.buffer.model.BufferConfig;
 public class BuffCategory extends Refable
 {
 	private String name;
-	private List<String> buffSkills;
+	private List<String> buffs;
 
 	private transient Map<String, BuffSkill> buffSkillsMap = null;
 	
@@ -47,13 +47,13 @@ public class BuffCategory extends Refable
 	{
 		super.afterDeserialize();
 		
-		for (String id : buffSkills)
+		for (String id : buffs)
 		{
 			buffSkillsMap.put(id, config.getGlobal().getBuff(id));
 		}
 		
 		placeholder.addChild("name", name);
-		if (!buffSkills.isEmpty())
+		if (!buffs.isEmpty())
 		{
 			HTMLTemplatePlaceholder buffsPlaceholder = this.placeholder.addChild("buffs", null).getChild("buffs");
 			for (Entry<String, BuffSkill> buff : buffSkillsMap.entrySet())

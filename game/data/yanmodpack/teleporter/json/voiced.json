@@ -1,5 +1,6 @@
 {
     "enabled": false,
+    "requiredItemId":0,
     "dialogType":"COMMUNITY",
     "htmlFolder":"community",
     

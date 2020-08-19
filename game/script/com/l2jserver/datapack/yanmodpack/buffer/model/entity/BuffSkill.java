@@ -28,14 +28,14 @@ import com.l2jserver.gameserver.model.skills.Skill;
  */
 public class BuffSkill extends YANModProduct
 {
-	private int skillId;
-	private int skillLevel;
+	private int skill;
+	private int level;
 	private BuffType type;
 	
 	public BuffSkill()
 	{
-		skillId = 0;
-		skillLevel = 0;
+		skill = 0;
+		level = 0;
 		type = BuffType.BUFF;
 	}
 	
@@ -47,13 +47,13 @@ public class BuffSkill extends YANModProduct
 		placeholder.addChild("skill_id", String.valueOf(skill.getId())).addChild("skill_name", skill.getName()).addChild("skill_icon", _getClientSkillIconSource(skill.getId())).addChild("type", type.toString());
 	}
 	
-	public int getSkillId() { return skillId; }
-	public int getSkillLevel() { return skillLevel; }
+	public int getSkillId() { return skill; }
+	public int getSkillLevel() { return level; }
 	public BuffType getType() { return type; }
 	
 	public Skill getSkill()
 	{
-		return SkillData.getInstance().getSkill(skillId, skillLevel);
+		return SkillData.getInstance().getSkill(skill, level);
 	}
 	
 	private String _getClientSkillIconSource(int skillId)

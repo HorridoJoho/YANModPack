@@ -34,7 +34,7 @@ public final class GlobalConfig
 	private boolean debug;
 	
 	private Map<String, BuffSkill> buffs;
-	private Map<String, BuffCategory> categories;
+	private Map<String, BuffCategory> buffCategories;
 	
 	public GlobalConfig()
 	{
@@ -52,7 +52,7 @@ public final class GlobalConfig
 			buff.afterDeserialize(config);
 		}
 
-		for (BuffCategory category : categories.values())
+		for (BuffCategory category : buffCategories.values())
 		{
 			category.afterDeserialize(config);
 		}
@@ -95,6 +95,6 @@ public final class GlobalConfig
 	
 	public final Map<String, BuffCategory> getCategories()
 	{
-		return categories;
+		return buffCategories;
 	}
 }
