@@ -17,6 +17,7 @@
  */
 package YANModPack.YANBuffer.src.model.entity;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -39,7 +40,7 @@ public class BuffCategory extends Refable
 	{
 		name = null;
 		
-		//buffSkills = Collections.unmodifiableMap(new LinkedHashMap<>());
+		buffSkillsMap = new LinkedHashMap<>();
 	}
 	
 	public void afterDeserialize(BufferConfig config)

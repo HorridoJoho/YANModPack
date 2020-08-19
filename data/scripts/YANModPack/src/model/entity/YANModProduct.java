@@ -28,12 +28,10 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
  */
 public abstract class YANModProduct extends Refable
 {
-	public final Map<String, ItemRequirement> items;
+	public Map<String, ItemRequirement> items;
 	
 	protected YANModProduct()
-	{
-		items = Collections.unmodifiableMap(new LinkedHashMap<>());
-	}
+	{}
 	
 	@Override
 	public void afterDeserialize()

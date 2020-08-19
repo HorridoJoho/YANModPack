@@ -81,7 +81,7 @@ public abstract class YANModScript extends AbstractNpcAI
 	
 	private String _generateAdvancedHtml(L2PcInstance player, YANModServer service, String path, Map<String, HTMLTemplatePlaceholder> placeholders)
 	{
-		final String htmlPath = "/data/scripts/" + scriptPath + "/data/html/" + service.htmlFolder + "/" + path;
+		final String htmlPath = "/data/scripts/" + scriptPath + "/data/html/" + service.getHtmlFolder() + "/" + path;
 		debug(player, htmlPath);
 		return HTMLTemplateParser.fromCache(htmlPath, player, placeholders, IncludeFunc.INSTANCE, IfFunc.INSTANCE, ForeachFunc.INSTANCE, ExistsFunc.INSTANCE, IfChildsFunc.INSTANCE, ChildsCountFunc.INSTANCE);
 	}
@@ -127,7 +127,7 @@ public abstract class YANModScript extends AbstractNpcAI
 		
 		debug(html);
 		
-		switch (service.dialogType)
+		switch (service.getDialogType())
 		{
 			case NPC:
 				player.sendPacket(new NpcHtmlMessage(npc == null ? 0 : npc.getObjectId(), html));

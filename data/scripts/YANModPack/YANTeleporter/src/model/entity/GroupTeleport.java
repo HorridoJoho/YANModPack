@@ -24,10 +24,10 @@ import YANModPack.YANTeleporter.src.model.TeleporterConfig;
  */
 public class GroupTeleport extends SoloTeleport
 {
-	public final int minMembers;
-	public final int maxMembers;
-	public final int maxDistance;
-	public final boolean allowIncomplete;
+	private int minMembers;
+	private int maxMembers;
+	private int maxDistance;
+	private boolean allowIncomplete;
 	
 	public GroupTeleport()
 	{
@@ -43,4 +43,9 @@ public class GroupTeleport extends SoloTeleport
 		
 		placeholder.addChild("min_members", String.valueOf(minMembers)).addChild("max_members", String.valueOf(maxMembers)).addChild("max_distance", String.valueOf(maxDistance));
 	}
+	
+	public int getMinMembers() {return minMembers;}
+	public int getMaxMembers() {return maxMembers;}
+	public int getMaxDistance() {return maxDistance;}
+	public boolean getAllowIncomplete() {return allowIncomplete;}
 }

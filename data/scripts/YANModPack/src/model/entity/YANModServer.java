@@ -25,8 +25,8 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
  */
 public abstract class YANModServer
 {
-	public final DialogType dialogType;
-	public final String htmlFolder;
+	private DialogType dialogType;
+	private String htmlFolder;
 	
 	public final transient HTMLTemplatePlaceholder placeholder;
 	public final transient String bypassPrefix;

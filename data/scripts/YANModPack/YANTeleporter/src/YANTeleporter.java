@@ -220,13 +220,13 @@ public final class YANTeleporter extends YANModScript
 		}
 		
 		InstanceWorld world = null;
-		if (!teleport.instance.isEmpty())
+		if (!teleport.getInstance().isEmpty())
 		{
-			world = _createInstance(teleport.instance);
+			world = _createInstance(teleport.getInstance());
 			world.addAllowed(initiator.getObjectId());
 		}
 		
-		initiator.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, world != null ? world.getInstanceId() : initiator.getInstanceId(), teleport.randomOffset);
+		initiator.teleToLocation(teleport.getX(), teleport.getY(), teleport.getZ(), teleport.getHeading(), world != null ? world.getInstanceId() : initiator.getInstanceId(), teleport.getRandomOffset());
 	}
 	
 	private void _makeGroupTeleport(GroupTeleport teleport, L2PcInstance initiator, AbstractPlayerGroup group)
@@ -239,7 +239,7 @@ public final class YANTeleporter extends YANModScript
 		}
 		
 		final int memberCount = group.getMemberCount();
-		if (group.getMemberCount() < teleport.minMembers)
+		if (group.getMemberCount() < teleport.getMinMembers())
 		{
 			group.broadcastString("Not enough members!");
 			return;
@@ -251,7 +251,7 @@ public final class YANTeleporter extends YANModScript
 		
 		for (L2PcInstance member : group.getMembers())
 		{
-			if ((member != leader) && ((member.getInstanceId() != leaderInstanceId) || (member.calculateDistance(leader, false, false) > teleport.maxDistance)))
+			if ((member != leader) && ((member.getInstanceId() != leaderInstanceId) || (member.calculateDistance(leader, false, false) > teleport.getMaxDistance())))
 			{
 				continue;
 			}
@@ -261,19 +261,19 @@ public final class YANTeleporter extends YANModScript
 		
 		if (membersInRange.size() < memberCount)
 		{
-			if (!teleport.allowIncomplete)
+			if (!teleport.getAllowIncomplete())
 			{
 				group.broadcastString("Your group is not together!");
 				return;
 			}
-			else if (membersInRange.size() < teleport.minMembers)
+			else if (membersInRange.size() < teleport.getMinMembers())
 			{
 				group.broadcastString("Not enough members around!");
 				return;
 			}
 		}
 		
-		if (membersInRange.size() > teleport.maxMembers)
+		if (membersInRange.size() > teleport.getMaxMembers())
 		{
 			group.broadcastString("Too many members!");
 			return;
@@ -286,9 +286,9 @@ public final class YANTeleporter extends YANModScript
 		
 		InstanceWorld world = null;
 		int instanceId = initiator.getInstanceId();
-		if (!teleport.instance.isEmpty())
+		if (!teleport.getInstance().isEmpty())
 		{
-			world = _createInstance(teleport.instance);
+			world = _createInstance(teleport.getInstance());
 			instanceId = world.getInstanceId();
 		}
 		
@@ -298,7 +298,7 @@ public final class YANTeleporter extends YANModScript
 			{
 				world.addAllowed(member.getObjectId());
 			}
-			member.teleToLocation(teleport.x, teleport.y, teleport.z, teleport.heading, instanceId, teleport.randomOffset);
+			member.teleToLocation(teleport.getX(), teleport.getY(), teleport.getZ(), teleport.getHeading(), instanceId, teleport.getRandomOffset());
 		}
 	}
 	

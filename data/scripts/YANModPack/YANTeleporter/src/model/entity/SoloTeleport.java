@@ -25,13 +25,13 @@ import YANModPack.src.model.entity.YANModProduct;
  */
 public class SoloTeleport extends YANModProduct
 {
-	public final String name;
-	public final int x;
-	public final int y;
-	public final int z;
-	public final int heading;
-	public final int randomOffset;
-	public final String instance;
+	private String name;
+	private int x;
+	private int y;
+	private int z;
+	private int heading;
+	private int randomOffset;
+	private String instance;
 	
 	public SoloTeleport()
 	{
@@ -49,5 +49,33 @@ public class SoloTeleport extends YANModProduct
 		super.afterDeserialize();
 		
 		placeholder.addChild("name", name);
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public int getRandomOffset() {
+		return randomOffset;
+	}
+
+	public int getHeading() {
+		return heading;
+	}
+
+	public String getInstance() {
+		return instance;
+	}
+
+	public int getZ() {
+		return z;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getX() {
+		return x;
 	}
 }
