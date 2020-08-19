@@ -51,7 +51,7 @@ public final class BufferConfig
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
 		
-		Path jsonPath = Paths.get(Configuration.server().getDatapackRoot().getAbsolutePath(), "data", YANBuffer.SCRIPT_PATH.toString(), "data", "json");
+		Path jsonPath = Paths.get(Configuration.server().getDatapackRoot().getAbsolutePath(), "data", YANBuffer.SCRIPT_PATH.toString(), "json");
 
 		global = gson.fromJson(Files.newBufferedReader(jsonPath.resolve("global.json")), GlobalConfig.class);
 		voiced = gson.fromJson(Files.newBufferedReader(jsonPath.resolve("voiced.json")), VoicedBuffer.class);
