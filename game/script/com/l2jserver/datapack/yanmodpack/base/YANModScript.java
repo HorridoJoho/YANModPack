@@ -20,7 +20,6 @@ package com.l2jserver.datapack.yanmodpack.base;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -108,14 +107,14 @@ public abstract class YANModScript extends AbstractNpcAI
 	
 	protected final void fillItemAmountMap(Map<Integer, Long> items, YANModProduct product)
 	{
-		for (Entry<String, ItemRequirement> item : product.items.entrySet())
+		for (ItemRequirement item : product.getItems())
 		{
-			Long amount = items.get(item.getValue().getItem().getId());
+			Long amount = items.get(item.getItem().getId());
 			if (amount == null)
 			{
 				amount = 0L;
 			}
-			items.put(item.getValue().getItem().getId(), amount + item.getValue().getItemAmount());
+			items.put(item.getItem().getId(), amount + item.getItemAmount());
 		}
 	}
 	

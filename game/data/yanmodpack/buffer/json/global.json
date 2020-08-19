@@ -6,7 +6,7 @@
     "debug": false,
 
     "buffs": {
-        "BUFF_0": {"id":"BUFF_0", "skill":1036, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+        "BUFF_0": {"id":"BUFF_0", "skill":1036, "level":2, "type":"BUFF","items":[{"id":57, "amount":100}]},
 		"BUFF_1": {"id":"BUFF_1", "skill":1040, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
 		"BUFF_2": {"id":"BUFF_2", "skill":1043, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
 		"BUFF_3": {"id":"BUFF_3", "skill":1044, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},

@@ -17,7 +17,7 @@
  */
 package com.l2jserver.datapack.yanmodpack.base.model.entity;
 
-import java.util.Map;
+import java.util.List;
 
 import com.l2jserver.datapack.yanmodpack.base.util.htmltmpls.HTMLTemplatePlaceholder;
 
@@ -26,7 +26,7 @@ import com.l2jserver.datapack.yanmodpack.base.util.htmltmpls.HTMLTemplatePlaceho
  */
 public abstract class YANModProduct extends Refable
 {
-	public Map<String, ItemRequirement> items;
+	public List<ItemRequirement> items;
 	
 	protected YANModProduct()
 	{}
@@ -39,14 +39,14 @@ public abstract class YANModProduct extends Refable
 		if (!items.isEmpty())
 		{
 			HTMLTemplatePlaceholder itemsPlaceholder = this.placeholder.addChild("items", null).getChild("items");
-			for (ItemRequirement item : items.values())
+			for (ItemRequirement item : items)
 			{
 				itemsPlaceholder.addAliasChild(String.valueOf(itemsPlaceholder.getChildsSize()), item.placeholder);
 			}
 		}
 	}
 	
-	public final Map<String, ItemRequirement> getItems()
+	public final List<ItemRequirement> getItems()
 	{
 		return items;
 	}
