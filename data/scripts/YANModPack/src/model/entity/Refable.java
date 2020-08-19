@@ -15,20 +15,49 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package YANModPack.YANTeleporter.src.model.adapter;
+package YANModPack.src.model.entity;
 
-import java.util.Map;
+import java.util.Objects;
 
-import YANModPack.YANTeleporter.src.model.entity.GroupTeleport;
-import YANModPack.src.model.adapter.AbstractRefListToMap;
+import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * @author HorridoJoho
  */
-public final class GroupTeleportRefListToMap extends AbstractRefListToMap<GroupTeleport>
+public abstract class Refable implements IRefable<String>
 {
-	public GroupTeleportRefListToMap(Map<String, GroupTeleport> map)
+	private String id;
+
+	protected final transient HTMLTemplatePlaceholder placeholder;
+	
+	protected Refable()
 	{
-		super(map);
+		id = null;
+		
+		placeholder = new HTMLTemplatePlaceholder("placeholder", null);
+	}
+	
+	protected Refable(String id)
+	{
+		Objects.requireNonNull(id);
+		this.id = id;
+		
+		placeholder = new HTMLTemplatePlaceholder("placeholder", null);
+	}
+	
+	public void afterDeserialize()
+	{
+		placeholder.addChild("ident", id.toString());
+	}
+	
+	@Override
+	public final String getId()
+	{
+		return id;
+	}
+	
+	public final HTMLTemplatePlaceholder getPlaceholder()
+	{
+		return placeholder;
 	}
 }

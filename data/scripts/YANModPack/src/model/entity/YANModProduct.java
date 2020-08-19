@@ -21,20 +21,13 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.src.model.adapter.ItemRequirementRefListToMap;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * @author HorridoJoho
  */
-public abstract class YANModProduct extends Definition
+public abstract class YANModProduct extends Refable
 {
-	@XmlElement(name = "item_requirements", required = true)
-	@XmlJavaTypeAdapter(ItemRequirementRefListToMap.class)
 	public final Map<String, ItemRequirement> items;
 	
 	protected YANModProduct()
@@ -43,9 +36,9 @@ public abstract class YANModProduct extends Definition
 	}
 	
 	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize()
 	{
-		super.afterUnmarshal(unmarshaller, parent);
+		super.afterDeserialize();
 		
 		if (!items.isEmpty())
 		{
@@ -55,5 +48,10 @@ public abstract class YANModProduct extends Definition
 				itemsPlaceholder.addAliasChild(String.valueOf(itemsPlaceholder.getChildsSize()), item.placeholder);
 			}
 		}
+	}
+	
+	public final Map<String, ItemRequirement> getItems()
+	{
+		return items;
 	}
 }

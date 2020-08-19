@@ -17,8 +17,6 @@
  */
 package YANModPack.YANBuffer.src;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,26 +31,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-
-import com.l2jserver.Config;
-import com.l2jserver.commons.database.pool.impl.ConnectionFactory;
+import com.l2jserver.commons.database.ConnectionFactory;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 
-import YANModPack.YANBuffer.src.model.BuffCategories;
-import YANModPack.YANBuffer.src.model.BuffSkills;
 import YANModPack.YANBuffer.src.model.BufferConfig;
-import YANModPack.YANBuffer.src.model.Buffers;
-import YANModPack.YANBuffer.src.model.adapter.BuffCategoryRefListToMap;
-import YANModPack.YANBuffer.src.model.adapter.BuffSkillRefListToMap;
-import YANModPack.YANBuffer.src.model.entity.BuffCategory;
 import YANModPack.YANBuffer.src.model.entity.BuffSkill;
-import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
-import YANModPack.src.model.ItemRequirements;
-import YANModPack.src.model.adapter.ItemRequirementRefListToMap;
-import YANModPack.src.model.entity.ItemRequirement;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
@@ -85,46 +68,12 @@ public final class YANBufferData
 	}
 	
 	private final BufferConfig _config;
-	protected final ItemRequirements _itemRequirements;
-	protected final BuffSkills _buffs;
-	protected final BuffCategories _buffCats;
-	private final Buffers _buffers;
 	protected final ConcurrentHashMap<Integer, Map<Integer, UniqueBufflist>> _uniqueBufflists = new ConcurrentHashMap<>();
 	
 	private YANBufferData() throws Exception
 	{
-		Path xmlPath = Paths.get(Config.DATAPACK_ROOT.getAbsolutePath(), "data", "scripts", YANBuffer.SCRIPT_PATH.toString(), "data", "xml");
-		// Path xsdPath = Paths.get(xmlPath.toString(), "xsd");
-		
-		JAXBContext ctx = JAXBContext.newInstance(BufferConfig.class, ItemRequirements.class, BuffSkills.class, BuffCategories.class, Buffers.class);
-		Unmarshaller u = ctx.createUnmarshaller();
-		// validate against document specified schema
-		// u.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI).newSchema());
-		
-		_config = u.unmarshal(new StreamSource(xmlPath.resolve("yanbuffer.xml").toFile()), BufferConfig.class).getValue();
-		
-		_itemRequirements = u.unmarshal(new StreamSource(xmlPath.resolve("item_requirements.xml").toFile()), ItemRequirements.class).getValue();
-		u.setAdapter(ItemRequirementRefListToMap.class, new ItemRequirementRefListToMap(_itemRequirements.items));
-		
-		_buffs = u.unmarshal(new StreamSource(xmlPath.resolve("buffs.xml").toFile()), BuffSkills.class).getValue();
-		u.setAdapter(BuffSkillRefListToMap.class, new BuffSkillRefListToMap(_buffs.buffs));
-		
-		_buffCats = u.unmarshal(new StreamSource(xmlPath.resolve("buff_categories.xml").toFile()), BuffCategories.class).getValue();
-		u.setAdapter(BuffCategoryRefListToMap.class, new BuffCategoryRefListToMap(_buffCats.cats));
-		
-		_buffers = u.unmarshal(new StreamSource(xmlPath.resolve("buffers.xml").toFile()), Buffers.class).getValue();
-		
-		// This is a workaround because we can't pass user supplied objects to
-		// the JAXB unmarhsaller. That means we don't have access to the data
-		// fields for max unique lists and max buffs on unique lists. Since the
-		// beginning this properties are required to be in the buffers HTML
-		// placeholder. To not break HTML compatibility we now do it here even
-		// if this options are globally set and not per buffer.
-		_buffers.voicedBuffer.placeholder.addChild("max_unique_lists", String.valueOf(_config.maxUniqueLists)).addChild("unique_max_buffs", String.valueOf(_config.uniqueMaxBuffs)).addChild("unique_max_songs_dances", String.valueOf(_config.uniqueMaxSongsDances));
-		for (Map.Entry<Integer, NpcBuffer> e : _buffers.npcBuffers.entrySet())
-		{
-			e.getValue().placeholder.addChild("max_unique_lists", String.valueOf(_config.maxUniqueLists)).addChild("unique_max_buffs", String.valueOf(_config.uniqueMaxBuffs)).addChild("unique_max_songs_dances", String.valueOf(_config.uniqueMaxSongsDances));
-		}
+		// TODO: Load data from json via gson library
+		_config = new BufferConfig();
 		
 		_loadUniqueBufflists();
 	}
@@ -159,7 +108,7 @@ public final class YANBufferData
 							while (rs.next())
 							{
 								String buffIdent = rs.getString("ulist_buff_ident");
-								BuffSkill buff = getBuff(buffIdent);
+								BuffSkill buff = _config.getGlobal().getBuff(buffIdent);
 								if (buff == null)
 								{
 									_LOGGER.warning("YANBuffer - Data: Buff with ident does not exists!");
@@ -258,7 +207,7 @@ public final class YANBufferData
 	{
 		UniqueBufflist ulist = _getPlayersUList(playerObjectId, ulistName);
 		// prevent duplicate entry with ulist.contains(buff)
-		if ((ulist == null) || ulist.contains(buff) || ((buff.type == BuffType.BUFF) && (ulist.numBuffs >= _config.uniqueMaxBuffs)) || ((buff.type == BuffType.SONG_DANCE) && (ulist.numSongsDances >= _config.uniqueMaxSongsDances)))
+		if ((ulist == null) || ulist.contains(buff) || ((buff.getType() == BuffType.BUFF) && (ulist.numBuffs >= _config.getGlobal().getUniqueMaxBuffs())) || ((buff.getType() == BuffType.SONG_DANCE) && (ulist.numSongsDances >= _config.getGlobal().getUniqueMaxSongsDances())))
 		{
 			return false;
 		}
@@ -267,7 +216,7 @@ public final class YANBufferData
 			PreparedStatement stmt = con.prepareStatement("INSERT INTO yanb_ulist_buffs VALUES(?,?)");)
 		{
 			stmt.setInt(1, ulist.ulistId);
-			stmt.setString(2, buff.id);
+			stmt.setString(2, buff.getId());
 			stmt.executeUpdate();
 			ulist.add(buff);
 		}
@@ -292,7 +241,7 @@ public final class YANBufferData
 			PreparedStatement stmt = con.prepareStatement("DELETE FROM yanb_ulist_buffs WHERE ulist_id=? AND ulist_buff_ident=?");)
 		{
 			stmt.setInt(1, ulist.ulistId);
-			stmt.setString(2, buff.id);
+			stmt.setString(2, buff.getId());
 			stmt.executeUpdate();
 			ulist.remove(buff);
 		}
@@ -307,29 +256,9 @@ public final class YANBufferData
 		return _config;
 	}
 	
-	public ItemRequirement getItemRequirement(String ident)
-	{
-		return _itemRequirements.items.get(ident);
-	}
-	
-	public BuffSkill getBuff(String buffIdent)
-	{
-		return _buffs.buffs.get(buffIdent);
-	}
-	
-	public BuffCategory getBuffCat(String buffCatIdent)
-	{
-		return _buffCats.cats.get(buffCatIdent);
-	}
-	
-	public Buffers getBuffers()
-	{
-		return _buffers;
-	}
-	
 	public boolean canHaveMoreBufflists(L2PcInstance player)
 	{
-		return _getPlayersULists(player.getObjectId()).size() < _config.maxUniqueLists;
+		return _getPlayersULists(player.getObjectId()).size() < _config.getGlobal().getMaxUniqueLists();
 	}
 	
 	public boolean hasUniqueBufflist(int playerObjectId, String ulistName)

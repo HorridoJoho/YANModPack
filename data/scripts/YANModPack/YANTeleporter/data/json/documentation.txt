@@ -1,0 +1,106 @@
+################################################################################
+# YANTeleporter - JSON Docs                                                    #
+################################################################################
+
+
+###############
+# global.json #
+###############
+
+    {
+        "debug": (boolean),
+
+        "soloTeleports": {
+            "<soloTeleportId>": {
+                "id": "<soloTeleportId>",
+                "name": (string),
+                "x": (number),
+                "y": (number),
+                "z"; (number),
+                "heading": (number),
+                "randomOffset": (number),
+                "instance": (string),
+                "items" : [
+                    { "id":(number), "amount":(number) },
+                    ....
+                ]
+            },
+            ....
+        },
+
+        "groupTeleports": {
+            "<groupTeleportId>": {
+                "id": "<groupTeleportId>",
+                "name": (string),
+                "x": (number),
+                "y": (number),
+                "z"; (number),
+                "heading": (number),
+                "randomOffset": (number),
+                "instance": (string),
+                "minMembers": (number),
+                "maxMembers": (number),
+                "maxDistance": (number),
+                "allowIncomplete": (boolean),
+                "items" : [
+                    { "id":(number), "amount":(number) },
+                    ....
+                ]
+            },
+            ....
+        },
+    }
+
+    Notes:
+    • debug: whenever to enable debug mode
+    • solo-/groupTeleports: An object where each property represents a solo/group teleport (the "id" property must match the key in "solo-/groupTeleports").
+    • solo-/groupTeleports.name: the display name
+    • solo-/groupTeleports.randomOffset: a random offset is applied to the specified teleport location for each group member but the leader
+    • solo-/groupTeleports.<solo-/groupTeleportId>.instance: an instance is created from the specified instance definition xml and the players are teleported into that instance
+    • groupTeleports.<groupTeleportId>.minMembers: minimum members in the group, including leader
+    • groupTeleports.<groupTeleportId>.maxMembers: maximum members in the group, including leader
+    • groupTeleports.<groupTeleportId>.maxDistance: max distance of party members to the leader
+    • groupTeleports.<groupTeleportId>.allowIncomplete: allow an incomplete group to teleport; when not all group members are in maxDistance range to the party leader, only teleport the members which are in range, if the amount of members is at least minMembers
+    • solo-/groupTeleports.<solo-/groupTeleportId>.items: An array of item objects
+
+
+###############
+# voiced.json #
+###############
+
+    {
+        "enabled": (boolean),
+        "dialogType": "NPC" or "COMMUNITY",
+        "htmlFolder": (string),
+        "requiredItemId: (number)",
+        
+        "soloTeleports": ["<soloTeleportId>", ...],
+        "partyTeleports": ["<groupTeleportId>", ...],
+        "commandChannelTeleports": ["<groupTeleportId>", ...]
+    }
+
+    Notes:
+    • enabled: whenever to enable the voiced command teleporter
+    • dialogType: NPC opens npc html window, COMMUNITY opens community board
+    • htmlFolder: where to load htmls from
+    • requiredItemId: item to be required in inventory to be able to use the voiced teleporter (0=no item)
+    • solo-/party-/commandChannelTeleports: array of solo-/groupTeleportId
+
+
+#####################
+# npcs/<npcId>.json #
+#####################
+
+    {
+        "npcId": "<npcId>",
+        "directFirstTalk": (boolean),
+        "dialogType": "NPC" or "COMMUNITY",
+        "htmlFolder": (string),,
+        
+        "soloTeleports": ["<soloTeleportId>", ...],
+        "partyTeleports": ["<groupTeleportId>", ...],
+        "commandChannelTeleports": ["<groupTeleportId>", ...]
+    }
+
+    Notes:
+    • see notes from voiced.json

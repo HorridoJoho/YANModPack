@@ -1,0 +1,9 @@
+{
+    "enabled": false,
+    "dialogType":"COMMUNITY",
+    "htmlFolder":"community",
+    
+    "soloTeleports": ["S_CEDRICS_TRAINING_HALL"],
+    "partyTeleports": ["P_CEDRICS_TRAINING_HALL"],
+    "commandChannelTeleports": ["CC_CEDRICS_TRAINING_HALL"]
+}

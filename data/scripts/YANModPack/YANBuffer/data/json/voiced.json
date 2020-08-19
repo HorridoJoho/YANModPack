@@ -1,0 +1,10 @@
+{
+    "enabled":false,
+    "dialogType":"COMMUNITY",
+    "htmlFolder":"community",
+    "canHeal":true,
+    "canCancel":true,
+    
+    "presetBuffCategories":["BC_FIGHTER", "BC_MAGE"],
+    "buffCategories":["BC_BUFFS","BC_SONGS","BC_DANCES","BC_CHANTS","BC_DWARVEN","BC_RESIST","BC_SPECIAL","BC_OVERLORD"]
+}

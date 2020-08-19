@@ -17,10 +17,8 @@
  */
 package YANModPack.YANBuffer.src.model.entity;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-
 import YANModPack.YANBuffer.src.YANBufferData.BuffType;
+import YANModPack.YANBuffer.src.model.BufferConfig;
 import YANModPack.src.model.entity.YANModProduct;
 
 import com.l2jserver.gameserver.datatables.SkillData;
@@ -31,12 +29,9 @@ import com.l2jserver.gameserver.model.skills.Skill;
  */
 public class BuffSkill extends YANModProduct
 {
-	@XmlAttribute(name = "skill_id", required = true)
-	public final int skillId;
-	@XmlAttribute(name = "skill_level", required = true)
-	public final int skillLevel;
-	@XmlAttribute(name = "type", required = true)
-	public final BuffType type;
+	private int skillId;
+	private int skillLevel;
+	private BuffType type;
 	
 	public BuffSkill()
 	{
@@ -45,14 +40,17 @@ public class BuffSkill extends YANModProduct
 		type = BuffType.BUFF;
 	}
 	
-	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize(BufferConfig config)
 	{
-		super.afterUnmarshal(unmarshaller, parent);
+		super.afterDeserialize();
 		
 		final Skill skill = getSkill();
 		placeholder.addChild("skill_id", String.valueOf(skill.getId())).addChild("skill_name", skill.getName()).addChild("skill_icon", _getClientSkillIconSource(skill.getId())).addChild("type", type.toString());
 	}
+	
+	public int getSkillId() { return skillId; }
+	public int getSkillLevel() { return skillLevel; }
+	public BuffType getType() { return type; }
 	
 	public Skill getSkill()
 	{

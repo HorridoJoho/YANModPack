@@ -17,45 +17,53 @@
  */
 package YANModPack.src.model.entity;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-
 import com.l2jserver.gameserver.datatables.ItemTable;
 import com.l2jserver.gameserver.model.items.L2Item;
+
+import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * @author HorridoJoho
  */
-public class ItemRequirement extends Definition
+public class ItemRequirement
 {
-	@XmlAttribute(name = "item_id", required = true)
-	public final int itemId;
-	@XmlAttribute(name = "item_amount", required = true)
-	public final long itemAmount;
+	private int itemId;
+	private long itemAmount;
+	
+	protected final transient HTMLTemplatePlaceholder placeholder;
 	
 	public ItemRequirement()
 	{
 		itemId = 0;
 		itemAmount = 0;
+		
+		placeholder = new HTMLTemplatePlaceholder("placeholder", null);
 	}
 	
-	public ItemRequirement(String id, int itemId, long itemAmount)
+	public ItemRequirement(int itemId, long itemAmount)
 	{
-		super(id);
-		
 		this.itemId = itemId;
 		this.itemAmount = itemAmount;
 		
-		afterUnmarshal(null, null);
+		placeholder = new HTMLTemplatePlaceholder("placeholder", null);
+		
+		afterDeserialize();
 	}
 	
-	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize()
 	{
-		super.afterUnmarshal(unmarshaller, parent);
-		
 		final L2Item item = getItem();
 		placeholder.addChild("id", String.valueOf(item.getId())).addChild("icon", item.getIcon()).addChild("name", item.getName()).addChild("amount", String.valueOf(itemAmount));
+	}
+	
+	public final int getItemId()
+	{
+		return itemId;
+	}
+	
+	public final long getItemAmount()
+	{
+		return itemAmount;
 	}
 	
 	public final L2Item getItem()

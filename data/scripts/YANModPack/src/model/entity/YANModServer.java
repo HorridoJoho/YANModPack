@@ -17,10 +17,6 @@
  */
 package YANModPack.src.model.entity;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
-
 import YANModPack.src.DialogType;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
@@ -29,17 +25,12 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
  */
 public abstract class YANModServer
 {
-	@XmlAttribute(name = "dialog_type", required = true)
 	public final DialogType dialogType;
-	@XmlAttribute(name = "html_folder", required = true)
 	public final String htmlFolder;
 	
-	@XmlTransient
-	public final HTMLTemplatePlaceholder placeholder;
-	@XmlTransient
-	public final String bypassPrefix;
-	@XmlTransient
-	public final String htmlAccessorName;
+	public final transient HTMLTemplatePlaceholder placeholder;
+	public final transient String bypassPrefix;
+	public final transient String htmlAccessorName;
 	
 	public YANModServer(String bypassPrefix, String htmlAccessorName)
 	{
@@ -51,10 +42,20 @@ public abstract class YANModServer
 		this.htmlAccessorName = htmlAccessorName;
 	}
 	
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize()
 	{
 		placeholder.addChild("bypass_prefix", bypassPrefix).addChild("name", getName());
 	}
 	
-	protected abstract String getName();
+	public final DialogType getDialogType()
+	{
+		return dialogType;
+	}
+	
+	public final String getHtmlFolder()
+	{
+		return htmlFolder;
+	}
+	
+	public abstract String getName();
 }

@@ -17,17 +17,12 @@
  */
 package YANModPack.YANTeleporter.src.model.entity;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.YANTeleporter.src.model.adapter.GroupTeleportRefListToMap;
-import YANModPack.YANTeleporter.src.model.adapter.SoloTeleportRefListToMap;
+import YANModPack.YANTeleporter.src.model.TeleporterConfig;
 import YANModPack.src.model.entity.YANModServer;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
@@ -36,53 +31,78 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
  */
 public abstract class AbstractTeleporter extends YANModServer
 {
-	@XmlElement(name = "solo_teleports", required = true)
-	@XmlJavaTypeAdapter(SoloTeleportRefListToMap.class)
-	public Map<String, SoloTeleport> soloTeleports;
-	@XmlElement(name = "party_teleports", required = true)
-	@XmlJavaTypeAdapter(GroupTeleportRefListToMap.class)
-	public Map<String, GroupTeleport> partyTeleports;
-	@XmlElement(name = "command_channel_teleports", required = true)
-	@XmlJavaTypeAdapter(GroupTeleportRefListToMap.class)
-	public Map<String, GroupTeleport> commandChannelTeleports;
+	private List<String> soloTeleports;
+	private List<String> partyTeleports;
+	private List<String> commandChannelTeleports;
+	
+	public transient Map<String, SoloTeleport> soloTeleportsMap;
+	public transient Map<String, GroupTeleport> partyTeleportsMap;
+	public transient Map<String, GroupTeleport> commandChannelTeleportsMap;
 	
 	public AbstractTeleporter(String bypassPrefix)
 	{
 		super(bypassPrefix, "teleporter");
 		
-		soloTeleports = Collections.unmodifiableMap(new LinkedHashMap<>());
-		partyTeleports = Collections.unmodifiableMap(new LinkedHashMap<>());
-		commandChannelTeleports = Collections.unmodifiableMap(new LinkedHashMap<>());
+		soloTeleportsMap = new LinkedHashMap<>();
+		partyTeleportsMap = new LinkedHashMap<>();
+		commandChannelTeleportsMap = new LinkedHashMap<>();
 	}
 	
-	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize(TeleporterConfig config)
 	{
-		super.afterUnmarshal(unmarshaller, parent);
+		super.afterDeserialize();
+		
+		for (String id : soloTeleports)
+		{
+			soloTeleportsMap.put(id, config.getGlobal().getSoloTeleports().get(id));
+		}
+		for (String id : partyTeleports)
+		{
+			partyTeleportsMap.put(id, config.getGlobal().getGroupTeleports().get(id));
+		}
+		for (String id : commandChannelTeleports)
+		{
+			commandChannelTeleportsMap.put(id, config.getGlobal().getGroupTeleports().get(id));
+		}
 		
 		if (!soloTeleports.isEmpty())
 		{
 			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("solo_teleports", null).getChild("solo_teleports");
-			for (Entry<String, SoloTeleport> soloTeleport : soloTeleports.entrySet())
+			for (Entry<String, SoloTeleport> soloTeleport : soloTeleportsMap.entrySet())
 			{
-				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), soloTeleport.getValue().placeholder);
+				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), soloTeleport.getValue().getPlaceholder());
 			}
 		}
 		if (!partyTeleports.isEmpty())
 		{
 			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("party_teleports", null).getChild("party_teleports");
-			for (Entry<String, GroupTeleport> partyTeleport : partyTeleports.entrySet())
+			for (Entry<String, GroupTeleport> partyTeleport : partyTeleportsMap.entrySet())
 			{
-				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), partyTeleport.getValue().placeholder);
+				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), partyTeleport.getValue().getPlaceholder());
 			}
 		}
 		if (!commandChannelTeleports.isEmpty())
 		{
 			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("command_channel_teleports", null).getChild("command_channel_teleports");
-			for (Entry<String, GroupTeleport> commandChannelTeleport : commandChannelTeleports.entrySet())
+			for (Entry<String, GroupTeleport> commandChannelTeleport : commandChannelTeleportsMap.entrySet())
 			{
-				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), commandChannelTeleport.getValue().placeholder);
+				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), commandChannelTeleport.getValue().getPlaceholder());
 			}
 		}
+	}
+	
+	public final Map<String, SoloTeleport> getSoloTeleports()
+	{
+		return soloTeleportsMap;
+	}
+	
+	public final Map<String, GroupTeleport> getPartyTeleports()
+	{
+		return partyTeleportsMap;
+	}
+	
+	public final Map<String, GroupTeleport> getCommandChannelTeleports()
+	{
+		return commandChannelTeleportsMap;
 	}
 }

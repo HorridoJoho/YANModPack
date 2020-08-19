@@ -17,35 +17,108 @@
  */
 package YANModPack.YANBuffer.src.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.l2jserver.gameserver.config.Configuration;
+import com.l2jserver.gameserver.model.actor.L2Npc;
+import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
+
+import YANModPack.YANBuffer.src.YANBuffer;
+import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
+import YANModPack.YANBuffer.src.model.entity.NpcBuffer;
+import YANModPack.YANBuffer.src.model.entity.VoicedBuffer;
 
 /**
  * @author HorridoJoho
  */
-@XmlRootElement(name = "yanbuffer")
-@XmlAccessorType(XmlAccessType.FIELD)
 public final class BufferConfig
 {
-	@XmlElement(name = "heal_cooldown", required = true)
-	public final int healCooldown;
-	@XmlElement(name = "max_unique_lists", required = true)
-	public final int maxUniqueLists;
-	@XmlElement(name = "unique_max_buffs", required = true)
-	public final int uniqueMaxBuffs;
-	@XmlElement(name = "unique_max_songs_dances", required = true)
-	public final int uniqueMaxSongsDances;
-	@XmlElement(name = "debug", required = true)
-	public final boolean debug;
+	private GlobalConfig global;
+	private VoicedBuffer voiced;
+	private Map<Integer, NpcBuffer> npcs;
 	
-	public BufferConfig()
+	public BufferConfig() throws JsonSyntaxException, JsonIOException, IOException
 	{
-		healCooldown = 0;
-		maxUniqueLists = 0;
-		uniqueMaxBuffs = 0;
-		uniqueMaxSongsDances = 0;
-		debug = false;
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		
+		Path jsonPath = Paths.get(Configuration.server().getDatapackRoot().getAbsolutePath(), "data", "scripts", YANBuffer.SCRIPT_PATH.toString(), "data", "json");
+
+		global = gson.fromJson(Files.newBufferedReader(jsonPath.resolve("global.json")), GlobalConfig.class);
+		voiced = gson.fromJson(Files.newBufferedReader(jsonPath.resolve("voiced.json")), VoicedBuffer.class);
+		npcs = new HashMap<>();
+
+		Path npcsDir = Paths.get(jsonPath.toString(), "npcs");
+		try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(npcsDir))
+		{
+			for (Path entry : dirStream)
+			{
+				if (!Files.isRegularFile(entry) || !entry.endsWith(".json"))
+				{
+					continue;
+				}
+				
+				NpcBuffer npc = gson.fromJson(Files.newBufferedReader(entry), NpcBuffer.class);
+				npcs.put(npc.getId(), npc);
+			}
+		}
+		
+		global.afterDeserilize(this);
+		voiced.afterDeserialize(this);
+		for (NpcBuffer npc : npcs.values())
+		{
+			npc.afterDeserialize(this);
+		}
+	}
+	
+	public AbstractBuffer determineBuffer(L2Npc npc, L2PcInstance player)
+	{
+		if (npc == null)
+		{
+			if (!voiced.getEnabled() || ((voiced.getRequiredItemId() > 0) && (player.getInventory().getAllItemsByItemId(voiced.getRequiredItemId()) == null)))
+			{
+				return null;
+			}
+			return voiced;
+		}
+		return npcs.get(npc.getId());
+	}
+	
+	public void registerNpcs(YANBuffer scriptInstance)
+	{
+		for (NpcBuffer npc : npcs.values())
+		{
+			if (npc.getDirectFirstTalk())
+			{
+				scriptInstance.addFirstTalkId(npc.getId());
+			}
+			scriptInstance.addStartNpc(npc.getId());
+			scriptInstance.addTalkId(npc.getId());
+		}
+	}
+	
+	public GlobalConfig getGlobal()
+	{
+		return global;
+	}
+	
+	public final VoicedBuffer getVoiced()
+	{
+		return voiced;
+	}
+	
+	public final Map<Integer, NpcBuffer> getNpcs()
+	{
+		return npcs;
 	}
 }

@@ -17,17 +17,12 @@
  */
 package YANModPack.YANBuffer.src.model.entity;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.YANBuffer.src.model.adapter.BuffCategoryRefListToMap;
+import YANModPack.YANBuffer.src.model.BufferConfig;
 import YANModPack.src.model.entity.YANModServer;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
@@ -36,17 +31,13 @@ import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
  */
 public abstract class AbstractBuffer extends YANModServer
 {
-	@XmlAttribute(name = "can_heal", required = true)
-	public final boolean canHeal;
-	@XmlAttribute(name = "can_cancel", required = true)
-	public final boolean canCancel;
-	
-	@XmlElement(name = "preset_buff_categories", required = true)
-	@XmlJavaTypeAdapter(BuffCategoryRefListToMap.class)
-	public Map<String, BuffCategory> presetBuffCats;
-	@XmlElement(name = "buff_categories", required = true)
-	@XmlJavaTypeAdapter(BuffCategoryRefListToMap.class)
-	public Map<String, BuffCategory> buffCats;
+	private boolean canHeal;
+	private boolean canCancel;
+	private List<String> presetBuffCategories;
+	private List<String> buffCategories;
+
+	private transient Map<String, BuffCategory> presetBuffCatsMap;
+	private transient Map<String, BuffCategory> buffCatsMap;
 	
 	public AbstractBuffer(String bypassPrefix)
 	{
@@ -54,15 +45,24 @@ public abstract class AbstractBuffer extends YANModServer
 		
 		canHeal = false;
 		canCancel = false;
-		
-		presetBuffCats = Collections.unmodifiableMap(new LinkedHashMap<>());
-		buffCats = Collections.unmodifiableMap(new LinkedHashMap<>());
+
+		presetBuffCatsMap = new LinkedHashMap<>();
+		buffCatsMap = new LinkedHashMap<>();
 	}
 	
-	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize(BufferConfig config)
 	{
-		super.afterUnmarshal(unmarshaller, parent);
+		super.afterDeserialize();
+
+		for (String id : presetBuffCategories)
+		{
+			presetBuffCatsMap.put(id, config.getGlobal().getCategories().get(id));
+		}
+
+		for (String id : buffCategories)
+		{
+			buffCatsMap.put(id, config.getGlobal().getCategories().get(id));
+		}
 		
 		if (canHeal)
 		{
@@ -72,21 +72,41 @@ public abstract class AbstractBuffer extends YANModServer
 		{
 			placeholder.addChild("can_cancel", null);
 		}
-		if (!presetBuffCats.isEmpty())
+		if (!presetBuffCategories.isEmpty())
 		{
 			HTMLTemplatePlaceholder presetBufflistsPlaceholder = placeholder.addChild("presets", null).getChild("presets");
-			for (Entry<String, BuffCategory> presetBufflist : presetBuffCats.entrySet())
+			for (Entry<String, BuffCategory> presetBufflist : presetBuffCatsMap.entrySet())
 			{
-				presetBufflistsPlaceholder.addAliasChild(String.valueOf(presetBufflistsPlaceholder.getChildsSize()), presetBufflist.getValue().placeholder);
+				presetBufflistsPlaceholder.addAliasChild(String.valueOf(presetBufflistsPlaceholder.getChildsSize()), presetBufflist.getValue().getPlaceholder());
 			}
 		}
-		if (!buffCats.isEmpty())
+		if (!buffCategories.isEmpty())
 		{
 			HTMLTemplatePlaceholder buffCatsPlaceholder = placeholder.addChild("categories", null).getChild("categories");
-			for (Entry<String, BuffCategory> buffCat : buffCats.entrySet())
+			for (Entry<String, BuffCategory> buffCat : buffCatsMap.entrySet())
 			{
-				buffCatsPlaceholder.addAliasChild(String.valueOf(buffCatsPlaceholder.getChildsSize()), buffCat.getValue().placeholder);
+				buffCatsPlaceholder.addAliasChild(String.valueOf(buffCatsPlaceholder.getChildsSize()), buffCat.getValue().getPlaceholder());
 			}
 		}
+	}
+	
+	public final boolean getCanHeal()
+	{
+		return canHeal;
+	}
+	
+	public final boolean getCanCancel()
+	{
+		return canCancel;
+	}
+	
+	public Map<String, BuffCategory> getPresetBuffCats()
+	{
+		return presetBuffCatsMap;
+	}
+	
+	public final Map<String, BuffCategory> getBuffCats()
+	{
+		return buffCatsMap;
 	}
 }

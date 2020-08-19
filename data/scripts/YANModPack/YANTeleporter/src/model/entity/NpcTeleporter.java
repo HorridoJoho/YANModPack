@@ -17,11 +17,9 @@
  */
 package YANModPack.YANTeleporter.src.model.entity;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-
 import YANModPack.YANTeleporter.src.YANTeleporterBypassHandler;
-import YANModPack.src.model.entity.IDefinition;
+import YANModPack.YANTeleporter.src.model.TeleporterConfig;
+import YANModPack.src.model.entity.IRefable;
 
 import com.l2jserver.gameserver.data.xml.impl.NpcData;
 import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
@@ -29,12 +27,10 @@ import com.l2jserver.gameserver.model.actor.templates.L2NpcTemplate;
 /**
  * @author HorridoJoho
  */
-public final class NpcTeleporter extends AbstractTeleporter implements IDefinition<Integer>
+public final class NpcTeleporter extends AbstractTeleporter implements IRefable<Integer>
 {
-	@XmlAttribute(name = "npc_id", required = true)
-	public final int npcId;
-	@XmlAttribute(name = "direct_first_talk", required = true)
-	public final boolean directFirstTalk;
+	private int npcId;
+	private boolean directFirstTalk;
 	
 	public NpcTeleporter()
 	{
@@ -44,9 +40,9 @@ public final class NpcTeleporter extends AbstractTeleporter implements IDefiniti
 	}
 	
 	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize(TeleporterConfig config)
 	{
-		super.afterUnmarshal(unmarshaller, parent);
+		super.afterDeserialize(config);
 		
 		placeholder.addChild("ident", String.valueOf(npcId));
 	}
@@ -56,14 +52,24 @@ public final class NpcTeleporter extends AbstractTeleporter implements IDefiniti
 		return NpcData.getInstance().getTemplate(npcId);
 	}
 	
+	public int getNpcId()
+	{
+		return npcId;
+	}
+	
+	public boolean getDirectFirstTalk()
+	{
+		return directFirstTalk;
+	}
+	
 	@Override
-	protected String getName()
+	public final String getName()
 	{
 		return getNpc().getName();
 	}
 	
 	@Override
-	public Integer getIdentifier()
+	public final Integer getId()
 	{
 		return npcId;
 	}

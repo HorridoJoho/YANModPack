@@ -17,9 +17,8 @@
  */
 package YANModPack.YANTeleporter.src.model.entity;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 import YANModPack.YANTeleporter.src.YANTeleporterVoicedCommandHandler;
+import YANModPack.YANTeleporter.src.model.TeleporterConfig;
 
 import com.l2jserver.gameserver.datatables.ItemTable;
 import com.l2jserver.gameserver.model.items.L2Item;
@@ -29,10 +28,8 @@ import com.l2jserver.gameserver.model.items.L2Item;
  */
 public final class VoicedTeleporter extends AbstractTeleporter
 {
-	@XmlAttribute(name = "enabled", required = true)
-	public final boolean enabled;
-	@XmlAttribute(name = "required_item_id")
-	public final int requiredItemId;
+	private boolean enabled;
+	private int requiredItemId;
 	
 	public VoicedTeleporter()
 	{
@@ -41,13 +38,28 @@ public final class VoicedTeleporter extends AbstractTeleporter
 		requiredItemId = 0;
 	}
 	
+	public void afterDeserialize(TeleporterConfig config)
+	{
+		super.afterDeserialize(config);
+	}
+	
 	public L2Item getRequiredItem()
 	{
 		return ItemTable.getInstance().getTemplate(requiredItemId);
 	}
 	
+	public boolean getEnabled()
+	{
+		return enabled;
+	}
+	
+	public int getRequiredItemId()
+	{
+		return requiredItemId;
+	}
+	
 	@Override
-	protected String getName()
+	public final String getName()
 	{
 		return "Voiced Command Buffer";
 	}

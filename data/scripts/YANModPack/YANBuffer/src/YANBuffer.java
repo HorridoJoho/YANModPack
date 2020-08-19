@@ -28,13 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
-import YANModPack.YANBuffer.src.model.entity.BuffCategory;
-import YANModPack.YANBuffer.src.model.entity.BuffSkill;
-import YANModPack.src.YANModScript;
-import YANModPack.src.util.CommandProcessor;
-import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
-
 import com.l2jserver.gameserver.handler.BypassHandler;
 import com.l2jserver.gameserver.handler.ItemHandler;
 import com.l2jserver.gameserver.handler.VoicedCommandHandler;
@@ -42,6 +35,14 @@ import com.l2jserver.gameserver.model.actor.L2Npc;
 import com.l2jserver.gameserver.model.actor.L2Playable;
 import com.l2jserver.gameserver.model.actor.instance.L2PcInstance;
 import com.l2jserver.gameserver.model.skills.BuffInfo;
+
+import YANModPack.YANBuffer.src.model.entity.AbstractBuffer;
+import YANModPack.YANBuffer.src.model.entity.BuffCategory;
+import YANModPack.YANBuffer.src.model.entity.BuffSkill;
+import YANModPack.src.YANModScript;
+import YANModPack.src.util.CommandProcessor;
+import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
+
 
 /**
  * @author HorridoJoho
@@ -75,7 +76,7 @@ public final class YANBuffer extends YANModScript
 		}
 		
 		YANBuffer scriptInstance = getInstance();
-		YANBufferData.getInstance().getBuffers().registerNpcs(scriptInstance);
+		YANBufferData.getInstance().getConfig().registerNpcs(scriptInstance);
 	}
 	
 	private static final ConcurrentHashMap<Integer, Long> _LAST_PLAYABLES_HEAL_TIME = new ConcurrentHashMap<>();
@@ -87,7 +88,7 @@ public final class YANBuffer extends YANModScript
 		
 		BypassHandler.getInstance().registerHandler(YANBufferBypassHandler.getInstance());
 		
-		if (YANBufferData.getInstance().getBuffers().voicedBuffer.enabled)
+		if (YANBufferData.getInstance().getConfig().getVoiced().getEnabled())
 		{
 			VoicedCommandHandler.getInstance().registerHandler(YANBufferVoicedCommandHandler.getInstance());
 			ItemHandler.getInstance().registerHandler(YANBufferItemHandler.getInstance());
@@ -134,7 +135,7 @@ public final class YANBuffer extends YANModScript
 	
 	private boolean _htmlShowCategory(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent)
 	{
-		BuffCategory buffCat = buffer.buffCats.get(categoryIdent);
+		BuffCategory buffCat = buffer.getBuffCats().get(categoryIdent);
 		if (buffCat == null)
 		{
 			debug(player, "Invalid buff category: " + categoryIdent);
@@ -143,7 +144,7 @@ public final class YANBuffer extends YANModScript
 		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
 		
-		placeholders.put("category", buffCat.placeholder);
+		placeholders.put("category", buffCat.getPlaceholder());
 		
 		_showAdvancedHtml(player, buffer, npc, "category.html", placeholders);
 		return true;
@@ -151,7 +152,7 @@ public final class YANBuffer extends YANModScript
 	
 	private boolean _htmlShowBuff(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String categoryIdent, String buffIdent)
 	{
-		BuffCategory buffCat = buffer.buffCats.get(categoryIdent);
+		BuffCategory buffCat = buffer.getBuffCats().get(categoryIdent);
 		if (buffCat == null)
 		{
 			debug(player, "Invalid buff category: " + categoryIdent);
@@ -166,8 +167,8 @@ public final class YANBuffer extends YANModScript
 		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
 		
-		placeholders.put("category", buffCat.placeholder);
-		placeholders.put("buff", buff.placeholder);
+		placeholders.put("category", buffCat.getPlaceholder());
+		placeholders.put("buff", buff.getPlaceholder());
 		
 		_showAdvancedHtml(player, buffer, npc, "buff.html", placeholders);
 		return true;
@@ -175,7 +176,7 @@ public final class YANBuffer extends YANModScript
 	
 	private boolean _htmlShowPreset(L2PcInstance player, AbstractBuffer buffer, L2Npc npc, String presetBufflistIdent)
 	{
-		BuffCategory presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
+		BuffCategory presetBufflist = buffer.getPresetBuffCats().get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
 			debug(player, "Invalid preset buff category: " + presetBufflistIdent);
@@ -184,7 +185,7 @@ public final class YANBuffer extends YANModScript
 		
 		HashMap<String, HTMLTemplatePlaceholder> placeholders = new HashMap<>();
 		
-		placeholders.put("preset", presetBufflist.placeholder);
+		placeholders.put("preset", presetBufflist.getPlaceholder());
 		
 		_showAdvancedHtml(player, buffer, npc, "preset.html", placeholders);
 		return true;
@@ -216,7 +217,7 @@ public final class YANBuffer extends YANModScript
 	// /////////////////////////////////////////////
 	private void _targetBuffBuff(L2PcInstance player, L2Playable target, AbstractBuffer buffer, String categoryIdent, String buffIdent)
 	{
-		BuffCategory bCat = buffer.buffCats.get(categoryIdent);
+		BuffCategory bCat = buffer.getBuffCats().get(categoryIdent);
 		if (bCat == null)
 		{
 			debug(player, "Invalid buff category: " + categoryIdent);
@@ -297,14 +298,14 @@ public final class YANBuffer extends YANModScript
 	
 	private void _targetBuffPreset(L2PcInstance player, L2Playable target, AbstractBuffer buffer, String presetBufflistIdent)
 	{
-		BuffCategory presetBufflist = buffer.presetBuffCats.get(presetBufflistIdent);
+		BuffCategory presetBufflist = buffer.getPresetBuffCats().get(presetBufflistIdent);
 		if (presetBufflist == null)
 		{
 			debug(player, "Invalid preset buff category: " + presetBufflistIdent);
 			return;
 		}
 		
-		Collection<BuffSkill> buffs = presetBufflist.buffSkills.values();
+		Collection<BuffSkill> buffs = presetBufflist.getBuffs().values();
 		
 		if (buffs != null)
 		{
@@ -347,7 +348,7 @@ public final class YANBuffer extends YANModScript
 	
 	private void _targetHeal(L2PcInstance player, L2Playable target, AbstractBuffer buffer)
 	{
-		if (!buffer.canHeal)
+		if (!buffer.getCanHeal())
 		{
 			debug(player, "This buffer can not heal!");
 			return;
@@ -358,7 +359,7 @@ public final class YANBuffer extends YANModScript
 		if (lastPlayableHealTime != null)
 		{
 			Long elapsedTime = System.currentTimeMillis() - lastPlayableHealTime;
-			Long healCooldown = YANBufferData.getInstance().getConfig().healCooldown * 1000L;
+			Long healCooldown = YANBufferData.getInstance().getConfig().getGlobal().getHealCooldown() * 1000L;
 			if (elapsedTime < healCooldown)
 			{
 				Long remainingTime = healCooldown - elapsedTime;
@@ -387,7 +388,7 @@ public final class YANBuffer extends YANModScript
 	
 	private void _targetCancel(L2PcInstance player, L2Playable target, AbstractBuffer buffer)
 	{
-		if (!buffer.canCancel)
+		if (!buffer.getCanCancel())
 		{
 			debug(player, "This buffer can not cancel!");
 			return;
@@ -485,7 +486,7 @@ public final class YANBuffer extends YANModScript
 	
 	private void _uniqueAdd(L2PcInstance player, AbstractBuffer buffer, String uniqueName, String categoryIdent, String buffIdent)
 	{
-		BuffCategory bCat = buffer.buffCats.get(categoryIdent);
+		BuffCategory bCat = buffer.getBuffCats().get(categoryIdent);
 		if (bCat == null)
 		{
 			return;
@@ -501,7 +502,7 @@ public final class YANBuffer extends YANModScript
 	
 	private void _uniqueRemove(L2PcInstance player, String uniqueName, String buffIdent)
 	{
-		BuffSkill buff = YANBufferData.getInstance().getBuff(buffIdent);
+		BuffSkill buff = YANBufferData.getInstance().getConfig().getGlobal().getBuff(buffIdent);
 		if (buff == null)
 		{
 			return;
@@ -540,17 +541,17 @@ public final class YANBuffer extends YANModScript
 			final List<BuffInfo> effects = player.getEffectList().getEffects();
 			for (final BuffInfo effect : effects)
 			{
-				for (Entry<String, BuffCategory> buffCatEntry : buffer.buffCats.entrySet())
+				for (Entry<String, BuffCategory> buffCatEntry : buffer.getBuffCats().entrySet())
 				{
 					boolean added = false;
 					
-					for (Entry<String, BuffSkill> buffEntry : buffCatEntry.getValue().buffSkills.entrySet())
+					for (Entry<String, BuffSkill> buffEntry : buffCatEntry.getValue().getBuffs().entrySet())
 					{
 						final BuffSkill buff = buffEntry.getValue();
 						
 						if (buff.getSkill().getId() == effect.getSkill().getId())
 						{
-							_uniqueAdd(player, buffer, uniqueName, buffCatEntry.getKey(), buff.id);
+							_uniqueAdd(player, buffer, uniqueName, buffCatEntry.getKey(), buff.getId());
 							added = true;
 							break;
 						}
@@ -603,7 +604,7 @@ public final class YANBuffer extends YANModScript
 	@Override
 	public boolean executeHtmlCommand(L2PcInstance player, L2Npc npc, CommandProcessor command)
 	{
-		AbstractBuffer buffer = YANBufferData.getInstance().getBuffers().determineBuffer(npc, player);
+		AbstractBuffer buffer = YANBufferData.getInstance().getConfig().determineBuffer(npc, player);
 		if (buffer == null)
 		{
 			player.sendMessage("No authorization!");
@@ -643,7 +644,7 @@ public final class YANBuffer extends YANModScript
 	@Override
 	public boolean executeActionCommand(L2PcInstance player, L2Npc npc, CommandProcessor command)
 	{
-		AbstractBuffer buffer = YANBufferData.getInstance().getBuffers().determineBuffer(npc, player);
+		AbstractBuffer buffer = YANBufferData.getInstance().getConfig().determineBuffer(npc, player);
 		if (buffer == null)
 		{
 			player.sendMessage("No authorization!");
@@ -665,6 +666,6 @@ public final class YANBuffer extends YANModScript
 	@Override
 	protected boolean isDebugEnabled()
 	{
-		return YANBufferData.getInstance().getConfig().debug;
+		return YANBufferData.getInstance().getConfig().getGlobal().getDebug();
 	}
 }

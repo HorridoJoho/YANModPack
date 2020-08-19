@@ -17,21 +17,16 @@
  */
 package YANModPack.YANTeleporter.src.model.entity;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
+import YANModPack.YANTeleporter.src.model.TeleporterConfig;
 
 /**
  * @author HorridoJoho
  */
 public class GroupTeleport extends SoloTeleport
 {
-	@XmlAttribute(name = "min_members", required = true)
 	public final int minMembers;
-	@XmlAttribute(name = "max_members", required = true)
 	public final int maxMembers;
-	@XmlAttribute(name = "max_distance")
 	public final int maxDistance;
-	@XmlAttribute(name = "allow_incomplete")
 	public final boolean allowIncomplete;
 	
 	public GroupTeleport()
@@ -42,10 +37,9 @@ public class GroupTeleport extends SoloTeleport
 		allowIncomplete = false;
 	}
 	
-	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize(TeleporterConfig config)
 	{
-		super.afterUnmarshal(unmarshaller, parent);
+		super.afterDeserialize();
 		
 		placeholder.addChild("min_members", String.valueOf(minMembers)).addChild("max_members", String.valueOf(maxMembers)).addChild("max_distance", String.valueOf(maxDistance));
 	}

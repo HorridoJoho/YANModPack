@@ -1,0 +1,12 @@
+{
+    "debug": false,
+    
+    "soloTeleports": {
+        "S_CEDRICS_TRAINING_HALL": {"id":"S_CEDRICS_TRAINING_HALL", "name":"Cedrics Training Hall", "x":-71504, "y":258211, "z":-3105, "heading":0, "randomOffset":0, "instance":"", "items":[{"id":57, "amount":100}]}
+    },
+    
+    "groupTeleports": {
+        "P_CEDRICS_TRAINING_HALL": {"id":"P_CEDRICS_TRAINING_HALL", "name":"Cedrics Training Hall", "x":-71504, "y":258211, "z":-3105, "heading":0, "randomOffset":0, "instance":"", "minMembers":2, "maxMembers":9, "maxDistance":0, "allowIncomplete":false, "items":[{"id":57, "amount":100}]},
+        "CC_CEDRICS_TRAINING_HALL": {"id":"CC_CEDRICS_TRAINING_HALL", "name":"Cedrics Training Hall", "x":-71504, "y":258211, "z":-3105, "heading":0, "randomOffset":0, "instance":"", "minMembers":10, "maxMembers":50, "maxDistance":0, "allowIncomplete":false, "items":[{"id":57, "amount":100}]}
+    }
+}

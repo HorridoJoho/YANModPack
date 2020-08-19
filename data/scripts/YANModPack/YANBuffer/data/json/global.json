@@ -1,0 +1,203 @@
+{
+    "healCooldown": 60,
+    "maxUniqueLists": 5,
+    "uniqueMaxBuffs": 24,
+    "uniqueMaxSongsDances": 12,
+    "debug": false,
+
+    "buffs": {
+        "BUFF_0": {"id":"BUFF_0", "skill":1036, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_1": {"id":"BUFF_1", "skill":1040, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_2": {"id":"BUFF_2", "skill":1043, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_3": {"id":"BUFF_3", "skill":1044, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_4": {"id":"BUFF_4", "skill":1045, "level":6, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_5": {"id":"BUFF_5", "skill":1047, "level":4, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_6": {"id":"BUFF_6", "skill":1048, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_7": {"id":"BUFF_7", "skill":1059, "level":6, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_8": {"id":"BUFF_8", "skill":1068, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_9": {"id":"BUFF_9", "skill":1077, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_10": {"id":"BUFF_10", "skill":1085, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_11": {"id":"BUFF_11", "skill":1086, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_12": {"id":"BUFF_12", "skill":1087, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_13": {"id":"BUFF_13", "skill":1204, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_14": {"id":"BUFF_14", "skill":1242, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_15": {"id":"BUFF_15", "skill":1243, "level":6, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_16": {"id":"BUFF_16", "skill":1257, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_17": {"id":"BUFF_17", "skill":1268, "level":4, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_18": {"id":"BUFF_18", "skill":1303, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_19": {"id":"BUFF_19", "skill":1304, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_20": {"id":"BUFF_20", "skill":1307, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_21": {"id":"BUFF_21", "skill":1311, "level":6, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_22": {"id":"BUFF_22", "skill":1397, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_23": {"id":"BUFF_23", "skill":1460, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"BUFF_24": {"id":"BUFF_24", "skill":1240, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+
+        "SONG_0": {"id":"SONG_0", "skill":264, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_1": {"id":"SONG_1", "skill":265, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_2": {"id":"SONG_2", "skill":266, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_3": {"id":"SONG_3", "skill":267, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_4": {"id":"SONG_4", "skill":268, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_5": {"id":"SONG_5", "skill":269, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_6": {"id":"SONG_6", "skill":270, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_7": {"id":"SONG_7", "skill":304, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_8": {"id":"SONG_8", "skill":305, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_9": {"id":"SONG_9", "skill":306, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_10": {"id":"SONG_10", "skill":308, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_11": {"id":"SONG_11", "skill":349, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_12": {"id":"SONG_12", "skill":363, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_13": {"id":"SONG_13", "skill":364, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_14": {"id":"SONG_14", "skill":529, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"SONG_15": {"id":"SONG_15", "skill":764, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+
+        "DANCE_0": {"id":"DANCE_0", "skill":271, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_1": {"id":"DANCE_1", "skill":272, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_2": {"id":"DANCE_2", "skill":273, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_3": {"id":"DANCE_3", "skill":274, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_4": {"id":"DANCE_4", "skill":275, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_5": {"id":"DANCE_5", "skill":276, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_6": {"id":"DANCE_6", "skill":277, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_7": {"id":"DANCE_7", "skill":307, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_8": {"id":"DANCE_8", "skill":309, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_9": {"id":"DANCE_9", "skill":310, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_10": {"id":"DANCE_10", "skill":311, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_11": {"id":"DANCE_11", "skill":365, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_12": {"id":"DANCE_12", "skill":366, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_13": {"id":"DANCE_13", "skill":530, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_14": {"id":"DANCE_14", "skill":765, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+		"DANCE_15": {"id":"DANCE_15", "skill":915, "level":1, "type":"SONG_DANCE", "items":[{"id":57, "amount":100}]},
+
+        "CHANT_0": {"id":"CHANT_0", "skill":1002, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_1": {"id":"CHANT_1", "skill":1006, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_2": {"id":"CHANT_2", "skill":1007, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_3": {"id":"CHANT_3", "skill":1009, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_4": {"id":"CHANT_4", "skill":1251, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_5": {"id":"CHANT_5", "skill":1252, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_6": {"id":"CHANT_6", "skill":1253, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_7": {"id":"CHANT_7", "skill":1284, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_8": {"id":"CHANT_8", "skill":1308, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_9": {"id":"CHANT_9", "skill":1309, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_10": {"id":"CHANT_10", "skill":1310, "level":4, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"CHANT_11": {"id":"CHANT_11", "skill":1362, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+
+        "DWARVEN_0": {"id":"DWARVEN_0", "skill":825, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"DWARVEN_1": {"id":"DWARVEN_1", "skill":826, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"DWARVEN_2": {"id":"DWARVEN_2", "skill":827, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"DWARVEN_3": {"id":"DWARVEN_3", "skill":828, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"DWARVEN_4": {"id":"DWARVEN_4", "skill":829, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"DWARVEN_5": {"id":"DWARVEN_5", "skill":830, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+
+        "RESIST_0": {"id":"RESIST_0", "skill":1461, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_1": {"id":"RESIST_1", "skill":1032, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_2": {"id":"RESIST_2", "skill":1033, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_3": {"id":"RESIST_3", "skill":1035, "level":4, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_4": {"id":"RESIST_4", "skill":1078, "level":6, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_5": {"id":"RESIST_5", "skill":1182, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_6": {"id":"RESIST_6", "skill":1189, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_7": {"id":"RESIST_7", "skill":1191, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_8": {"id":"RESIST_8", "skill":1259, "level":4, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_9": {"id":"RESIST_9", "skill":1352, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_10": {"id":"RESIST_10", "skill":1353, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_11": {"id":"RESIST_11", "skill":1354, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_12": {"id":"RESIST_12", "skill":1392, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_13": {"id":"RESIST_13", "skill":1393, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"RESIST_14": {"id":"RESIST_14", "skill":1548, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+
+        "SPECIAL_0": {"id":"SPECIAL_0", "skill":1388, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_1": {"id":"SPECIAL_1", "skill":1389, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_2": {"id":"SPECIAL_2", "skill":1499, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_3": {"id":"SPECIAL_3", "skill":1500, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_4": {"id":"SPECIAL_4", "skill":1501, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_5": {"id":"SPECIAL_5", "skill":1502, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_6": {"id":"SPECIAL_6", "skill":1503, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_7": {"id":"SPECIAL_7", "skill":1504, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_8": {"id":"SPECIAL_8", "skill":1519, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_9": {"id":"SPECIAL_9", "skill":1062, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_10": {"id":"SPECIAL_10", "skill":1355, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_11": {"id":"SPECIAL_11", "skill":1356, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_12": {"id":"SPECIAL_12", "skill":1357, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_13": {"id":"SPECIAL_13", "skill":1363, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_14": {"id":"SPECIAL_14", "skill":1413, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_15": {"id":"SPECIAL_15", "skill":1261, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_16": {"id":"SPECIAL_16", "skill":1415, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_17": {"id":"SPECIAL_17", "skill":1416, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_18": {"id":"SPECIAL_18", "skill":1542, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_19": {"id":"SPECIAL_19", "skill":1414, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_20": {"id":"SPECIAL_20", "skill":4699, "level":13, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_21": {"id":"SPECIAL_21", "skill":4700, "level":13, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_22": {"id":"SPECIAL_22", "skill":4702, "level":13, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"SPECIAL_23": {"id":"SPECIAL_23", "skill":4703, "level":13, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+
+        "OVERLORD_0": {"id":"OVERLORD_0", "skill":1003, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_1": {"id":"OVERLORD_1", "skill":1004, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_2": {"id":"OVERLORD_2", "skill":1005, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_3": {"id":"OVERLORD_3", "skill":1008, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_4": {"id":"OVERLORD_4", "skill":1249, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_5": {"id":"OVERLORD_5", "skill":1250, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_6": {"id":"OVERLORD_6", "skill":1260, "level":3, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_7": {"id":"OVERLORD_7", "skill":1282, "level":2, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_8": {"id":"OVERLORD_8", "skill":1364, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]},
+		"OVERLORD_9": {"id":"OVERLORD_9", "skill":1365, "level":1, "type":"BUFF", "items":[{"id":57, "amount":100}]}
+	},
+
+    "buffCategories": {
+        "BC_FIGHTER": {
+			"id":"BC_FIGHTER",
+            "name":"Fighter",
+            "buffs":["DANCE_0", "DANCE_1", "DANCE_3", "DANCE_4", "DANCE_5", "DANCE_6", "DANCE_7", "DANCE_8", "DANCE_9", "DANCE_10", "DANCE_13", "DANCE_15", "SONG_0", "SONG_1", "SONG_2", "SONG_3", "SONG_4", "SONG_5", "SONG_6", "SONG_7", "SONG_8", "SONG_9", "SONG_10", "SONG_11", "SONG_12", "SONG_13", "SONG_14", "SONG_15", "BUFF_3", "BUFF_11", "BUFF_16", "BUFF_17", "BUFF_20", "BUFF_22", "BUFF_24", "RESIST_3", "RESIST_8", "RESIST_9", "RESIST_10", "RESIST_11", "SPECIAL_0", "SPECIAL_2", "SPECIAL_3", "SPECIAL_4", "SPECIAL_5", "SPECIAL_6", "SPECIAL_7", "SPECIAL_9", "SPECIAL_18"]
+        },
+
+        "BC_MAGE": {
+			"id":"BC_MAGE",
+            "name":"Mage",
+            "buffs":["DANCE_2", "DANCE_5", "DANCE_7", "DANCE_8", "DANCE_10", "DANCE_11", "DANCE_13", "DANCE_15", "SONG_1", "SONG_2", "SONG_3", "SONG_4", "SONG_5", "SONG_6", "SONG_7", "SONG_8", "SONG_9", "SONG_10", "SONG_11", "SONG_12", "SONG_13", "SONG_14", "SONG_15", "BUFF_3", "BUFF_10", "BUFF_11", "BUFF_16", "BUFF_18", "BUFF_20", "BUFF_22", "RESIST_4", "RESIST_5", "RESIST_6", "RESIST_7", "RESIST_8", "RESIST_9", "RESIST_10", "RESIST_11", "RESIST_12","RESIST_13", "RESIST_14", "SPECIAL_1", "SPECIAL_2", "SPECIAL_3", "SPECIAL_4", "SPECIAL_6"]
+		},
+
+        "BC_BUFFS": {
+			"id":"BC_BUFFS",
+            "name":"Buffs",
+            "buffs":["BUFF_0", "BUFF_1", "BUFF_2", "BUFF_3", "BUFF_4", "BUFF_5", "BUFF_6", "BUFF_7", "BUFF_8", "BUFF_9", "BUFF_10", "BUFF_11", "BUFF_12", "BUFF_13", "BUFF_14", "BUFF_15", "BUFF_16", "BUFF_17", "BUFF_18", "BUFF_19", "BUFF_20", "BUFF_21", "BUFF_22", "BUFF_23", "BUFF_24"]
+        },
+		
+		"BC_SONGS": {
+			"id":"BC_SONGS",
+            "name":"Songs",
+            "buffs":["SONG_0", "SONG_1", "SONG_2", "SONG_3", "SONG_4", "SONG_5", "SONG_6", "SONG_7", "SONG_8", "SONG_9", "SONG_10", "SONG_11", "SONG_12", "SONG_13", "SONG_14", "SONG_15"]
+        },
+		
+		"BC_DANCES": {
+			"id":"BC_DANCES",
+            "name":"Dances",
+            "buffs":["DANCE_0", "DANCE_1", "DANCE_2", "DANCE_3", "DANCE_4", "DANCE_5", "DANCE_6", "DANCE_7", "DANCE_8", "DANCE_9", "DANCE_10", "DANCE_11", "DANCE_12", "DANCE_13", "DANCE_14", "DANCE_15"]
+        },
+		
+		"BC_CHANTS": {
+			"id":"BC_CHANTS",
+            "name":"Chants",
+            "buffs":["CHANT_0", "CHANT_1", "CHANT_2", "CHANT_3", "CHANT_4", "CHANT_5", "CHANT_6", "CHANT_7", "CHANT_8", "CHANT_9", "CHANT_10", "CHANT_11"]
+        },
+		
+		"BC_DWARVEN": {
+			"id":"BC_DWARVEN",
+            "name":"Dwarven",
+            "buffs":["DWARVEN_0", "DWARVEN_1", "DWARVEN_2", "DWARVEN_3", "DWARVEN_4", "DWARVEN_5"]
+        },
+		
+		"BC_RESIST": {
+			"id":"BC_RESIST",
+            "name":"Resist",
+            "buffs":["RESIST_0", "RESIST_1", "RESIST_2", "RESIST_3", "RESIST_4", "RESIST_5", "RESIST_6", "RESIST_7", "RESIST_8", "RESIST_9", "RESIST_10", "RESIST_11", "RESIST_12", "RESIST_13", "RESIST_14"]
+        },
+		
+		"BC_SPECIAL": {
+			"id":"BC_SPECIAL",
+            "name":"Special",
+            "buffs":["SPECIAL_0", "SPECIAL_1", "SPECIAL_2", "SPECIAL_3", "SPECIAL_4", "SPECIAL_5", "SPECIAL_6", "SPECIAL_7", "SPECIAL_8", "SPECIAL_9", "SPECIAL_10", "SPECIAL_11", "SPECIAL_12", "SPECIAL_13", "SPECIAL_14", "SPECIAL_15", "SPECIAL_16", "SPECIAL_17", "SPECIAL_18", "SPECIAL_19", "SPECIAL_20", "SPECIAL_21", "SPECIAL_22", "SPECIAL_23"]
+        },
+		
+		"BC_OVERLORD": {
+			"id":"BC_OVERLORD",
+            "name":"Overlord",
+            "buffs":["OVERLORD_0", "OVERLORD_1", "OVERLORD_2", "OVERLORD_3", "OVERLORD_4", "OVERLORD_5", "OVERLORD_6", "OVERLORD_7", "OVERLORD_8", "OVERLORD_9"]
+        }
+    }
+}

@@ -22,7 +22,7 @@ package YANModPack.src.model.entity;
  * @author HorridoJoho
  * @param <T> id type
  */
-public interface IDefinition<T>
+public interface IRefable<T>
 {
-	T getIdentifier();
+	T getId();
 }

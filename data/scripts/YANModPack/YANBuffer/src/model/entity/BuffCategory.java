@@ -17,57 +17,63 @@
  */
 package YANModPack.YANBuffer.src.model.entity;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import YANModPack.YANBuffer.src.model.adapter.BuffSkillRefListToMap;
-import YANModPack.src.model.entity.Definition;
+import YANModPack.YANBuffer.src.model.BufferConfig;
+import YANModPack.src.model.entity.Refable;
 import YANModPack.src.util.htmltmpls.HTMLTemplatePlaceholder;
 
 /**
  * @author HorridoJoho
  */
-public class BuffCategory extends Definition
+public class BuffCategory extends Refable
 {
-	@XmlAttribute(name = "name", required = true)
-	public final String name;
-	
-	@XmlElement(name = "buffs", required = true)
-	@XmlJavaTypeAdapter(BuffSkillRefListToMap.class)
-	public final Map<String, BuffSkill> buffSkills;
+	private String name;
+	private List<String> buffSkills;
+
+	private transient Map<String, BuffSkill> buffSkillsMap = null;
 	
 	public BuffCategory()
 	{
 		name = null;
 		
-		buffSkills = Collections.unmodifiableMap(new LinkedHashMap<>());
+		//buffSkills = Collections.unmodifiableMap(new LinkedHashMap<>());
 	}
 	
-	@Override
-	public void afterUnmarshal(Unmarshaller unmarshaller, Object parent)
+	public void afterDeserialize(BufferConfig config)
 	{
-		super.afterUnmarshal(unmarshaller, parent);
+		super.afterDeserialize();
+		
+		for (String id : buffSkills)
+		{
+			buffSkillsMap.put(id, config.getGlobal().getBuff(id));
+		}
 		
 		placeholder.addChild("name", name);
 		if (!buffSkills.isEmpty())
 		{
 			HTMLTemplatePlaceholder buffsPlaceholder = this.placeholder.addChild("buffs", null).getChild("buffs");
-			for (Entry<String, BuffSkill> buff : buffSkills.entrySet())
+			for (Entry<String, BuffSkill> buff : buffSkillsMap.entrySet())
 			{
-				buffsPlaceholder.addAliasChild(String.valueOf(buffsPlaceholder.getChildsSize()), buff.getValue().placeholder);
+				buffsPlaceholder.addAliasChild(String.valueOf(buffsPlaceholder.getChildsSize()), buff.getValue().getPlaceholder());
 			}
 		}
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public Map<String, BuffSkill> getBuffs()
+	{
+		return buffSkillsMap;
+	}
+	
 	public BuffSkill getBuff(String id)
 	{
-		return buffSkills.get(id);
+		return buffSkillsMap.get(id);
 	}
 }
