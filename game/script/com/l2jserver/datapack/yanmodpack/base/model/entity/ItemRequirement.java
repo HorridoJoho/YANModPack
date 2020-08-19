@@ -26,23 +26,23 @@ import com.l2jserver.gameserver.model.items.L2Item;
  */
 public class ItemRequirement
 {
-	private int itemId;
-	private long itemAmount;
+	private int id;
+	private long amount;
 	
 	protected final transient HTMLTemplatePlaceholder placeholder;
 	
 	public ItemRequirement()
 	{
-		itemId = 0;
-		itemAmount = 0;
+		id = 0;
+		amount = 0;
 		
 		placeholder = new HTMLTemplatePlaceholder("placeholder", null);
 	}
 	
 	public ItemRequirement(int itemId, long itemAmount)
 	{
-		this.itemId = itemId;
-		this.itemAmount = itemAmount;
+		this.id = itemId;
+		this.amount = itemAmount;
 		
 		placeholder = new HTMLTemplatePlaceholder("placeholder", null);
 		
@@ -52,21 +52,21 @@ public class ItemRequirement
 	public void afterDeserialize()
 	{
 		final L2Item item = getItem();
-		placeholder.addChild("id", String.valueOf(item.getId())).addChild("icon", item.getIcon()).addChild("name", item.getName()).addChild("amount", String.valueOf(itemAmount));
+		placeholder.addChild("id", String.valueOf(item.getId())).addChild("icon", item.getIcon()).addChild("name", item.getName()).addChild("amount", String.valueOf(amount));
 	}
 	
 	public final int getItemId()
 	{
-		return itemId;
+		return id;
 	}
 	
 	public final long getItemAmount()
 	{
-		return itemAmount;
+		return amount;
 	}
 	
 	public final L2Item getItem()
 	{
-		return ItemTable.getInstance().getTemplate(itemId);
+		return ItemTable.getInstance().getTemplate(id);
 	}
 }
