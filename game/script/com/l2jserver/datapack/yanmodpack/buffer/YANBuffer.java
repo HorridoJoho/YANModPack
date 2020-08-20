@@ -57,7 +57,7 @@ public final class YANBuffer extends YANModScript
 	public static final String SCRIPT_NAME = "buffer";
 	public static final Path SCRIPT_PATH = Paths.get(SCRIPT_COLLECTION.toString(), SCRIPT_NAME);
 	
-	static YANBuffer getInstance()
+	public static YANBuffer getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}

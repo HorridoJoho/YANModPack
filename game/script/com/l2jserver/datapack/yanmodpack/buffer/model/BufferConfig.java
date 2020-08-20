@@ -78,6 +78,16 @@ public final class BufferConfig
 		{
 			npc.afterDeserialize(this);
 		}
+		
+		YANBuffer.getInstance().debug("global.json");
+		YANBuffer.getInstance().debug(gson.toJson(global));
+		YANBuffer.getInstance().debug("voiced.json");
+		YANBuffer.getInstance().debug(gson.toJson(voiced));
+		for (NpcBuffer npc : npcs.values())
+		{
+			YANBuffer.getInstance().debug(npc.getId() + ".json");
+			YANBuffer.getInstance().debug(gson.toJson(npc));
+		}
 	}
 	
 	public AbstractBuffer determineBuffer(L2Npc npc, L2PcInstance player)
