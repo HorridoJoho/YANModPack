@@ -67,7 +67,7 @@ public abstract class AbstractTeleporter extends YANModServer
 		
 		if (!soloTeleports.isEmpty())
 		{
-			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("solo_teleports", null).getChild("solo_teleports");
+			HTMLTemplatePlaceholder telePlaceholder = getPlaceholder().addChild("solo_teleports", null).getChild("solo_teleports");
 			for (Entry<String, SoloTeleport> soloTeleport : soloTeleportsMap.entrySet())
 			{
 				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), soloTeleport.getValue().getPlaceholder());
@@ -75,7 +75,7 @@ public abstract class AbstractTeleporter extends YANModServer
 		}
 		if (!partyTeleports.isEmpty())
 		{
-			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("party_teleports", null).getChild("party_teleports");
+			HTMLTemplatePlaceholder telePlaceholder = getPlaceholder().addChild("party_teleports", null).getChild("party_teleports");
 			for (Entry<String, GroupTeleport> partyTeleport : partyTeleportsMap.entrySet())
 			{
 				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), partyTeleport.getValue().getPlaceholder());
@@ -83,7 +83,7 @@ public abstract class AbstractTeleporter extends YANModServer
 		}
 		if (!commandChannelTeleports.isEmpty())
 		{
-			HTMLTemplatePlaceholder telePlaceholder = placeholder.addChild("command_channel_teleports", null).getChild("command_channel_teleports");
+			HTMLTemplatePlaceholder telePlaceholder = getPlaceholder().addChild("command_channel_teleports", null).getChild("command_channel_teleports");
 			for (Entry<String, GroupTeleport> commandChannelTeleport : commandChannelTeleportsMap.entrySet())
 			{
 				telePlaceholder.addAliasChild(String.valueOf(telePlaceholder.getChildsSize()), commandChannelTeleport.getValue().getPlaceholder());

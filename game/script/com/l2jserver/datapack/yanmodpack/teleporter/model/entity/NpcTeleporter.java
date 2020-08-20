@@ -43,7 +43,7 @@ public final class NpcTeleporter extends AbstractTeleporter implements IRefable<
 	{
 		super.afterDeserialize(config);
 		
-		placeholder.addChild("ident", String.valueOf(npcId));
+		getPlaceholder().addChild("ident", String.valueOf(npcId));
 	}
 	
 	public L2NpcTemplate getNpc()

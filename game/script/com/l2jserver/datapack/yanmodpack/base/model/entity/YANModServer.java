@@ -28,9 +28,9 @@ public abstract class YANModServer
 	private DialogType dialogType;
 	private String htmlFolder;
 	
-	public final transient HTMLTemplatePlaceholder placeholder;
-	public final transient String bypassPrefix;
-	public final transient String htmlAccessorName;
+	private final transient HTMLTemplatePlaceholder placeholder;
+	private final transient String bypassPrefix;
+	private final transient String htmlAccessorName;
 	
 	public YANModServer(String bypassPrefix, String htmlAccessorName)
 	{
@@ -47,15 +47,12 @@ public abstract class YANModServer
 		placeholder.addChild("bypass_prefix", bypassPrefix).addChild("name", getName());
 	}
 	
-	public final DialogType getDialogType()
-	{
-		return dialogType;
-	}
-	
-	public final String getHtmlFolder()
-	{
-		return htmlFolder;
-	}
-	
+	public final DialogType getDialogType()	{ return dialogType; }
+	public final String getHtmlFolder()	{ return htmlFolder; }
+
+	public final HTMLTemplatePlaceholder getPlaceholder() { return placeholder;	}
+	public final String getBypassPrefix() { return bypassPrefix; }
+	public final String getHtmlAccessorName() { return htmlAccessorName; }
+
 	public abstract String getName();
 }

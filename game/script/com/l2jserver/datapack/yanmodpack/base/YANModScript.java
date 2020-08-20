@@ -120,7 +120,7 @@ public abstract class YANModScript extends AbstractNpcAI
 	
 	protected final void showAdvancedHtml(L2PcInstance player, YANModServer service, L2Npc npc, String path, Map<String, HTMLTemplatePlaceholder> placeholders)
 	{
-		placeholders.put(service.htmlAccessorName, service.placeholder);
+		placeholders.put(service.getHtmlAccessorName(), service.getPlaceholder());
 		String html = _generateAdvancedHtml(player, service, path, placeholders);
 		
 		debug(html);

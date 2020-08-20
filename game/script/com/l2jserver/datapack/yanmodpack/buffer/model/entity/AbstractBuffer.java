@@ -66,15 +66,15 @@ public abstract class AbstractBuffer extends YANModServer
 		
 		if (canHeal)
 		{
-			placeholder.addChild("can_heal", null);
+			getPlaceholder().addChild("can_heal", null);
 		}
 		if (canCancel)
 		{
-			placeholder.addChild("can_cancel", null);
+			getPlaceholder().addChild("can_cancel", null);
 		}
 		if (!presetBuffCategories.isEmpty())
 		{
-			HTMLTemplatePlaceholder presetBufflistsPlaceholder = placeholder.addChild("presets", null).getChild("presets");
+			HTMLTemplatePlaceholder presetBufflistsPlaceholder = getPlaceholder().addChild("presets", null).getChild("presets");
 			for (Entry<String, BuffCategory> presetBufflist : presetBuffCatsMap.entrySet())
 			{
 				presetBufflistsPlaceholder.addAliasChild(String.valueOf(presetBufflistsPlaceholder.getChildsSize()), presetBufflist.getValue().getPlaceholder());
@@ -82,12 +82,17 @@ public abstract class AbstractBuffer extends YANModServer
 		}
 		if (!buffCategories.isEmpty())
 		{
-			HTMLTemplatePlaceholder buffCatsPlaceholder = placeholder.addChild("categories", null).getChild("categories");
+			HTMLTemplatePlaceholder buffCatsPlaceholder = getPlaceholder().addChild("categories", null).getChild("categories");
 			for (Entry<String, BuffCategory> buffCat : buffCatsMap.entrySet())
 			{
 				buffCatsPlaceholder.addAliasChild(String.valueOf(buffCatsPlaceholder.getChildsSize()), buffCat.getValue().getPlaceholder());
 			}
 		}
+		
+		getPlaceholder()
+			.addChild("max_unique_lists", String.valueOf(config.getGlobal().getMaxUniqueLists()))
+			.addChild("unique_max_buffs", String.valueOf(config.getGlobal().getUniqueMaxBuffs()))
+			.addChild("unique_max_songs_dances", String.valueOf(config.getGlobal().getUniqueMaxSongsDances()));
 	}
 	
 	public final boolean getCanHeal()
