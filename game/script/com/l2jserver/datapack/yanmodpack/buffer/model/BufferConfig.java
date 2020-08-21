@@ -58,11 +58,11 @@ public final class BufferConfig
 		npcs = new HashMap<>();
 
 		Path npcsDir = Paths.get(jsonPath.toString(), "npcs");
-		try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(npcsDir))
+		try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(npcsDir, "*.json"))
 		{
 			for (Path entry : dirStream)
 			{
-				if (!Files.isRegularFile(entry) || !entry.endsWith(".json"))
+				if (!Files.isRegularFile(entry))
 				{
 					continue;
 				}
@@ -77,16 +77,6 @@ public final class BufferConfig
 		for (NpcBuffer npc : npcs.values())
 		{
 			npc.afterDeserialize(this);
-		}
-		
-		YANBuffer.getInstance().debug("global.json");
-		YANBuffer.getInstance().debug(gson.toJson(global));
-		YANBuffer.getInstance().debug("voiced.json");
-		YANBuffer.getInstance().debug(gson.toJson(voiced));
-		for (NpcBuffer npc : npcs.values())
-		{
-			YANBuffer.getInstance().debug(npc.getId() + ".json");
-			YANBuffer.getInstance().debug(gson.toJson(npc));
 		}
 	}
 	

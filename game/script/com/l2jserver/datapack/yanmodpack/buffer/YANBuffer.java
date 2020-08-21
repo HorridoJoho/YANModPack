@@ -86,7 +86,7 @@ public final class YANBuffer extends YANModScript
 		super(SCRIPT_NAME);
 		
 		BypassHandler.getInstance().registerHandler(YANBufferBypassHandler.getInstance());
-		
+
 		if (YANBufferData.getInstance().getConfig().getVoiced().getEnabled())
 		{
 			VoicedCommandHandler.getInstance().registerHandler(YANBufferVoicedCommandHandler.getInstance());
